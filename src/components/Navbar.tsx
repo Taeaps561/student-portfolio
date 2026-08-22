@@ -276,14 +276,14 @@ export default function Navbar() {
                             🏛️ ระบบอาจารย์ / ตรวจรับรองทักษะ
                           </Link>
                           <Link
-                            href="/teacher"
+                            href="/teacher/certificates"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
                           >
                             📜 ออกวุฒิบัตรและประเมิน Rubrics
                           </Link>
                           <Link
-                            href="/explore"
+                            href="/teacher/advisees"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
                           >
