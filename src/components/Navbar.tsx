@@ -204,38 +204,131 @@ export default function Navbar() {
                       </div>
                     </div>
 
+                    {/* Profile Header Button */}
                     <div className="p-2 border-b border-slate-200">
-                      <Link
-                        href={`/u/${session.user?.id}`}
-                        onClick={() => setIsMeDropdownOpen(false)}
-                        className="block w-full py-1.5 text-center rounded-full border border-blue-600 text-blue-600 bg-white hover:bg-blue-50 text-xs font-bold transition"
-                      >
-                        ดูโปรไฟล์ของฉัน
-                      </Link>
+                      {session.user?.role === "EMPLOYER" ? (
+                        <Link
+                          href="/employer"
+                          onClick={() => setIsMeDropdownOpen(false)}
+                          className="block w-full py-1.5 text-center rounded-full border border-[#059669] text-[#059669] bg-white hover:bg-emerald-50 text-xs font-bold transition"
+                        >
+                          🏢 จัดการโปรไฟล์องค์กร
+                        </Link>
+                      ) : session.user?.role === "TEACHER" ? (
+                        <Link
+                          href={`/u/${session.user?.id || "mock-teacher"}`}
+                          onClick={() => setIsMeDropdownOpen(false)}
+                          className="block w-full py-1.5 text-center rounded-full border border-[#c2410c] text-[#c2410c] bg-white hover:bg-amber-50 text-xs font-bold transition"
+                        >
+                          👨‍🏫 ดูโปรไฟล์อาจารย์
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/u/${session.user?.id || "mock-somchai"}`}
+                          onClick={() => setIsMeDropdownOpen(false)}
+                          className="block w-full py-1.5 text-center rounded-full border border-blue-600 text-blue-600 bg-white hover:bg-blue-50 text-xs font-bold transition"
+                        >
+                          👤 ดูโปรไฟล์ของฉัน
+                        </Link>
+                      )}
                     </div>
 
+                    {/* Role-Specific Links */}
                     <div className="py-1 text-xs">
-                      <Link
-                        href="/dashboard"
-                        onClick={() => setIsMeDropdownOpen(false)}
-                        className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
-                      >
-                        📊 แดชบอร์ด Digital Passport
-                      </Link>
-                      <Link
-                        href="/skills"
-                        onClick={() => setIsMeDropdownOpen(false)}
-                        className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
-                      >
-                        ⚡ ทดสอบและรับรองทักษะ
-                      </Link>
-                      <Link
-                        href="/portfolio"
-                        onClick={() => setIsMeDropdownOpen(false)}
-                        className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
-                      >
-                        📂 จัดการพอร์ตโฟลิโอ
-                      </Link>
+                      {session.user?.role === "EMPLOYER" ? (
+                        <>
+                          <Link
+                            href="/employer"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            💼 จัดการตำแหน่งงานที่เปิดรับ
+                          </Link>
+                          <Link
+                            href="/employer"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            🎯 ค้นหา & จับคู่ Talent อัจฉริยะ
+                          </Link>
+                          <Link
+                            href="/explore"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            👥 สำรวจเครือข่ายนักศึกษา มสด.
+                          </Link>
+                          <Link
+                            href="/settings"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            ⚙️ ตั้งค่าบัญชีองค์กร
+                          </Link>
+                        </>
+                      ) : session.user?.role === "TEACHER" ? (
+                        <>
+                          <Link
+                            href="/teacher"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            🏛️ ระบบอาจารย์ / ตรวจรับรองทักษะ
+                          </Link>
+                          <Link
+                            href="/teacher"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            📜 ออกวุฒิบัตรและประเมิน Rubrics
+                          </Link>
+                          <Link
+                            href="/explore"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            👥 ติดตามนักศึกษาในที่ปรึกษา
+                          </Link>
+                          <Link
+                            href="/settings"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            ⚙️ ตั้งค่าบัญชีอาจารย์ & ภาควิชา
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link
+                            href="/dashboard"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            📊 แดชบอร์ด Digital Passport
+                          </Link>
+                          <Link
+                            href="/portfolio"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            📂 จัดการพอร์ตโฟลิโอ & ผลงาน
+                          </Link>
+                          <Link
+                            href="/skills"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            ⚡ ศูนย์สอบวัดระดับทักษะ
+                          </Link>
+                          <Link
+                            href="/settings"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            ⚙️ ตั้งค่าความเป็นส่วนตัว & บัญชี
+                          </Link>
+                        </>
+                      )}
                     </div>
 
                     <div className="pt-1 border-t border-slate-200">
