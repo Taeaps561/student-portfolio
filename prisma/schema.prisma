@@ -1,0 +1,200 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          String    @default("STUDENT")
+  
+  // Security & MFA
+  mfaEnabled    Boolean   @default(false)
+  mfaSecret     String?   // เก็บ TOTP Secret (เข้ารหัส)
+  
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  portfolio     Portfolio?
+  auditLogs     AuditLog[]
+  coursesOwned  Course[]  @relation("TeacherCourses")
+  enrollments   Enrollment[]
+  posts         Post[]
+  postLikes     PostLike[]
+  postComments  PostComment[]
+}
+
+// 2. ระบบยืนยันตัวตน (OAuth - อิงตาม NextAuth.js)
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// 3. ข้อมูล Portfolio & Privacy Control
+model Portfolio {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  bio         String?
+  isPublic    Boolean  @default(false) // Public/Private Toggle
+  
+  // Data Masking fields (แสดงต่อเมื่อได้รับสิทธิ์)
+  phoneNumber String?
+  gpa         Float?
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills      Skill[]
+  projects    Project[]
+  certificates Certificate[]
+}
+
+// 4. ทักษะและเหรียญรางวัล (Skills & Badges)
+model Skill {
+  id          String    @id @default(cuid())
+  portfolioId String
+  name        String
+  category    String    // เช่น "Tech", "Soft"
+  level       Int       // ระดับ 1-5
+  isVerified  Boolean   @default(false) // ได้รับการยืนยันจากอาจารย์หรือสอบผ่าน
+  testScore   Int?      // คะแนนที่สอบได้จริง (เช่น 80%)
+  
+  // Artifact Proof Submission
+  proofUrl    String?   // ลิงก์วิดีโอ ผลงาน หรือสไลด์
+  proofDesc   String?   // คำอธิบายหลักฐานและบทบาทหน้าที่
+  status      String?   // สถานะเช่น "PENDING_TEACHER_REVIEW", "PASSED"
+  rubricScores String?  // คะแนนแยกตามเกณฑ์รูบริคส์ (JSON)
+
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
+
+// 5. ผลงานและ GitHub Integration
+model Project {
+  id          String    @id @default(cuid())
+  portfolioId String
+  title       String
+  description String
+  githubUrl   String?   // สำหรับดึง Readme/Stats
+  imageUrl    String?
+  
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
+
+// 6. ใบรับรองและการตรวจสอบ (Certificates & Data Integrity)
+model Certificate {
+  id          String    @id @default(cuid())
+  portfolioId String
+  name        String
+  issuer      String
+  issueDate   DateTime
+  fileUrl     String
+  
+  // Data Integrity (Digital Signature / Hashing)
+  hashValue   String    @unique // ใช้สำหรับระบบ Verify Certificate (QR Code)
+  
+  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+}
+
+// 7. บันทึกการแก้ไข (Audit Logs - Data Integrity)
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String   // เช่น "UPDATE_PORTFOLIO", "ADD_CERTIFICATE"
+  details     String?
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique // เช่น CS-101
+  description String
+  teacherId   String
+  createdAt   DateTime @default(now())
+  
+  teacher     User     @relation("TeacherCourses", fields: [teacherId], references: [id], onDelete: Cascade)
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id           String   @id @default(cuid())
+  courseId     String
+  studentId    String
+  enrolledAt   DateTime @default(now())
+  isCompleted  Boolean  @default(false)
+  issuedCertId String?  // ID ของ Certificate ที่ส่งไปยัง Portfolio สำเร็จแล้ว
+  
+  course       Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  student      User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, studentId])
+}
+
+// 8. ชุมชนและฟีดข่าวสาร (LinkedIn-style Community Feed)
+model Post {
+  id          String        @id @default(cuid())
+  authorId    String
+  content     String
+  imageUrl    String?
+  postType    String        @default("GENERAL") // GENERAL, PROJECT_SHOWCASE, CERTIFICATE_EARNED, HIRING
+  tag         String?       // เช่น "React", "AI", "Internship"
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  author      User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likes       PostLike[]
+  comments    PostComment[]
+}
+
+model PostLike {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  type      String   @default("LIKE") // LIKE, CELEBRATE, INSIGHTFUL, LOVE
+  createdAt DateTime @default(now())
+
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+}
+
+model PostComment {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
