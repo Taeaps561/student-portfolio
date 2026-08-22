@@ -127,12 +127,21 @@ export default function Navbar() {
           {isLoggedIn ? (
             <>
               <Link
-                href="/feed"
-                className="flex flex-col items-center justify-center h-full px-2 sm:px-3 text-center text-[#666666] hover:text-black min-w-[54px] sm:min-w-[62px] transition hidden lg:flex border-b-2 border-transparent"
+                href="/messaging"
+                className={`flex flex-col items-center justify-center h-full px-2 sm:px-3 text-center min-w-[54px] sm:min-w-[62px] transition relative border-b-2 ${
+                  pathname.startsWith("/messaging")
+                    ? "text-[#0a66c2] border-[#0a66c2] font-bold"
+                    : "text-slate-600 border-transparent hover:text-slate-900"
+                }`}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
+                <div className="relative">
+                  <svg className="w-5 h-5" fill={pathname.startsWith("/messaging") ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={pathname.startsWith("/messaging") ? 2.5 : 2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                  </svg>
+                  <span className="absolute -top-1 -right-2 bg-[#0a66c2] text-white text-[9px] font-bold px-1 rounded-full">
+                    3
+                  </span>
+                </div>
                 <span className="text-[11px] sm:text-xs leading-tight mt-1 whitespace-nowrap">
                   ข้อความ
                 </span>
