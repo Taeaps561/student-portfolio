@@ -165,17 +165,28 @@ export default async function LinkedInProfilePage({ params }: PageProps) {
   const mockData = mockProfilesDirectory[id];
 
   // Resolve Profile Info
-  const userName = user?.name || mockData?.name || "นักศึกษา มหาวิทยาลัยสวนดุสิต";
+  const userName = user?.name || mockData?.name || (user?.role === "TEACHER" ? "ศ.ดร.สมชาย ใจดี" : user?.role === "EMPLOYER" ? "คุณวิชัย ปรีชา (บมจ. เทคโนโลยีดีไลท์)" : "นักศึกษา มหาวิทยาลัยสวนดุสิต");
   const userRole = user?.role || mockData?.role || "STUDENT";
+  
   const userHeadline =
     mockData?.headline ||
     (userRole === "TEACHER"
-      ? "อาจารย์ประจำหลักสูตร • มหาวิทยาลัยสวนดุสิต"
+      ? "อาจารย์ประจำหลักสูตรวิทยาการคอมพิวเตอร์ • คณะวิทยาศาสตร์และเทคโนโลยี มหาวิทยาลัยสวนดุสิต"
+      : userRole === "EMPLOYER"
+      ? "HR & Tech Talent Acquisition • บมจ. เทคโนโลยีดีไลท์"
       : "นักศึกษาภาควิชาวิทยาการคอมพิวเตอร์ • มหาวิทยาลัยสวนดุสิต");
-  const userBio =
-    user?.portfolio?.bio ||
-    mockData?.bio ||
-    "นักศึกษาภาควิชาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยสวนดุสิต มุ่งมั่นพัฒนาทักษะวิชาชีพและเทคโนโลยีสารสนเทศ";
+
+  let rawBio = user?.portfolio?.bio || mockData?.bio || "";
+  if (!rawBio || rawBio.includes("หลงใหลในการเขียนโค้ด")) {
+    if (userRole === "TEACHER") {
+      rawBio = "อาจารย์ประจำหลักสูตรวิทยาการคอมพิวเตอร์ คณะวิทยาศาสตร์และเทคโนโลยี มหาวิทยาลัยสวนดุสิต ผู้เชี่ยวชาญด้านสถาปัตยกรรมคลาวด์ ความปลอดภัยทางไซเบอร์ และการประเมินสมรรถนะทักษะวิชาชีพดิจิทัลมาตรฐานสากล";
+    } else if (userRole === "EMPLOYER") {
+      rawBio = "ฝ่ายบริหารทรัพยากรบุคคลและจัดหาบุคลากรทางด้านเทคโนโลยี บมจ. เทคโนโลยีดีไลท์ มุ่งเน้นการค้นหาและคัดสรรผู้มีความสามารถรุ่นใหม่จากมหาวิทยาลัยสวนดุสิต เข้าสู่ตำแหน่ง Full-Stack Developer, DevOps และ Cyber Security";
+    } else {
+      rawBio = "นักศึกษาภาควิชาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยสวนดุสิต เชี่ยวชาญการพัฒนาเว็บแอปพลิเคชัน Full-Stack (Next.js, TypeScript, Tailwind CSS) และระบบความปลอดภัยสารสนเทศ พร้อมเปิดรับโอกาสการทำงานและสหกิจศึกษา";
+    }
+  }
+  const userBio = rawBio;
   const userAvatar =
     user?.image ||
     mockData?.image ||
