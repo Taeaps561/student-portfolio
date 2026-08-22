@@ -148,12 +148,16 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/feed"
-                className="flex flex-col items-center justify-center h-full px-2 sm:px-3 text-center text-[#666666] hover:text-black relative min-w-[54px] sm:min-w-[62px] transition hidden lg:flex border-b-2 border-transparent"
+                href="/notifications"
+                className={`flex flex-col items-center justify-center h-full px-2 sm:px-3 text-center min-w-[54px] sm:min-w-[62px] transition relative border-b-2 ${
+                  pathname.startsWith("/notifications")
+                    ? "text-[#0a66c2] border-[#0a66c2] font-bold"
+                    : "text-slate-600 border-transparent hover:text-slate-900"
+                }`}
               >
                 <div className="relative">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  <svg className="w-5 h-5" fill={pathname.startsWith("/notifications") ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={pathname.startsWith("/notifications") ? 2.5 : 2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                   </svg>
                   <span className="absolute -top-1 -right-2 bg-[#cc1016] text-white text-[9px] font-bold px-1 rounded-full">
                     3
