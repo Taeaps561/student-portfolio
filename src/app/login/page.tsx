@@ -71,7 +71,7 @@ export default function LoginPage() {
             </button>
 
             <button
-              onClick={() => signIn("credentials", { email: "teacher@example.com", password: "password", callbackUrl: "/teacher" })}
+              onClick={() => signIn("credentials", { email: "teacher@example.com", password: "password", callbackUrl: "/feed" })}
               className="w-full py-2.5 px-4 bg-[#c2410c] hover:bg-[#9a3412] rounded-full text-white text-xs font-bold transition shadow-sm flex items-center justify-center gap-2"
             >
               <span>🏛️</span>
@@ -79,7 +79,7 @@ export default function LoginPage() {
             </button>
 
             <button
-              onClick={() => signIn("credentials", { email: "employer@example.com", password: "password", callbackUrl: "/employer" })}
+              onClick={() => signIn("credentials", { email: "employer@example.com", password: "password", callbackUrl: "/feed" })}
               className="w-full py-2.5 px-4 bg-[#059669] hover:bg-[#047857] rounded-full text-white text-xs font-bold transition shadow-sm flex items-center justify-center gap-2"
             >
               <span>💼</span>
