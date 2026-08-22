@@ -208,7 +208,7 @@ export default function Navbar() {
                     <div className="p-2 border-b border-slate-200">
                       {session.user?.role === "EMPLOYER" ? (
                         <Link
-                          href="/employer"
+                          href="/employer/profile"
                           onClick={() => setIsMeDropdownOpen(false)}
                           className="block w-full py-1.5 text-center rounded-full border border-[#059669] text-[#059669] bg-white hover:bg-emerald-50 text-xs font-bold transition"
                         >
@@ -238,14 +238,14 @@ export default function Navbar() {
                       {session.user?.role === "EMPLOYER" ? (
                         <>
                           <Link
-                            href="/employer"
+                            href="/employer/jobs"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
                           >
                             💼 จัดการตำแหน่งงานที่เปิดรับ
                           </Link>
                           <Link
-                            href="/employer"
+                            href="/employer/matching"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
                           >
