@@ -15,10 +15,17 @@ export function PublicShareButton({ userId, userName }: { userId: string; userNa
   return (
     <button
       onClick={handleCopy}
-      className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs border border-white/15 backdrop-blur-md transition flex items-center gap-1.5 shadow-md"
+      type="button"
+      className={`px-4 py-1.5 rounded-full border text-xs font-bold transition flex items-center gap-1.5 shadow-xs ${
+        copied
+          ? "bg-emerald-50 border-emerald-300 text-emerald-800"
+          : "bg-white border-slate-300 hover:bg-slate-50 text-slate-800"
+      }`}
     >
       <span>{copied ? "✓" : "📋"}</span>
-      <span>{copied ? "คัดลอกลิงก์สำเร็จ!" : "คัดลอกลิงก์แชร์โปรไฟล์"}</span>
+      <span className={copied ? "text-emerald-800 font-bold" : "text-slate-800 font-bold"}>
+        {copied ? "คัดลอกลิงก์แล้ว!" : "คัดลอกลิงก์แชร์โปรไฟล์"}
+      </span>
     </button>
   );
 }
