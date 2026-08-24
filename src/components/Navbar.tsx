@@ -82,19 +82,6 @@ export default function Navbar() {
     });
   }
 
-  if (session?.user?.role === "STUDENT") {
-    mainNavItems.push({
-      href: "/certificates",
-      label: "วุฒิบัตร",
-      icon: (active: boolean) => (
-        <svg className="w-5 h-5" fill={active ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={active ? 2.5 : 2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      ),
-      isActive: pathname.startsWith("/certificates"),
-    });
-  }
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#e0e0e0] h-[68px] shadow-[0_1px_3px_rgba(0,0,0,0.06)] transition-all">
       <div className="max-w-[1128px] mx-auto px-4 h-full flex items-center justify-between gap-3 sm:gap-6">
