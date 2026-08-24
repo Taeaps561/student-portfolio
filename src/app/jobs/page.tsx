@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface JobOpening {
   id: string;
@@ -131,13 +132,21 @@ const SAMPLE_JOBS: JobOpening[] = [
 
 export default function StudentJobsPage() {
   const { data: session } = useSession();
+  const router = useRouter();
+
   const [jobs] = useState<JobOpening[]>(SAMPLE_JOBS);
   const [selectedJob, setSelectedJob] = useState<JobOpening>(SAMPLE_JOBS[0]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterType, setFilterType] = useState<string>("ALL");
   const [appliedJobIds, setAppliedJobIds] = useState<string[]>([]);
+  
+  // Modals
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+  const [isAuthRequiredModalOpen, setIsAuthRequiredModalOpen] = useState(false);
   const [applySuccess, setApplySuccess] = useState(false);
+
+  const isLoggedIn = !!session?.user;
+  const isStudent = session?.user?.role === "STUDENT";
 
   const filteredJobs = jobs.filter((j) => {
     const matchesSearch =
@@ -155,7 +164,26 @@ export default function StudentJobsPage() {
     return matchesSearch && matchesType;
   });
 
-  const handleApply = (jobId: string) => {
+  const handleClickApplyButton = () => {
+    if (!isLoggedIn) {
+      setIsAuthRequiredModalOpen(true);
+      return;
+    }
+
+    if (!isStudent) {
+      alert("⚠️ เฉพาะบัญชีนักศึกษา (Student) เท่านั้นที่สามารถยื่นใบสมัครงานผ่าน SkillPassport ได้");
+      return;
+    }
+
+    setIsApplyModalOpen(true);
+  };
+
+  const handleConfirmApply = (jobId: string) => {
+    if (!isLoggedIn) {
+      setIsAuthRequiredModalOpen(true);
+      return;
+    }
+
     if (!appliedJobIds.includes(jobId)) {
       setAppliedJobIds([...appliedJobIds, jobId]);
     }
@@ -232,7 +260,7 @@ export default function StudentJobsPage() {
 
             {filteredJobs.map((job) => {
               const isSelected = selectedJob.id === job.id;
-              const hasApplied = appliedJobIds.includes(job.id);
+              const hasApplied = isLoggedIn && appliedJobIds.includes(job.id);
 
               return (
                 <div
@@ -311,7 +339,7 @@ export default function StudentJobsPage() {
 
               {/* Apply Button */}
               <div className="mt-4 flex items-center gap-3">
-                {appliedJobIds.includes(selectedJob.id) ? (
+                {isLoggedIn && appliedJobIds.includes(selectedJob.id) ? (
                   <button
                     disabled
                     className="px-6 py-2.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1.5 shadow-2xs"
@@ -321,7 +349,7 @@ export default function StudentJobsPage() {
                   </button>
                 ) : (
                   <button
-                    onClick={() => setIsApplyModalOpen(true)}
+                    onClick={handleClickApplyButton}
                     className="px-6 py-2.5 rounded-full bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5"
                   >
                     <span>⚡ สมัครด่วนด้วย SkillPassport</span>
@@ -329,7 +357,13 @@ export default function StudentJobsPage() {
                 )}
 
                 <button
-                  onClick={() => alert("บันทึกตำแหน่งงานไว้ในรายการโปรดเรียบร้อย")}
+                  onClick={() => {
+                    if (!isLoggedIn) {
+                      setIsAuthRequiredModalOpen(true);
+                    } else {
+                      alert("บันทึกตำแหน่งงานไว้ในรายการโปรดเรียบร้อย");
+                    }
+                  }}
                   className="px-4 py-2.5 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition"
                 >
                   🔖 บันทึกงาน
@@ -385,7 +419,50 @@ export default function StudentJobsPage() {
       </div>
 
       {/* ========================================================================= */}
-      {/* ⚡ EASY APPLY MODAL                                                       */}
+      {/* 🔒 AUTHENTICATION REQUIRED MODAL (FOR GUESTS)                             */}
+      {/* ========================================================================= */}
+      {isAuthRequiredModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl animate-in zoom-in-95 text-center">
+            <div className="w-14 h-14 rounded-full bg-blue-50 text-[#0a66c2] text-2xl flex items-center justify-center mx-auto">
+              🔒
+            </div>
+
+            <div className="space-y-1.5">
+              <h3 className="text-lg font-black text-slate-900">
+                กรุณาเข้าสู่ระบบก่อนสมัครงาน
+              </h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                คุณจำเป็นต้องเข้าสู่ระบบด้วยบัญชีนักศึกษา มสด. เพื่อให้ระบบแนบแฟ้มผลงาน GitHub, ทักษะที่ผ่านการรับรอง (Verified Skills) และใบวุฒิบัตรดิจิทัลส่งไปยังผู้ประกอบการ
+              </p>
+            </div>
+
+            <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left text-xs text-slate-600 space-y-1">
+              <p className="font-bold text-slate-800">✨ สิทธิประโยชน์หลังเข้าสู่ระบบ:</p>
+              <p className="text-[11px] text-slate-500">• สมัครงานด่วนใน 1 คลิก ไม่ต้องกรอกประวัติซ้ำ</p>
+              <p className="text-[11px] text-slate-500">• ผู้ประกอบการสามารถตรวจเช็คความถูกต้องของทักษะได้ทันที</p>
+            </div>
+
+            <div className="pt-2 flex items-center justify-center gap-3">
+              <button
+                onClick={() => setIsAuthRequiredModalOpen(false)}
+                className="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition"
+              >
+                ไว้ภายหลัง
+              </button>
+              <Link
+                href="/login"
+                className="px-6 py-2.5 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition shadow-sm"
+              >
+                🔑 เข้าสู่ระบบ / สมัครสมาชิก
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* ⚡ EASY APPLY CONFIRMATION MODAL (FOR LOGGED IN STUDENTS)                  */}
       {/* ========================================================================= */}
       {isApplyModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
@@ -441,7 +518,7 @@ export default function StudentJobsPage() {
                     ยกเลิก
                   </button>
                   <button
-                    onClick={() => handleApply(selectedJob.id)}
+                    onClick={() => handleConfirmApply(selectedJob.id)}
                     className="px-5 py-2 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white font-bold transition shadow-sm"
                   >
                     🚀 ยืนยันการยื่นใบสมัคร
