@@ -233,11 +233,18 @@ export default function Navbar() {
                       {session.user?.role === "EMPLOYER" ? (
                         <>
                           <Link
+                            href="/employer"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-emerald-800 bg-emerald-50/60 hover:bg-emerald-100 transition font-bold"
+                          >
+                            💼 แดชบอร์ดผู้ประกอบการ (Recruiter Portal)
+                          </Link>
+                          <Link
                             href="/employer/jobs"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
                           >
-                            💼 จัดการตำแหน่งงานที่เปิดรับ
+                            📋 จัดการตำแหน่งงานที่เปิดรับ
                           </Link>
                           <Link
                             href="/employer/matching"

@@ -11,6 +11,14 @@ export default async function PortfolioDashboard() {
     redirect("/login");
   }
 
+  // Smart Role Routing: หากเป็น อาจารย์ หรือ นายจ้าง ให้ Redirect ไปยัง Dashboard ประจำ Role ของตนเอง
+  if (session.user.role === "TEACHER") {
+    redirect("/teacher");
+  }
+  if (session.user.role === "EMPLOYER") {
+    redirect("/employer");
+  }
+
   // Fetch or create portfolio for user
   let portfolio = await prisma.portfolio.findUnique({
     where: { userId: session.user.id as string },
