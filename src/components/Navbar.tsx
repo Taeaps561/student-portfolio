@@ -311,21 +311,21 @@ export default function Navbar() {
                       ) : session.user?.role === "TEACHER" ? (
                         <>
                           <Link
-                            href="/teacher"
+                            href="/teacher?tab=verify"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
                           >
-                            🏛️ ระบบอาจารย์ / ตรวจรับรองทักษะ
+                            🏛️ ตรวจรับรองทักษะนักศึกษา
                           </Link>
                           <Link
-                            href="/teacher/certificates"
+                            href="/teacher?tab=certs"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
                           >
                             📜 ออกวุฒิบัตรและประเมิน Rubrics
                           </Link>
                           <Link
-                            href="/teacher/advisees"
+                            href="/teacher?tab=advisees"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
                           >

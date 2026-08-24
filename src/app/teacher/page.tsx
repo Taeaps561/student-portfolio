@@ -51,11 +51,26 @@ interface Student {
   portfolio: Portfolio | null;
 }
 
-export default function TeacherDashboardPage() {
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+
+function TeacherDashboardContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
 
   const [activeTab, setActiveTab] = useState<"VERIFY" | "ADVISEES" | "CERTS">("VERIFY");
+
+  useEffect(() => {
+    if (tabParam === "advisees") {
+      setActiveTab("ADVISEES");
+    } else if (tabParam === "certs" || tabParam === "rubrics") {
+      setActiveTab("CERTS");
+    } else if (tabParam === "verify") {
+      setActiveTab("VERIFY");
+    }
+  }, [tabParam]);
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -795,5 +810,19 @@ export default function TeacherDashboardPage() {
       )}
 
     </div>
+  );
+}
+
+export default function TeacherDashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#f4f2ee] pt-[120px] flex items-center justify-center text-xs font-bold text-slate-500">
+          กำลังโหลด...
+        </div>
+      }
+    >
+      <TeacherDashboardContent />
+    </Suspense>
   );
 }
