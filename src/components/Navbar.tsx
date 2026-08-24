@@ -316,6 +316,13 @@ export default function Navbar() {
                             ⚡ ศูนย์สอบวัดระดับทักษะ
                           </Link>
                           <Link
+                            href="/certificates"
+                            onClick={() => setIsMeDropdownOpen(false)}
+                            className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
+                          >
+                            📜 ใบรับรอง & วุฒิบัตรดิจิทัล
+                          </Link>
+                          <Link
                             href="/settings"
                             onClick={() => setIsMeDropdownOpen(false)}
                             className="block px-4 py-2 text-slate-800 hover:bg-slate-100 transition font-bold"
