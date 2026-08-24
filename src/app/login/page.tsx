@@ -101,8 +101,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f2ee] flex items-center justify-center px-4 pt-16 pb-12">
-      <div className="max-w-md w-full">
+    <div className="min-h-screen bg-[#f4f2ee] flex items-center justify-center px-4 pt-[105px] pb-16">
+      <div className="max-w-md w-full my-auto">
         <div className="bg-white rounded-2xl p-7 sm:p-9 shadow-lg border border-slate-200 space-y-5 text-center">
           
           {/* Logo & Header */}
