@@ -79,8 +79,8 @@ const DEFAULT_PROFILES: PortfolioItem[] = [
     bio: "อาจารย์ประจำหลักสูตรวิทยาการคอมพิวเตอร์ มหาวิทยาลัยสวนดุสิต ผู้เชี่ยวชาญด้าน Cloud Architecture และการประเมินทักษะวิชาชีพ",
     user: {
       id: "mock-teacher",
-      name: "ศ.ดร.สมชาย ใจดี",
-      image: "https://ui-avatars.com/api/?name=Somchai+Jaidee&background=002d62&color=fff",
+      name: "ผศ.ดร.วิชาญ มั่นคง",
+      image: "https://ui-avatars.com/api/?name=Wichan+Mankhong&background=002d62&color=fff",
       role: "TEACHER",
     },
     skills: [
@@ -115,7 +115,7 @@ export default function ExplorePage() {
         const res = await fetch("/api/portfolio?publicOnly=true");
         const data = await res.json();
         if (data.success && data.portfolios && data.portfolios.length > 0) {
-          const realUsers = data.portfolios.map((p: any) => ({
+          const realUsers: PortfolioItem[] = data.portfolios.map((p: any) => ({
             id: p.id,
             userId: p.userId,
             bio: p.bio,
@@ -123,13 +123,29 @@ export default function ExplorePage() {
             skills: p.skills || [],
           }));
           
-          const combined = [...DEFAULT_PROFILES];
-          realUsers.forEach((ru: any) => {
-            if (!combined.some((c) => c.userId === ru.userId)) {
-              combined.push(ru);
+          // Strictly deduplicate by user.name to guarantee no duplicates
+          const seenNames = new Set<string>();
+          const distinct: PortfolioItem[] = [];
+
+          // 1. Real database users take highest priority
+          realUsers.forEach((ru) => {
+            const name = ru.user?.name?.trim();
+            if (name && !seenNames.has(name)) {
+              seenNames.add(name);
+              distinct.push(ru);
             }
           });
-          setPortfolios(combined);
+
+          // 2. Default profiles fill in the remaining unique members
+          DEFAULT_PROFILES.forEach((dp) => {
+            const name = dp.user?.name?.trim();
+            if (name && !seenNames.has(name)) {
+              seenNames.add(name);
+              distinct.push(dp);
+            }
+          });
+
+          setPortfolios(distinct);
         }
       } catch {
         setPortfolios(DEFAULT_PROFILES);
