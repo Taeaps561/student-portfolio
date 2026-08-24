@@ -364,7 +364,7 @@ export default function LinkedInFeedPage() {
                   <span>🔍 สำรวจบุคคลและทักษะ</span>
                   <span>→</span>
                 </Link>
-                <Link href="/employer" className="text-slate-600 hover:text-[#0a66c2] hover:underline flex items-center justify-between">
+                <Link href="/jobs" className="text-slate-600 hover:text-[#0a66c2] hover:underline flex items-center justify-between">
                   <span>💼 สำรวจตำแหน่งงาน</span>
                   <span>→</span>
                 </Link>
