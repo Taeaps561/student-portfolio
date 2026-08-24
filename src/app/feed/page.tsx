@@ -569,38 +569,36 @@ export default function LinkedInFeedPage() {
               </button>
             </div>
 
-            {/* Quick Celebrate Shortcuts */}
-            <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-1 flex-wrap">
+            {/* Quick Action buttons */}
+            <div className="flex items-center justify-around pt-1 border-t border-slate-100">
               <button
-                onClick={() => handleOpenAchievementModal("SKILL")}
-                className="flex-1 py-1.5 px-2 rounded-lg bg-blue-50/70 hover:bg-blue-100 text-[#0a66c2] text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer"
+                onClick={() => (isLoggedIn ? setIsModalOpen(true) : alert("กรุณาเข้าสู่ระบบเพื่อเพิ่มสื่อ"))}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 text-xs font-bold text-slate-700 transition cursor-pointer"
               >
-                <span>🏆</span>
-                <span>ผ่านรับรองทักษะ</span>
+                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-8.5 7a1.5 1.5 0 1 1 1.5-1.5 1.5 1.5 0 0 1-1.5 1.5zm6.5 7H7l3.5-4.5 2.5 3 3.5-4.5z" />
+                </svg>
+                <span className="text-slate-800 font-bold">สื่อ</span>
               </button>
 
               <button
-                onClick={() => handleOpenAchievementModal("CERT")}
-                className="flex-1 py-1.5 px-2 rounded-lg bg-purple-50/70 hover:bg-purple-100 text-purple-700 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer"
+                onClick={() => (isLoggedIn ? setIsModalOpen(true) : alert("กรุณาเข้าสู่ระบบเพื่อสร้างกิจกรรม"))}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 text-xs font-bold text-slate-700 transition cursor-pointer"
               >
-                <span>📜</span>
-                <span>สอบผ่านใบเซอร์</span>
+                <svg className="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V9h14z" />
+                </svg>
+                <span className="text-slate-800 font-bold">กิจกรรม</span>
               </button>
 
               <button
-                onClick={() => handleOpenAchievementModal("JOB")}
-                className="flex-1 py-1.5 px-2 rounded-lg bg-emerald-50/70 hover:bg-emerald-100 text-emerald-700 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer"
+                onClick={() => (isLoggedIn ? setIsModalOpen(true) : alert("กรุณาเข้าสู่ระบบเพื่อเขียนบทความ"))}
+                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 text-xs font-bold text-slate-700 transition cursor-pointer"
               >
-                <span>💼</span>
-                <span>ได้งาน / สหกิจ</span>
-              </button>
-
-              <button
-                onClick={() => handleOpenAchievementModal("PROJECT")}
-                className="flex-1 py-1.5 px-2 rounded-lg bg-amber-50/70 hover:bg-amber-100 text-amber-800 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer"
-              >
-                <span>🚀</span>
-                <span>แชร์โครงงาน</span>
+                <svg className="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-2 14H7v-2h10zm0-4H7v-2h10zm0-4H7V7h10z" />
+                </svg>
+                <span className="text-slate-800 font-bold">เขียนบทความ</span>
               </button>
             </div>
           </div>
