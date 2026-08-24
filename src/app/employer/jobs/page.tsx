@@ -486,10 +486,11 @@ export default function EmployerJobsPage() {
 
                         <div className="flex items-center gap-2">
                           <Link
-                            href="/messaging"
-                            className="px-3 py-1.5 rounded-full bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition shadow-xs"
+                            href={`/messaging?userId=${app.studentId}&name=${encodeURIComponent(app.name)}&job=${encodeURIComponent(selectedJob.title)}`}
+                            className="px-3.5 py-1.5 rounded-full bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition shadow-xs flex items-center gap-1 cursor-pointer"
                           >
-                            💬 นัดสัมภาษณ์
+                            <span>💬</span>
+                            <span>นัดสัมภาษณ์</span>
                           </Link>
                         </div>
                       </div>

@@ -697,8 +697,8 @@ export default function EmployerPage() {
                   {/* Card Actions */}
                   <div className="pt-3 border-t border-slate-100 flex items-center gap-2">
                     <Link
-                      href="/messaging"
-                      className="flex-1 py-2 px-3 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition text-center shadow-xs"
+                      href={`/messaging?userId=${cand.id}&name=${encodeURIComponent(cand.name)}&job=${encodeURIComponent(cand.appliedJob || "")}`}
+                      className="flex-1 py-2 px-3 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition text-center shadow-xs cursor-pointer"
                     >
                       💬 นัดสัมภาษณ์งาน
                     </Link>

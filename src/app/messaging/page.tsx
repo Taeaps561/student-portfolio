@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 interface Message {
@@ -319,8 +320,13 @@ const EMPLOYER_CONVERSATIONS: Conversation[] = [
   },
 ];
 
-export default function MessagingPage() {
+function MessagingContent() {
   const { data: session } = useSession();
+  const searchParams = useSearchParams();
+  const targetUserId = searchParams.get("userId");
+  const targetName = searchParams.get("name");
+  const targetJob = searchParams.get("job");
+
   const currentRole = session?.user?.role || "STUDENT";
 
   // Select initial dataset according to logged-in user's role
@@ -337,12 +343,53 @@ export default function MessagingPage() {
   const [filterType, setFilterType] = useState<"all" | "unread">("all");
   const [isTyping, setIsTyping] = useState(false);
 
-  // Sync conversations whenever logged-in user role changes
+  // Sync conversations whenever logged-in user role changes or query param is present
   useEffect(() => {
-    const list = getInitialList();
-    setConversations(list);
-    setActiveId(list[0].id);
-  }, [currentRole]);
+    let list = getInitialList();
+    
+    if (targetName) {
+      const decodedName = decodeURIComponent(targetName);
+      const existingConv = list.find(
+        (c) => c.name.toLowerCase().includes(decodedName.toLowerCase()) || decodedName.toLowerCase().includes(c.name.toLowerCase())
+      );
+
+      if (existingConv) {
+        setConversations(list);
+        setActiveId(existingConv.id);
+        if (targetJob) {
+          setInputText(`สวัสดีครับคุณ ${decodedName} ทางบริษัทต้องการขอนัดสัมภาษณ์งานตำแหน่ง ${decodeURIComponent(targetJob)} สะดวกวันและเวลาใดบ้างครับ?`);
+        }
+      } else {
+        const newConvId = `conv-${Date.now()}`;
+        const newConv: Conversation = {
+          id: newConvId,
+          name: decodedName,
+          role: `ผู้สมัครตำแหน่ง ${targetJob ? decodeURIComponent(targetJob) : "Software Developer"} • นักศึกษา มสด.`,
+          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(decodedName)}&background=0a66c2&color=fff`,
+          isOnline: true,
+          unreadCount: 0,
+          lastMessage: `นัดหมายสัมภาษณ์งานตำแหน่ง ${targetJob ? decodeURIComponent(targetJob) : ""}`,
+          lastTime: "เมื่อสักครู่",
+          autoReply: `สวัสดีครับ ยินดีเป็นอย่างยิ่งครับคุณวิชัย ผมพร้อมเข้ารับการสัมภาษณ์ออนไลน์ตามวันและเวลาที่ทางบริษัทสะดวกเลยครับ ขอบคุณครับ!`,
+          messages: [
+            {
+              id: `m-init-${Date.now()}`,
+              sender: "me",
+              text: `สวัสดีครับคุณ ${decodedName} ทาง บมจ. เทคโนโลยีดีไลท์ ได้ตรวจสอบพอร์ตโฟลิโอและทักษะของคุณแล้ว มีความประสงค์ขอนัดสัมภาษณ์งานตำแหน่ง ${targetJob ? decodeURIComponent(targetJob) : "นักพัฒนา"} ครับ`,
+              timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            },
+          ],
+        };
+
+        setConversations([newConv, ...list]);
+        setActiveId(newConvId);
+        setInputText("สะดวกนัดหมายสัมภาษณ์ผ่าน Google Meet ในวันพฤหัสบดีหรือวันศุกร์นี้เวลา 10:00 น. ไหมครับ?");
+      }
+    } else {
+      setConversations(list);
+      setActiveId(list[0].id);
+    }
+  }, [currentRole, targetName, targetJob]);
 
   const activeConv = conversations.find((c) => c.id === activeId) || conversations[0];
 
@@ -748,5 +795,22 @@ export default function MessagingPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function MessagingPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#f4f2ee] pt-[120px] flex items-center justify-center text-xs font-bold text-slate-500">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 border-2 border-[#0a66c2] border-t-transparent rounded-full animate-spin"></div>
+            <span>กำลังโหลดบทสนทนา...</span>
+          </div>
+        </div>
+      }
+    >
+      <MessagingContent />
+    </Suspense>
   );
 }
