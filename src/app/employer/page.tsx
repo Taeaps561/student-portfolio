@@ -158,7 +158,7 @@ export default function EmployerPage() {
   const { data: session } = useSession();
   const isEmployer = session?.user?.role === "EMPLOYER";
 
-  const [activeTab, setActiveTab] = useState<"CANDIDATES" | "JOBS" | "POST_JOB">("CANDIDATES");
+  const [activeTab, setActiveTab] = useState<"JOBS" | "CANDIDATES" | "POST_JOB">("JOBS");
   const [candidates, setCandidates] = useState<Candidate[]>(INITIAL_CANDIDATES);
   const [jobs, setJobs] = useState<JobOpening[]>(SAMPLE_JOBS);
   const [searchQuery, setSearchQuery] = useState("");
@@ -272,18 +272,6 @@ export default function EmployerPage() {
         <div className="bg-white rounded-xl p-2 border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setActiveTab("CANDIDATES")}
-              className={`px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
-                activeTab === "CANDIDATES"
-                  ? "bg-[#0a66c2] text-white shadow-xs"
-                  : "bg-slate-50 text-slate-700 hover:bg-slate-100"
-              }`}
-            >
-              <span>🎯</span>
-              <span>ค้นหา & จับคู่ Talent อัจฉริยะ ({candidates.length} คน)</span>
-            </button>
-
-            <button
               onClick={() => setActiveTab("JOBS")}
               className={`px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
                 activeTab === "JOBS"
@@ -296,6 +284,18 @@ export default function EmployerPage() {
             </button>
 
             <button
+              onClick={() => setActiveTab("CANDIDATES")}
+              className={`px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                activeTab === "CANDIDATES"
+                  ? "bg-[#0a66c2] text-white shadow-xs"
+                  : "bg-slate-50 text-slate-700 hover:bg-slate-100"
+              }`}
+            >
+              <span>🎯</span>
+              <span>ค้นหา & จับคู่ Talent อัจฉริยะ ({candidates.length} คน)</span>
+            </button>
+
+            <button
               onClick={() => setActiveTab("POST_JOB")}
               className={`px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
                 activeTab === "POST_JOB"
@@ -303,7 +303,7 @@ export default function EmployerPage() {
                   : "bg-slate-50 text-slate-700 hover:bg-slate-100"
               }`}
             >
-              <span>✏️</span>
+              <span>➕</span>
               <span>สร้างประกาศใหม่</span>
             </button>
           </div>
