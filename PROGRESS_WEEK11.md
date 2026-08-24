@@ -2,6 +2,7 @@
 **รายวิชา:** DevSecOps  
 **ชื่อโครงงาน:** Student Portfolio & Skill Passport (ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มสด.)  
 **กลุ่มที่:** 3 (Student Portfolio & Skill Passport)  
+**GitHub Repository:** [https://github.com/Taeaps561/student-portfolio](https://github.com/Taeaps561/student-portfolio)  
 
 ---
 
@@ -9,9 +10,9 @@
 
 | ลำดับ | รหัสนักศึกษา | ชื่อ - นามสกุล | บทบาทหน้าที่ความรับผิดชอบ |
 | :---: | :---: | :--- | :--- |
-| 1 | 010 | นายอภิสิทธิ์ ศรีพัฒน์ | **Backend, Database & Security Lead:**<br>• พัฒนาระบบ Authentication & Multi-Role Registration (NextAuth.js, Credentials + GitHub OAuth)<br>• ออกแบบและดูแล Prisma Schema (User, Portfolio, Project, Certificate, AuditLog, Post, Skill)<br>• พัฒนาระบบ Privacy & Data Masking (ปิดบัง GPA / เบอร์โทรศัพท์) และ SHA-256 Digital Certificate Hashing |
-| 2 | 008 | นายปภังกร ทองเจริญ | **GitHub Integration & API Specialist:**<br>• พัฒนา Backend Service เชื่อมต่อ GitHub REST API (`/api/github`) ดึง Repos, สถิติภาษา (%) และประวัติ Commit<br>• พัฒนาระบบ Audit Logging บันทึกเหตุการณ์ความปลอดภัย (Event Log) ลงฐานข้อมูล<br>• จัดการ API Endpoints สำหรับระบบโพสต์ฟีด (`/api/posts`) และใบรับรอง (`/api/certificates`) |
-| 3 | 009 | นายปวีณวัชร์ เหลืองอุทัย | **Frontend, UX/UI & QA Lead:**<br>• พัฒนาหน้าจอ Responsive UI: หน้าแรกฟีด (`/feed`), แดชบอร์ด (`/dashboard`, `/teacher`, `/employer`), ใบรับรอง (`/certificates`) และกล่องข้อความ (`/messaging`)<br>• ออกแบบพรีวิวใบประกาศนียบัตรดิจิทัล มหาวิทยาลัยสวนดุสิต (Printable SDU Diploma Modal)<br>• ดูแล Flow การใช้งานโดยรวม และทำ System Testing (QA) ตรวจสอบความถูกต้องตามเกณฑ์ DevSecOps |
+| 1 | 010 | นายอภิสิทธิ์ ศรีพัฒน์ | **Backend, Database & Security Lead:**<br>• พัฒนาระบบ Authentication & Multi-Role Registration (NextAuth.js, Credentials + Session Guards)<br>• ออกแบบ Prisma Schema & SQLite/PostgreSQL Database (User, Portfolio, Project, Certificate, AuditLog, Skill)<br>• พัฒนาระบบ Data Masking (ปิดบัง GPA / ข้อมูลสำคัญ) และ Cryptographic Digital Signature (SHA-256 Hashing) |
+| 2 | 008 | นายปภังกร ทองเจริญ | **GitHub Integration & API Specialist:**<br>• พัฒนา Backend Service เชื่อมต่อ GitHub REST API (`/api/github`) ดึง Repositories, ภาษา และประวัติ Commit<br>• พัฒนาระบบ Audit Logging บันทึกเหตุการณ์ความปลอดภัย (Security Event Logs) ลงฐานข้อมูล<br>• จัดการ API Endpoints สำหรับระบบโพสต์ฟีด (`/api/posts`), ทักษะ (`/api/skills`) และใบรับรอง (`/api/certificates`) |
+| 3 | 009 | นายปวีณวัชร์ เหลืองอุทัย | **Frontend, UX/UI & QA Lead:**<br>• พัฒนาหน้าจอ Responsive UI: หน้าแรกฟีด (`/feed`), ศูนย์อาจารย์ (`/teacher`, `/teacher/certificates`, `/teacher/advisees`), และสรรหาบุคลากร (`/employer/jobs`, `/employer/matching`)<br>• ออกแบบพรีวิวใบประกาศนียบัตรดิจิทัล มหาวิทยาลัยสวนดุสิต (Printable SDU Diploma Modal)<br>• ดูแล Flow การใช้งานโดยรวม และทำ System Testing ตรวจสอบสิทธิ์การเข้าถึงตามหลัก DevSecOps |
 
 ---
 
