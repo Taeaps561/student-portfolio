@@ -10,6 +10,56 @@ interface PageProps {
 
 // Predefined mock profiles mapping for showcase and guest demonstration
 const mockProfilesDirectory: Record<string, any> = {
+  "mock-test": {
+    name: "นักศึกษา ทดสอบ",
+    role: "STUDENT",
+    headline: "DevSecOps & Full-Stack Engineer | SDU Computer Science",
+    bio: "นักศึกษาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยสวนดุสิต มุ่งมั่นพัฒนาซอฟต์แวร์ที่ปลอดภัยตามแนวทาง DevSecOps และมีความเชี่ยวชาญด้าน Next.js, Cloud Architecture และ Network Security",
+    image: "https://ui-avatars.com/api/?name=Student+Test&background=0a66c2&color=fff",
+    skills: [
+      { id: "s1", name: "Next.js & React", level: 5, isVerified: true },
+      { id: "s2", name: "TypeScript", level: 5, isVerified: true },
+      { id: "s3", name: "Python", level: 4, isVerified: true },
+      { id: "s4", name: "DevSecOps & Docker", level: 5, isVerified: true },
+    ],
+    projects: [
+      {
+        id: "p1",
+        title: "SkillPassport Portfolio WebApp",
+        description: "แพลตฟอร์มสะสมผลงานและตรวจรับรองทักษะดิจิทัล มหาวิทยาลัยสวนดุสิต",
+        githubUrl: "https://github.com/Taeaps561/student-portfolio",
+      },
+      {
+        id: "p2",
+        title: "Automated CI/CD Vulnerability Scanner",
+        description: "ระบบสแกนความปลอดภัยซอร์สโค้ดอัตโนมัติก่อน Deploy สู่คลาวด์",
+        githubUrl: "https://github.com",
+      },
+    ],
+    certificates: [
+      {
+        id: "c1",
+        name: "Cisco Certified Network Associate (CCNA 200-301)",
+        issuer: "Cisco Systems",
+        issueDate: new Date("2026-03-15"),
+        hashValue: "0xa1b2c3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e",
+      },
+      {
+        id: "c2",
+        name: "CompTIA Security+ (SY0-701)",
+        issuer: "CompTIA",
+        issueDate: new Date("2026-05-20"),
+        hashValue: "0xb2c3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+      },
+      {
+        id: "c3",
+        name: "วุฒิบัตรรับรองสมรรถนะ DevSecOps มหาวิทยาลัยสวนดุสิต (SDU DevSecOps Practitioner)",
+        issuer: "มหาวิทยาลัยสวนดุสิต",
+        issueDate: new Date("2026-08-24"),
+        hashValue: "0xc3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
+      },
+    ],
+  },
   "mock-somchai": {
     name: "สมชาย ยอดนักโค้ด",
     role: "STUDENT",
@@ -39,10 +89,17 @@ const mockProfilesDirectory: Record<string, any> = {
     certificates: [
       {
         id: "c1",
-        name: "Certified Full-Stack Web Developer",
-        issuer: "มหาวิทยาลัยสวนดุสิต & SkillPassport",
-        issueDate: new Date(),
+        name: "AWS Certified Solutions Architect – Associate",
+        issuer: "Amazon Web Services (AWS)",
+        issueDate: new Date("2026-04-10"),
         hashValue: "0x7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069",
+      },
+      {
+        id: "c2",
+        name: "วุฒิบัตรการพัฒนาเว็บแอปพลิเคชันขั้นสูง (SDU Advanced Web Engineering)",
+        issuer: "มหาวิทยาลัยสวนดุสิต",
+        issueDate: new Date("2026-08-20"),
+        hashValue: "0x2d4b1fa3d677284addd200126d90697f83b1657ff1fc53b92dc18148a1d65dfc",
       },
     ],
   },
@@ -68,10 +125,17 @@ const mockProfilesDirectory: Record<string, any> = {
     certificates: [
       {
         id: "c1",
-        name: "Certified Ethical Security Practitioner",
-        issuer: "มหาวิทยาลัยสวนดุสิต",
-        issueDate: new Date(),
+        name: "CompTIA Security+ (SY0-701)",
+        issuer: "CompTIA",
+        issueDate: new Date("2026-06-12"),
         hashValue: "0x4b1fa3d677284addd200126d90697f83b1657ff1fc53b92dc18148a1d65dfc2d",
+      },
+      {
+        id: "c2",
+        name: "วุฒิบัตรความปลอดภัยสารสนเทศและโครงข่าย มสด. (SDU Cyber Defense Practicum)",
+        issuer: "มหาวิทยาลัยสวนดุสิต",
+        issueDate: new Date("2026-08-18"),
+        hashValue: "0x677284addd200126d90697f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d",
       },
     ],
   },
@@ -97,10 +161,17 @@ const mockProfilesDirectory: Record<string, any> = {
     certificates: [
       {
         id: "c1",
-        name: "Certified UI/UX Professional",
-        issuer: "มหาวิทยาลัยสวนดุสิต",
-        issueDate: new Date(),
+        name: "Google UX Design Professional Certificate",
+        issuer: "Google / Coursera",
+        issueDate: new Date("2026-02-28"),
         hashValue: "0x1d65dfc2d4b1fa3d677284addd200126d90697f83b1657ff1fc53b92dc18148a",
+      },
+      {
+        id: "c2",
+        name: "วุฒิบัตรการออกแบบประสบการณ์ผู้ใช้และระบบดิจิทัล (SDU UI/UX & Design Systems)",
+        issuer: "มหาวิทยาลัยสวนดุสิต",
+        issueDate: new Date("2026-08-15"),
+        hashValue: "0xfa3d677284addd200126d90697f83b1657ff1fc53b92dc18148a1d65dfc2d4b1",
       },
     ],
   },
