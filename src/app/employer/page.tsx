@@ -222,6 +222,7 @@ export default function EmployerPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSkill, setFilterSkill] = useState("ALL");
   const [selectedJob, setSelectedJob] = useState<JobOpening>(SAMPLE_JOBS[0]);
+  const [selectedJobFilter, setSelectedJobFilter] = useState<string | null>(null);
 
   if (status === "loading") {
     return (
@@ -281,6 +282,7 @@ export default function EmployerPage() {
   };
 
   const filteredCandidates = candidates.filter((c) => {
+    const matchesJob = !selectedJobFilter || (c.appliedJob && (c.appliedJob.toLowerCase().includes(selectedJobFilter.toLowerCase()) || selectedJobFilter.toLowerCase().includes(c.appliedJob.toLowerCase())));
     const matchesSearch =
       searchQuery === "" ||
       c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -292,7 +294,7 @@ export default function EmployerPage() {
       c.verifiedSkills.some((s) => s.toLowerCase().includes(filterSkill.toLowerCase())) ||
       c.certs.some((cert) => cert.toLowerCase().includes(filterSkill.toLowerCase()));
 
-    return matchesSearch && matchesSkill;
+    return matchesJob && matchesSearch && matchesSkill;
   });
 
   return (
@@ -528,14 +530,17 @@ export default function EmployerPage() {
               {/* Action Buttons for Employer */}
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
                 <button
-                  onClick={() => setActiveTab("CANDIDATES")}
-                  className="px-4 py-2.5 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
+                  onClick={() => {
+                    setSelectedJobFilter(selectedJob.title);
+                    setActiveTab("CANDIDATES");
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm cursor-pointer"
                 >
                   <span>👥 ดูรายชื่อผู้สมัครและคัดเลือก ({selectedJob.applicantsCount} คน)</span>
                 </button>
                 <button
                   onClick={() => alert("ระบบเปิดให้แก้ไขข้อมูลประกาศ")}
-                  className="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition"
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition cursor-pointer"
                 >
                   ✏️ แก้ไขข้อมูลประกาศ
                 </button>
@@ -550,6 +555,29 @@ export default function EmployerPage() {
         {/* ========================================================================= */}
         {activeTab === "CANDIDATES" && (
           <div className="space-y-4 animate-in fade-in">
+            {/* Job Filter Indicator Banner */}
+            {selectedJobFilter && (
+              <div className="bg-blue-50/90 border border-blue-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-[#0a66c2] shadow-xs">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🎯</span>
+                  <div>
+                    <p className="font-extrabold text-slate-900">
+                      กำลังแสดงรายชื่อผู้สมัครเฉพาะตำแหน่ง: <span className="text-[#0a66c2] underline">{selectedJobFilter}</span>
+                    </p>
+                    <p className="text-[11px] text-slate-500 font-medium mt-0.5">
+                      พบผู้สมัครที่ตรงเกณฑ์ทั้งหมด {filteredCandidates.length} คน
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSelectedJobFilter(null)}
+                  className="text-xs font-bold bg-white hover:bg-blue-100 text-slate-700 px-3.5 py-1.5 rounded-xl border border-slate-200 transition cursor-pointer shrink-0 shadow-2xs"
+                >
+                  ✕ ดูผู้สมัครทั้งหมด ({candidates.length} คน)
+                </button>
+              </div>
+            )}
+
             {/* Search & Skill Filter Bar */}
             <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-2xs space-y-3">
               <div className="flex flex-col sm:flex-row items-center gap-3">
