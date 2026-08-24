@@ -9,41 +9,41 @@
 
 | ลำดับ | รหัสนักศึกษา | ชื่อ - นามสกุล | บทบาทหน้าที่ความรับผิดชอบ |
 | :---: | :---: | :--- | :--- |
-| 1 | 010 | นายอภิสิทธิ์ ศรีพัฒน์ | **Backend, Database & Security Lead:**<br>• ติดตั้งและตั้งค่า NextAuth.js (GitHub OAuth + Credentials Login สำหรับนักศึกษา/อาจารย์/นายจ้าง)<br>• ออกแบบและดูแล Prisma Schema (User, Portfolio, Project, AuditLog, Skill)<br>• ทำระบบ Privacy & Data Masking (ปิดบัง GPA / เบอร์โทรศัพท์สำหรับผู้ที่ไม่มีสิทธิ์) และเขียน API พื้นฐานของ Portfolio |
-| 2 | 008 | นายปภังกร ทองเจริญ | **GitHub Integration & API Specialist:**<br>• พัฒนา Backend Service เชื่อมต่อ GitHub REST API (`/api/github`) ดึง Repos, คำนวณสถิติภาษา (%) และประวัติ Commit<br>• ทำตาราง Contribution Heatmap และระบบ 1-Click Import นำเข้า Repo สู่ Database<br>• พัฒนาหน้าจอ `/github` ให้เชื่อมต่อและตอบสนองกับผู้ใช้ได้อย่างสมบูรณ์ |
-| 3 | 009 | นายปวีณวัชร์ เหลืองอุทัย | **Frontend, UX/UI & QA Lead:**<br>• พัฒนาและตกแต่งหน้าจอหลัก `/portfolio` (Digital Skill Passport Showcase), `/dashboard` และ `/login` ด้วยดีไซน์ทันสมัยและ Responsive<br>• พัฒนา Component แสดงผลการ์ดผลงาน, แถบวัดระดับทักษะ (Skill Bars) และแท็กภาษาโปรแกรม<br>• ดูแล Flow การใช้งานโดยรวม และทำ System Testing (QA) ตรวจสอบความถูกต้องของระบบ |
+| 1 | 010 | นายอภิสิทธิ์ ศรีพัฒน์ | **Backend, Database & Security Lead:**<br>• พัฒนาระบบ Authentication & Multi-Role Registration (NextAuth.js, Credentials + GitHub OAuth)<br>• ออกแบบและดูแล Prisma Schema (User, Portfolio, Project, Certificate, AuditLog, Post, Skill)<br>• พัฒนาระบบ Privacy & Data Masking (ปิดบัง GPA / เบอร์โทรศัพท์) และ SHA-256 Digital Certificate Hashing |
+| 2 | 008 | นายปภังกร ทองเจริญ | **GitHub Integration & API Specialist:**<br>• พัฒนา Backend Service เชื่อมต่อ GitHub REST API (`/api/github`) ดึง Repos, สถิติภาษา (%) และประวัติ Commit<br>• พัฒนาระบบ Audit Logging บันทึกเหตุการณ์ความปลอดภัย (Event Log) ลงฐานข้อมูล<br>• จัดการ API Endpoints สำหรับระบบโพสต์ฟีด (`/api/posts`) และใบรับรอง (`/api/certificates`) |
+| 3 | 009 | นายปวีณวัชร์ เหลืองอุทัย | **Frontend, UX/UI & QA Lead:**<br>• พัฒนาหน้าจอ Responsive UI: หน้าแรกฟีด (`/feed`), แดชบอร์ด (`/dashboard`, `/teacher`, `/employer`), ใบรับรอง (`/certificates`) และกล่องข้อความ (`/messaging`)<br>• ออกแบบพรีวิวใบประกาศนียบัตรดิจิทัล มหาวิทยาลัยสวนดุสิต (Printable SDU Diploma Modal)<br>• ดูแล Flow การใช้งานโดยรวม และทำ System Testing (QA) ตรวจสอบความถูกต้องตามเกณฑ์ DevSecOps |
 
 ---
 
 ## 📊 2. สถานะความคืบหน้าของงาน (Task Progress)
 
 ### ✅ งานที่ทำเสร็จแล้ว (Completed Tasks - สัปดาห์ที่ 1-11)
-1. **ระบบฐานข้อมูลและการเชื่อมต่อ (Database & ORM):**
-   - ออกแบบ Schema ฐานข้อมูลด้วย Prisma ORM รองรับ User, Account, Session, Portfolio, Skill, Project, Certificate, Course, Post
-   - จัดเก็บ Environment Variable (`DATABASE_URL`, NextAuth Secrets) ใน `.env` และตั้งค่า `.gitignore` เรียบร้อย
-2. **ระบบการยืนยันตัวตนและการจัดการเซสชัน (Authentication & Session):**
-   - ติดตั้งและตั้งค่า NextAuth.js รองรับทั้ง Credentials Login และ GitHub OAuth
-   - ระบบจัดเก็บ Password แบบปลอดภัย และส่งข้อความแจ้งเตือนกลาง (Generic error message)
-   - หน้า Login ป้องกันการเข้าถึง Dashboard ผ่าน URL โดยตรงถ้ายังไม่ได้ Login
-   - ระบบ Logout เคลียร์ Session สำเร็จ
-3. **ระบบการควบคุมสิทธิ์ตามบทบาท (Role-Based Access Control - RBAC):**
-   - รองรับ 3 Roles: **Student (นักศึกษา)**, **Teacher (อาจารย์)**, และ **Employer (นายจ้าง)**
-   - แยกการแสดงผลแถบเมนู (Navbar) ตามสิทธิ์ของแต่ละบทบาท
-   - ป้องกันการเข้าถึงหน้า Server/API Route ที่ไม่มีสิทธิ์ (Server-side validation คืนค่า 401 Unauthorized)
-4. **ฟังก์ชันหลักของระบบ (Core Features):**
-   - หน้า Digital Passport Dashboard แสดงผลงาน, ทักษะ, ใบรับรอง
-   - หน้าเพิ่ม/แก้ไข/ลบ ข้อมูลทักษะ (Skills) และผลงาน (Projects) บันทึกลงฐานข้อมูลจริง
-   - หน้าอาจารย์ (Teacher Portal) สำหรับตรวจสอบและอนุมัติรับรองทักษะนักศึกษา
+1. **ระบบฐานข้อมูลและ Audit Logging (Database & ORM):**
+   - ออกแบบ Schema ฐานข้อมูลด้วย Prisma ORM รองรับ User, Account, Session, Portfolio, Skill, Project, Certificate, Post, AuditLog
+   - จัดเก็บ Config เชื่อมต่อใน `.env` และตั้งค่า `.gitignore` ไม่ให้หลุดขึ้น GitHub
+2. **ระบบยืนยันตัวตนและสมัครสมาชิก (Authentication & Registration):**
+   - พัฒนาระบบ Sign-In และ Registration พร้อม Role Selector (นักศึกษา, อาจารย์, นายจ้าง)
+   - จัดเก็บ Password ปลอดภัย พร้อมแสดงข้อความแจ้งเตือนกลาง (Generic Neutral Error Message)
+   - มี Server-side Session Guard ป้องกันการเข้าถึง Dashboard โดยตรงหากยังไม่ได้ Login
+3. **การควบคุมสิทธิ์ตามบทบาท (Role-Based Access Control - RBAC):**
+   - รองรับ 3 Roles: **Student**, **Teacher**, และ **Employer**
+   - Smart Dashboard Routing แยกหน้าตามบทบาท (`/dashboard` ➡️ `/teacher` ➡️ `/employer`)
+   - ระบบตรวจสอบสิทธิ์ที่ฝั่ง Server (Server-side Validation ส่ง 401 Unauthorized หากไม่มีสิทธิ์)
+4. **ระบบใบรับรองและวุฒิบัตรดิจิทัล (Digital Certificates & SHA-256 Verification):**
+   - รองรับใบรับรองสากลและแคมปัส (CCNA, CompTIA Security+, CEH, SDU DevSecOps Specialist)
+   - สร้างรหัส Cryptographic SHA-256 Hash ประจำแต่ละใบรับรอง พร้อมเครื่องมือตรวจสอบความถูกต้อง
+   - พรีวิวและพิมพ์ใบประกาศนียบัตรดิจิทัลของมหาวิทยาลัยสวนดุสิตพร้อม QR Verification Code
+5. **ระบบฟีดข่าวสารวิชาการและกล่องข้อความ (Community Feed & Role-based Messenger):**
+   - หน้าฟีดชุมชน มสด. บันทึกลงฐานข้อมูลจริง รองรับโพสต์อาจารย์, รับสมัครงานสหกิจศึกษา และโชว์ผลงาน
+   - กล่องข้อความแยกชุดการสนทนาตามบทบาท พร้อมระบบ Auto-Reply ตอบกลับอัตโนมัติ
 
 ### 🔄 งานที่กำลังดำเนินการ (In-Progress Tasks)
-1. การเชื่อมต่อระบบตรวจสอบใบรับรองดิจิทัลผ่านระบบ Hashing / QR Code แบบเต็มรูปแบบ
-2. ปรับปรุงระบบแจ้งเตือน (Notifications) และระบบข้อความ (Messaging) ระหว่างนักศึกษาและอาจารย์
-3. การทำ Automated Testing และ Security Scanning ด้วย DevSecOps Pipeline (SAST / GitHub Actions)
+1. การติดตั้ง DevSecOps Security Scanning Pipeline (SAST / GitHub Actions Workflow)
+2. การปรับแต่งประสิทธิภาพการโหลดหน้าเว็บและแคช (Next.js Caching & Optimization)
 
 ### ⏳ งานที่ยังไม่ได้เริ่ม (Not Started Tasks)
 1. ระบบ AI แนะนำทักษะและวิเคราะห์ตลาดงาน (Skill Recommendation Engine)
-2. ระบบจับคู่งานและฝึกงานอัจฉริยะสำหรับผู้ประกอบการ (AI Matching) แบบสมบูรณ์
-3. การ Deploy ขึ้น Cloud Production Server พร้อมระบบ CI/CD
+2. การ Deploy ขึ้น Production Cloud Server (Vercel / AWS / Supabase)
 
 ---
 
@@ -51,34 +51,31 @@
 
 | ปัญหาที่พบ (Issue) | สาเหตุ (Root Cause) | แนวทางแก้ไข (Resolution) |
 | :--- | :--- | :--- |
-| 1. ผู้ใช้สามารถเดา URL เข้าหน้า Dashboard หรือหน้าอาจารย์ได้โดยตรง | การตรวจสอบสิทธิ์ทำเพียงแค่ฝั่ง Client-side (UI) | เพิ่ม `getServerSession` ใน Server Components และเพิ่มเงื่อนไขตรวจ `session.user.role` ใน API Route หากไม่มีสิทธิ์จะ Redirect ไป `/login` หรือส่งสถานะ `401 Unauthorized` |
-| 2. ปัญหาความปลอดภัยของรหัสผ่านและความลับในโค้ด | อาจเผลอ Push ไฟล์ `.env` ขึ้น Git Repository | เพิ่ม `.env*` ใน `.gitignore` อย่างรัดกุม พร้อมทำ `.env.example` เป็นแม่แบบให้ทีมงาน |
-| 3. การแสดงผลข้อมูลส่วนบุคคลของนักศึกษา | ข้อมูลบางอย่าง เช่น GPA, เบอร์โทรศัพท์ ควรมีความเป็นส่วนตัว | ทำระบบ **Data Masking** ซ่อนข้อมูลดังกล่าวในหน้า Public Profile |
+| 1. ผู้ใช้สามารถพิมพ์ URL เข้าหน้า Dashboard หรือหน้าอาจารย์ได้โดยตรง | การตรวจสอบสิทธิ์เดิมทำเพียงฝั่ง Client-side | เพิ่ม `getServerSession` ใน Server Components และตรวจสอบ `session.user.role` ทุกครั้ง หากไม่มีสิทธิ์จะ Redirect หรือส่ง `401 Unauthorized` |
+| 2. ข้อมูล Mock ในระบบเดิมเป็นข้อมูลทั่วไป ไม่สะท้อนบริบท มสด. | ข้อมูลเริ่มต้นเป็น Placeholder สำเร็จรูป | ปรับปรุง Mock Dataset และ Database Seeding ให้เป็นบริบทจริงของ มสด. และ DevSecOps |
+| 3. ปัญหาความเป็นส่วนตัวของข้อมูลนักศึกษา (PDPA) | การเปิดเผย GPA หรือเบอร์โทรศัพท์สู่สาธารณะ | ทำระบบ **Data Masking** และใช้ชื่อจำลอง "นักศึกษา ทดสอบ" ในระบบหน้าเว็บ |
 
 ---
 
 ## 📈 4. เปอร์เซ็นต์ความสำเร็จโดยรวม (Overall Progress)
 
 ```
-[████████████████░░░░] 75%
+[█████████████████░░░] 85%
 ```
-- **Backend & Database:** 85%
-- **Authentication & Security (DevSecOps):** 85%
-- **Core CRUD & Business Logic:** 80%
-- **Advanced Features (AI, Matching, Automation CI/CD):** 40%
-- **ภาพรวมความสำเร็จของโครงการ:** **75%**
+- **Backend & Database:** 90%
+- **Authentication & Security (DevSecOps):** 90%
+- **Core CRUD & Digital Certificate:** 90%
+- **Advanced Features (AI, CI/CD Pipeline):** 50%
+- **ภาพรวมความสำเร็จของโครงการ:** **85%**
 
 ---
 
 ## 🗓️ 5. แผนการพัฒนาในสัปดาห์ที่ 12–13 (Future Roadmap)
 
 ### สัปดาห์ที่ 12: Security Hardening & CI/CD Pipeline
-- ติดตั้ง GitHub Actions Workflow ทำ SAST (Static Application Security Testing) เช่น Snyk / Semgrep / npm audit
-- ปรับแต่งระบบตรวจจับและป้องกัน CSRF, Rate Limiting และ Security Headers (Helmet/Next Config)
-- เพิ่มระบบ Digital Signature Verification สำหรับใบรับรองอิเล็กทรอนิกส์
+- ติดตั้ง GitHub Actions CI/CD ทำ Automated SAST Security Scanning (npm audit, Semgrep)
+- ปรับแต่ง Security Headers (Helmet, CSRF Protection, Rate Limiting)
 
 ### สัปดาห์ที่ 13: Feature Completion & Deployment
-- พัฒนาระบบ AI Career Path / Skill Recommender ให้สมบูรณ์
-- ปรับแต่ง UX/UI สำหรับการใช้งานบนมือถือ (Responsive Web Design)
-- Deploy ระบบขึ้น Production Cloud (Vercel / AWS / VPS) พร้อมตั้งค่า Database บน Cloud (PostgreSQL / Supabase)
-- ทดสอบระบบ End-to-End Testing และเตรียมนำเสนอผลงานฉบับสมบูรณ์
+- ปรับแต่ง Responsive UI และเชื่อมต่อ AI Career Path Recommender
+- Deploy ระบบขึ้น Cloud Production (Vercel / Supabase) พร้อมจัดเตรียมเอกสารฉบับสมบูรณ์
