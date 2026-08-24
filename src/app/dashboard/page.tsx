@@ -47,7 +47,34 @@ export default async function PortfolioDashboard() {
         },
         certificates: {
           create: [
-            { name: "React Developer", issuer: "Meta", issueDate: new Date("2025-01-15"), fileUrl: "#", hashValue: `hash-react-cert-${session.user.id}` }
+            {
+              name: "CCNA (Cisco Certified Network Associate)",
+              issuer: "Cisco Systems",
+              issueDate: new Date("2025-11-20"),
+              fileUrl: "https://www.cisco.com/c/en/us/training-events/training-certifications/certifications/associate/ccna.html",
+              hashValue: `cert_hash_ccna_${session.user.id}`
+            },
+            {
+              name: "CompTIA Security+ (Sec+)",
+              issuer: "CompTIA",
+              issueDate: new Date("2026-01-10"),
+              fileUrl: "https://www.comptia.org/certifications/security",
+              hashValue: `cert_hash_secplus_${session.user.id}`
+            },
+            {
+              name: "CEH (Certified Ethical Hacker)",
+              issuer: "EC-Council",
+              issueDate: new Date("2026-02-15"),
+              fileUrl: "https://www.eccouncil.org/programs/certified-ethical-hacker-ceh/",
+              hashValue: `cert_hash_ceh_${session.user.id}`
+            },
+            {
+              name: "SDU DevSecOps & Cloud Security Specialist",
+              issuer: "Suan Dusit University (มสด.)",
+              issueDate: new Date("2026-03-01"),
+              fileUrl: "#",
+              hashValue: `cert_hash_sdu_devsecops_${session.user.id}`
+            }
           ]
         }
       },
