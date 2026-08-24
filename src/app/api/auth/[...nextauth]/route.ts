@@ -70,6 +70,23 @@ export const authOptions: NextAuthOptions = {
           }
           return { id: user.id, name: user.name, email: user.email, image: user.image, role: user.role };
         }
+
+        // ตรวจสอบผู้ใช้ที่ลงทะเบียนในระบบ
+        if (credentials?.email && credentials?.password) {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email.trim().toLowerCase() }
+          });
+          if (user) {
+            return {
+              id: user.id,
+              name: user.name,
+              email: user.email,
+              image: user.image,
+              role: user.role
+            };
+          }
+        }
+
         return null;
       }
     })
