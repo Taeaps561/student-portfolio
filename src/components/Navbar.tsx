@@ -111,11 +111,6 @@ export default function Navbar() {
             >
               <div className="relative">
                 {item.icon(item.isActive)}
-                {item.badge && (
-                  <span className="hidden sm:inline-block absolute -top-1 -right-4 bg-emerald-600 text-white text-[8px] font-bold px-1 rounded-full">
-                    {item.badge}
-                  </span>
-                )}
               </div>
               <span className="text-[11px] sm:text-xs leading-tight mt-1 whitespace-nowrap">
                 {item.label}

@@ -107,7 +107,7 @@ export default function CompanyProfilePage() {
                 <input
                   type="url"
                   value={website}
-                  onChange={(e) => setCompanyWebsite(e.target.value)}
+                  onChange={(e) => setWebsite(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
