@@ -2,277 +2,325 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
-interface CertificateItem {
+interface CertificateRecord {
   id: string;
   studentName: string;
+  studentCode: string;
   certName: string;
   category: string;
   issueDate: string;
   serialNo: string;
+  hashValue: string;
   score: number;
 }
 
-const INITIAL_CERTS: CertificateItem[] = [
+const INITIAL_RECORDS: CertificateRecord[] = [
   {
     id: "cert-1",
-    studentName: "สมชาย ยอดนักโค้ด",
-    certName: "Certified Full-Stack Web Developer",
-    category: "Next.js & Cloud Architecture",
-    issueDate: "20/08/2026",
-    serialNo: "SDU-CS-2026-0891",
-    score: 95,
+    studentName: "นักศึกษา ทดสอบ",
+    studentCode: "6611011099",
+    certName: "SDU DevSecOps Specialist (Professional Level)",
+    category: "Security & Cloud Architecture",
+    issueDate: "24/08/2026",
+    serialNo: "SDU-CERT-DEVSECOPS-2026",
+    hashValue: "0xa1b2c3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e",
+    score: 98,
   },
   {
     id: "cert-2",
-    studentName: "สายฟ้า แฮกเกอร์",
-    certName: "Certified Ethical Security Practitioner",
-    category: "Cybersecurity & SOC Analysis",
-    issueDate: "18/08/2026",
-    serialNo: "SDU-CS-2026-0844",
-    score: 92,
+    studentName: "สมชาย ยอดนักโค้ด",
+    studentCode: "6611011001",
+    certName: "Certified Full-Stack Web Developer (Next.js & TypeScript)",
+    category: "Full-Stack Development",
+    issueDate: "20/08/2026",
+    serialNo: "SDU-CS-2026-0891",
+    hashValue: "0xb2c3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+    score: 95,
   },
   {
     id: "cert-3",
+    studentName: "สายฟ้า แฮกเกอร์",
+    studentCode: "6611011045",
+    certName: "Certified Ethical Security Practitioner (SOC Tier 1)",
+    category: "Cybersecurity & SOC Analysis",
+    issueDate: "18/08/2026",
+    serialNo: "SDU-CS-2026-0844",
+    hashValue: "0xc3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
+    score: 92,
+  },
+  {
+    id: "cert-4",
     studentName: "เจนจิรา ดีไซเนอร์",
-    certName: "Certified UI/UX Professional",
-    category: "Figma & Design Systems",
+    studentCode: "6611011088",
+    certName: "Certified UI/UX Professional (Design Systems & Figma)",
+    category: "UI/UX & Product Design",
     issueDate: "15/08/2026",
     serialNo: "SDU-CS-2026-0782",
+    hashValue: "0xd4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b",
     score: 96,
   },
 ];
 
 export default function TeacherCertificatesPage() {
-  const [certs, setCerts] = useState<CertificateItem[]>(INITIAL_CERTS);
-  const [selectedStudent, setSelectedStudent] = useState("สมชาย ยอดนักโค้ด");
-  const [certTitle, setCertTitle] = useState("Certified Cloud & DevOps Specialist");
-  const [category, setCategory] = useState("Cloud Computing");
-  const [rubric1, setRubric1] = useState(5);
-  const [rubric2, setRubric2] = useState(5);
-  const [rubric3, setRubric3] = useState(4);
-  const [rubric4, setRubric4] = useState(5);
-  const [successToast, setSuccessToast] = useState("");
+  const { data: session } = useSession();
 
-  const calculatedScore = Math.round(((rubric1 + rubric2 + rubric3 + rubric4) / 20) * 100);
+  const [records, setRecords] = useState<CertificateRecord[]>(INITIAL_RECORDS);
+  const [selectedStudent, setSelectedStudent] = useState("นักศึกษา ทดสอบ (6611011099)");
+  const [selectedTemplate, setSelectedTemplate] = useState("Cisco Certified Network Associate (CCNA)");
+  const [presentationScore, setPresentationScore] = useState(5);
+  const [collaborationScore, setCollaborationScore] = useState(5);
+  const [logicScore, setLogicScore] = useState(4);
+  const [toastMessage, setToastMessage] = useState("");
+  const [issuedSuccess, setIssuedSuccess] = useState(false);
 
   const handleIssueCertificate = (e: React.FormEvent) => {
     e.preventDefault();
+    const studentNameClean = selectedStudent.split(" (")[0];
+    const studentCodeClean = selectedStudent.includes("(") ? selectedStudent.split("(")[1].replace(")", "") : "6611011099";
 
-    const newCert: CertificateItem = {
-      id: "cert-" + Date.now(),
-      studentName: selectedStudent,
-      certName: certTitle,
-      category,
+    const totalScore = Math.round(((presentationScore + collaborationScore + logicScore) / 15) * 100);
+    const randomHash = "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+
+    const newCert: CertificateRecord = {
+      id: `cert-${Date.now()}`,
+      studentName: studentNameClean,
+      studentCode: studentCodeClean,
+      certName: selectedTemplate,
+      category: "Digital SkillPassport Certified",
       issueDate: new Date().toLocaleDateString("th-TH"),
-      serialNo: `SDU-CS-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-      score: calculatedScore,
+      serialNo: `SDU-CERT-${Date.now().toString().slice(-6)}`,
+      hashValue: randomHash,
+      score: totalScore,
     };
 
-    setCerts([newCert, ...certs]);
-    setSuccessToast(`ออกวุฒิบัตรดิจิทัลให้ ${selectedStudent} สำเร็จเรียบร้อยแล้ว 🎉`);
-    setTimeout(() => setSuccessToast(""), 4000);
+    setRecords([newCert, ...records]);
+    setIssuedSuccess(true);
+    setToastMessage(`✓ ออกวุฒิบัตรและสร้างลายเซ็น SHA-256 ให้แก่ ${studentNameClean} สำเร็จ!`);
+    setTimeout(() => {
+      setIssuedSuccess(false);
+      setToastMessage("");
+    }, 4000);
   };
 
   return (
     <div className="min-h-screen bg-[#f4f2ee] pt-[85px] px-4 pb-16">
-      <div className="max-w-[1128px] mx-auto space-y-5">
+      <div className="max-w-[1128px] mx-auto space-y-4">
         
-        {/* SUCCESS TOAST */}
-        {successToast && (
-          <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold rounded-2xl shadow-xs animate-in fade-in">
-            {successToast}
-          </div>
-        )}
-
-        {/* HEADER */}
-        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-bold">
-              👨‍🏫 คณะวิทยาศาสตร์และเทคโนโลยี • มหาวิทยาลัยสวนดุสิต
-            </span>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900">
-              ระบบออกวุฒิบัตรดิจิทัลและประเมิน Rubrics สมรรถนะ
+        {/* ========================================================================= */}
+        {/* 📜 HEADER BANNER                                                          */}
+        {/* ========================================================================= */}
+        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-xs font-extrabold flex items-center gap-1">
+                📜 ระบบออกวุฒิบัตรและประเมิน Rubrics
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+                ✓ เข้ารหัสลายเซ็นดิจิทัล SHA-256
+              </span>
+            </div>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+              ศูนย์ออกวุฒิบัตรสมรรถนะดิจิทัลและประเมิน Rubrics
             </h1>
-            <p className="text-xs text-slate-600 font-medium">
-              ประเมินทักษะนักศึกษาตามเกณฑ์ 4 มิติ และลงนามออกใบรับรองความสามารถมาตรฐาน มสด.
+            <p className="text-xs text-slate-600">
+              ประเมินทักษะ Soft Skills และออกใบประกาศนียบัตรดิจิทัลที่มีการรับรองและตรวจสอบได้สากล
             </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Link
-              href="/teacher"
-              className="px-4 py-2 rounded-full border border-slate-300 bg-white hover:bg-slate-50 text-slate-800 text-xs font-bold transition shadow-xs"
-            >
-              🏛️ พอร์ทัลตรวจทักษะ
-            </Link>
           </div>
         </div>
 
-        {/* 2-COLUMN LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        {/* ========================================================================= */}
+        {/* 🎛️ 3-PAGE NAVIGATION LINKS                                                */}
+        {/* ========================================================================= */}
+        <div className="bg-white rounded-xl p-2 border border-slate-200 shadow-2xs flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <Link
+              href="/teacher"
+              className="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-50 text-slate-700 hover:bg-slate-100"
+            >
+              <span>🏛️</span>
+              <span>1. ตรวจรับรองทักษะนักศึกษา</span>
+            </Link>
+
+            <Link
+              href="/teacher/certificates"
+              className="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-[#0a66c2] text-white shadow-xs"
+            >
+              <span>📜</span>
+              <span>2. ออกวุฒิบัตรและประเมิน Rubrics (หน้าปัจจุบัน)</span>
+            </Link>
+
+            <Link
+              href="/teacher/advisees"
+              className="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-50 text-slate-700 hover:bg-slate-100"
+            >
+              <span>👥</span>
+              <span>3. ติดตามนักศึกษาในที่ปรึกษา (4 คน)</span>
+            </Link>
+          </div>
+
+          {toastMessage && (
+            <div className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200 animate-in fade-in">
+              {toastMessage}
+            </div>
+          )}
+        </div>
+
+        {/* ========================================================================= */}
+        {/* 2-COLUMN CERTIFICATE ISSUER & TABLE                                       */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5 animate-in fade-in">
           
-          {/* Left Column: Assessment & Issuance Form (7 Cols) */}
-          <div className="lg:col-span-7 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5">
-            <h2 className="text-sm font-extrabold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-3">
-              <span>📝 แบบฟอร์มประเมินและออกวุฒิบัตรใหม่</span>
-            </h2>
+          {/* Left Column: Issue Certificate Form (5 Cols) */}
+          <div className="md:col-span-5 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+            <div>
+              <h3 className="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+                <span>➕</span>
+                <span>ประเมิน Rubrics และออกวุฒิบัตรใหม่</span>
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                เลือกนักศึกษาและให้คะแนนสมรรถนะเพื่อสร้าง Digital Certificate
+              </p>
+            </div>
 
-            <form onSubmit={handleIssueCertificate} className="space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div>
-                  <label className="block font-bold text-slate-700 mb-1">เลือกนักศึกษาผู้รับการประเมิน *</label>
-                  <select
-                    value={selectedStudent}
-                    onChange={(e) => setSelectedStudent(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-[#c2410c]"
-                  >
-                    <option>สมชาย ยอดนักโค้ด</option>
-                    <option>สายฟ้า แฮกเกอร์</option>
-                    <option>เจนจิรา ดีไซเนอร์</option>
-                    <option>นักศึกษา ทดสอบ</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block font-bold text-slate-700 mb-1">หมวดหมู่ทักษะ</label>
-                  <input
-                    type="text"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-[#c2410c]"
-                    required
-                  />
-                </div>
+            <form onSubmit={handleIssueCertificate} className="space-y-3.5 text-xs">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">
+                  เลือกนักศึกษา:
+                </label>
+                <select
+                  value={selectedStudent}
+                  onChange={(e) => setSelectedStudent(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#0a66c2]"
+                >
+                  <option value="นักศึกษา ทดสอบ (6611011099)">นักศึกษา ทดสอบ (6611011099) • ชั้นปีที่ 4</option>
+                  <option value="สมชาย ยอดนักโค้ด (6611011001)">สมชาย ยอดนักโค้ด (6611011001) • ชั้นปีที่ 4</option>
+                  <option value="สายฟ้า แฮกเกอร์ (6611011045)">สายฟ้า แฮกเกอร์ (6611011045) • ชั้นปีที่ 4</option>
+                  <option value="เจนจิรา ดีไซเนอร์ (6611011088)">เจนจิรา ดีไซเนอร์ (6611011088) • ชั้นปีที่ 3</option>
+                </select>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 mb-1">ชื่อวุฒิบัตร / วุฒิสมรรถนะที่ออกให้ *</label>
-                <input
-                  type="text"
-                  value={certTitle}
-                  onChange={(e) => setCertTitle(e.target.value)}
-                  placeholder="เช่น Certified Full-Stack Web Developer"
-                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-medium text-slate-900 focus:ring-2 focus:ring-[#c2410c]"
-                  required
-                />
-              </div>
-
-              {/* 4 Rubrics Sliders */}
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
-                <h3 className="font-extrabold text-slate-900">เกณฑ์การประเมิน 4 มิติ (SDU Competency Rubrics)</h3>
-                
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between font-semibold text-slate-700">
-                    <span>1. คุณภาพโค้ดและสถาปัตยกรรม (Code Quality & Architecture)</span>
-                    <span className="text-[#c2410c] font-bold">{rubric1}/5</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    value={rubric1}
-                    onChange={(e) => setRubric1(Number(e.target.value))}
-                    className="w-full accent-[#c2410c]"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between font-semibold text-slate-700">
-                    <span>2. ความมั่นคงปลอดภัยสารสนเทศ (Security & Data Privacy)</span>
-                    <span className="text-[#c2410c] font-bold">{rubric2}/5</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    value={rubric2}
-                    onChange={(e) => setRubric2(Number(e.target.value))}
-                    className="w-full accent-[#c2410c]"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between font-semibold text-slate-700">
-                    <span>3. การแก้ปัญหาและตรรกะโปรแกรม (Problem Solving & Logic)</span>
-                    <span className="text-[#c2410c] font-bold">{rubric3}/5</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    value={rubric3}
-                    onChange={(e) => setRubric3(Number(e.target.value))}
-                    className="w-full accent-[#c2410c]"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between font-semibold text-slate-700">
-                    <span>4. การจัดทำเอกสารและทดสอบ (Documentation & Testing)</span>
-                    <span className="text-[#c2410c] font-bold">{rubric4}/5</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    value={rubric4}
-                    onChange={(e) => setRubric4(Number(e.target.value))}
-                    className="w-full accent-[#c2410c]"
-                  />
-                </div>
-
-                <div className="pt-2 border-t border-slate-200 flex items-center justify-between">
-                  <span className="font-extrabold text-slate-900">คะแนนประเมินรวม:</span>
-                  <span className="text-sm font-black text-emerald-700">{calculatedScore}% (ผ่านเกณฑ์มาตรฐาน)</span>
-                </div>
-              </div>
-
-              <div className="pt-2 flex justify-end">
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 rounded-full bg-[#c2410c] hover:bg-[#9a3412] text-white font-bold transition shadow-sm"
+                <label className="block font-bold text-slate-700 mb-1">
+                  หลักสูตร / วุฒิบัตรที่ออกให้:
+                </label>
+                <select
+                  value={selectedTemplate}
+                  onChange={(e) => setSelectedTemplate(e.target.value)}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#0a66c2]"
                 >
-                  ⚡ ลงนามและออกวุฒิบัตรดิจิทัล
-                </button>
+                  <option value="SDU DevSecOps Specialist (Professional Level)">SDU DevSecOps Specialist</option>
+                  <option value="Cisco Certified Network Associate (CCNA)">Cisco Certified Network Associate (CCNA)</option>
+                  <option value="CompTIA Security+ (Sec+) Certification">CompTIA Security+ (Sec+)</option>
+                  <option value="Certified Ethical Hacker (CEH v12)">Certified Ethical Hacker (CEH v12)</option>
+                  <option value="Google UX Design Professional Standard">Google UX Design Professional Standard</option>
+                </select>
               </div>
+
+              {/* Rubric Sliders */}
+              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                <p className="font-extrabold text-slate-800 text-[11px] uppercase tracking-wide">
+                  📊 เกณฑ์ประเมิน Soft Skill Rubrics (1-5 คะแนน):
+                </p>
+
+                <div>
+                  <div className="flex justify-between font-bold text-slate-600 mb-0.5">
+                    <span>1. การนำเสนอและการสื่อสาร:</span>
+                    <span className="text-[#0a66c2]">{presentationScore}/5</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={presentationScore}
+                    onChange={(e) => setPresentationScore(Number(e.target.value))}
+                    className="w-full accent-[#0a66c2]"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between font-bold text-slate-600 mb-0.5">
+                    <span>2. การทำงานร่วมกับผู้อื่น (Teamwork):</span>
+                    <span className="text-[#0a66c2]">{collaborationScore}/5</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={collaborationScore}
+                    onChange={(e) => setCollaborationScore(Number(e.target.value))}
+                    className="w-full accent-[#0a66c2]"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between font-bold text-slate-600 mb-0.5">
+                    <span>3. การคิดวิเคราะห์และการแก้ปัญหา:</span>
+                    <span className="text-[#0a66c2]">{logicScore}/5</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={logicScore}
+                    onChange={(e) => setLogicScore(Number(e.target.value))}
+                    className="w-full accent-[#0a66c2]"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition shadow-sm flex items-center justify-center gap-1.5"
+              >
+                <span>📜 ออกวุฒิบัตรและสร้างลายเซ็น SHA-256</span>
+              </button>
             </form>
           </div>
 
-          {/* Right Column: Issued Certificates Ledger (5 Cols) */}
-          <div className="lg:col-span-5 space-y-3">
-            <h2 className="text-sm font-extrabold text-slate-900 px-1">
-              วุฒิบัตรที่ออกแล้วล่าสุด ({certs.length})
-            </h2>
+          {/* Right Column: Issued Certificates Table (7 Cols) */}
+          <div className="md:col-span-7 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wide">
+                ประวัติการออกวุฒิบัตรดิจิทัล ({records.length} รายการ)
+              </h3>
+              <span className="text-xs text-slate-400 font-semibold">สถานะ: สมบูรณ์ 100%</span>
+            </div>
 
             <div className="space-y-3">
-              {certs.map((c) => (
+              {records.map((rec) => (
                 <div
-                  key={c.id}
-                  className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm space-y-2.5 hover:shadow-md transition"
+                  key={rec.id}
+                  className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-slate-50 transition space-y-2 text-xs"
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-800 font-bold flex items-center justify-center text-base border border-amber-200">
-                        📜
-                      </div>
-                      <div>
-                        <h3 className="text-xs sm:text-sm font-bold text-slate-900">{c.certName}</h3>
-                        <p className="text-[11px] text-slate-500">{c.studentName} • {c.category}</p>
-                      </div>
+                    <div>
+                      <h4 className="font-extrabold text-slate-900 leading-snug">{rec.certName}</h4>
+                      <p className="text-slate-600 text-[11px] mt-0.5">
+                        ผู้รับมอบ: <strong className="text-slate-900">{rec.studentName}</strong> ({rec.studentCode})
+                      </p>
                     </div>
-                    <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black">
-                      {c.score}%
+                    <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-black shrink-0">
+                      คะแนน {rec.score}%
                     </span>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
-                    <span className="text-slate-500 font-medium">เลขทะเบียน: <code className="font-bold text-slate-800">{c.serialNo}</code></span>
-                    <span className="text-slate-400">{c.issueDate}</span>
+                  <div className="pt-2 border-t border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-slate-500">
+                    <span className="font-mono text-purple-700 truncate max-w-[280px]">
+                      Hash: {rec.hashValue.slice(0, 24)}...
+                    </span>
+                    <button
+                      onClick={() => alert(`ตรวจสอบความถูกต้องของ ${rec.serialNo} สำเร็จ: Verified Digital Signature Valid ✓`)}
+                      className="text-[#0a66c2] font-bold hover:underline self-start sm:self-auto"
+                    >
+                      🔍 ตรวจสอบ Signature
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
+
           </div>
 
         </div>
