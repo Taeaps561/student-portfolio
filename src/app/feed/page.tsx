@@ -169,58 +169,77 @@ export default function LinkedInFeedPage() {
     setTimeout(() => setCopiedId(null), 2500);
   };
 
-  // Mock Realistic Feed Posts
+  // Mock Realistic Feed Posts for SDU Community
   const mockLinkedInPosts: PostItem[] = [
     {
       id: "post-1",
-      content: `Preparing for a SOC Analyst interview? Save this.
-Getting a SOC Analyst job is not just about memorizing cybersecurity definitions. You need to understand how a SOC analyst thinks, investigates alerts, analyzes logs, and responds to real security situations.
-
-I created this SOC Analyst Interview Notebook covering:
-✅ SIEM & Log Analysis fundamentals
-✅ Incident Response Lifecycle & MITRE ATT&CK
-✅ Phishing Investigation playbook
-✅ Verified Skill Credential #CyberSecurity`,
-      postType: "PROJECT_SHOWCASE",
-      tag: "CyberSecurity",
-      imageUrl: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1000&q=80",
-      createdAt: new Date(Date.now() - 3600000 * 24 * 5).toISOString(),
+      content: `🏛️ ประกาศรับรองทักษะ DevSecOps และ Digital Skill Passport สำหรับนักศึกษา มหาวิทยาลัยสวนดุสิต\n\nทางคณะเปิดให้นักศึกษาทุกชั้นปีส่งผลงานและสอบวัดระดับสมรรถนะดิจิทัลรอบใหม่ เพื่อรับวุฒิบัตรดิจิทัลพร้อมลายเซ็นเข้ารหัส SHA-256 สำหรับใช้สมัครฝึกงานสหกิจศึกษากับบริษัทพันธมิตรแล้วครับ 🚀\n\n📌 สามารถกดทำแบบทดสอบได้ที่แท็บ "ศูนย์สอบวัดระดับทักษะ" หรือจัดการใบรับรองได้ทันที`,
+      postType: "GENERAL",
+      tag: "DevSecOps",
+      imageUrl: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80",
+      createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
       author: {
-        id: "blue-teamers",
-        name: "BlueTeamers",
-        image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&q=80",
-        role: "STUDENT",
+        id: "teacher-somchai",
+        name: "ศ.ดร.สมชาย ใจดี (Faculty Advisor)",
+        image: "https://ui-avatars.com/api/?name=Somchai+Jaidee&background=002d62&color=fff",
+        role: "TEACHER",
       },
-      likes: [{ id: "l1", userId: "u1", type: "LIKE" }, { id: "l2", userId: "u2", type: "CELEBRATE" }],
+      likes: [{ id: "l1", userId: "u1", type: "LIKE" }, { id: "l2", userId: "u2", type: "CELEBRATE" }, { id: "l3", userId: "u3", type: "INSIGHTFUL" }],
       comments: [
         {
           id: "c1",
-          content: "Great resource! Very helpful for students preparing for SOC L1 interviews.",
-          createdAt: new Date().toISOString(),
+          content: "ขอบพระคุณอาจารย์ครับ เข้าไปทำแบบทดสอบและได้รับ Digital Certificate เรียบร้อยแล้วครับ!",
+          createdAt: new Date(Date.now() - 3600000).toISOString(),
           user: {
-            id: "u3",
-            name: "ศ.ดร.สมชาย ใจดี",
-            image: "https://ui-avatars.com/api/?name=Somchai+Jaidee",
+            id: "u1",
+            name: "นายอภิสิทธิ์ ศรีพัฒน์",
+            image: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
           },
         },
       ],
     },
     {
       id: "post-2",
-      content: `🎉 ยินดีด้วยกับนักศึกษาภาควิชาวิทยาการคอมพิวเตอร์ ที่ผ่านการทดสอบมาตรฐานทักษะ Next.js 15 & Cloud Security Architecture 100% พร้อมออกใบรับรอง Digital Certificate ประจำตัวเป็นที่เรียบร้อยครับ!
-
-ทางคณะขอชื่นชมในความมุ่งมั่นและพร้อมสนับสนุนสู่การทำงานจริงในองค์กรชั้นนำ 🚀`,
-      postType: "CERTIFICATE_EARNED",
-      tag: "Cloud",
-      createdAt: new Date(Date.now() - 3600000 * 8).toISOString(),
+      content: `💼 บมจ. เทคโนโลยีดีไลท์ (Delight Technology PCL.) เปิดรับสมัครนิสิต/นักศึกษาฝึกงานและตำแหน่ง Junior Full-stack Developer (Next.js / TypeScript / PostgreSQL)\n\nองค์กรเราเป็นพันธมิตรอย่างเป็นทางการกับ มหาวิทยาลัยสวนดุสิต โดยจะพิจารณานักศึกษาที่มีทักษะผ่านการรับรองจาก SkillPassport เป็นลำดับแรก!\n\n✨ สวัสดิการ: ค่าตอบแทนฝึกงาน, Hybrid Working, โอกาสบรรจุเป็นพนักงานประจำทันทีหลังสำเร็จการศึกษา\n📩 ส่งโปรไฟล์ผ่านระบบ SkillPassport ได้ที่แท็บ "งาน" ได้เลยครับ`,
+      postType: "HIRING",
+      tag: "NextJS",
+      imageUrl: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80",
+      createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
       author: {
-        id: "teacher-somchai",
-        name: "ศ.ดร.สมชาย ใจดี (Faculty Advisor)",
-        image: "https://ui-avatars.com/api/?name=Somchai+Jaidee&background=0a66c2&color=fff",
-        role: "TEACHER",
+        id: "employer-wichai",
+        name: "คุณวิชัย ปรีชา (บมจ. เทคโนโลยีดีไลท์)",
+        image: "https://ui-avatars.com/api/?name=Wichai+Preecha&background=059669&color=fff",
+        role: "EMPLOYER",
       },
-      likes: [{ id: "l4", userId: "u1", type: "CELEBRATE" }, { id: "l5", userId: "u5", type: "LIKE" }, { id: "l6", userId: "u6", type: "LOVE" }],
+      likes: [{ id: "l4", userId: "u1", type: "CELEBRATE" }, { id: "l5", userId: "u2", type: "LOVE" }],
       comments: [],
+    },
+    {
+      id: "post-3",
+      content: `🚀 ตื่นเต้นมากครับ! พัฒนาระบบ "Student Portfolio & Skill Passport" สำหรับวิชา DevSecOps สำเร็จไปอีกขั้น\n\nระบบนี้สร้างด้วย Next.js 15, Prisma ORM, NextAuth รองรับ Multi-Role RBAC และมีระบบ Digital Certificate Hashing ป้องกันการปลอมแปลงผลงาน\n\nขอขอบคุณอาจารย์และเพื่อนๆ ในกลุ่มที่ช่วยกันพัฒนาครับ 💻✨ #DevSecOps #NextJS #CyberSecurity`,
+      postType: "PROJECT_SHOWCASE",
+      tag: "CyberSecurity",
+      imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+      createdAt: new Date(Date.now() - 3600000 * 12).toISOString(),
+      author: {
+        id: "student-apisit",
+        name: "นายอภิสิทธิ์ ศรีพัฒน์",
+        image: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
+        role: "STUDENT",
+      },
+      likes: [{ id: "l6", userId: "u1", type: "LIKE" }, { id: "l7", userId: "u4", type: "CELEBRATE" }, { id: "l8", userId: "u5", type: "LOVE" }],
+      comments: [
+        {
+          id: "c2",
+          content: "ยอดเยี่ยมมากครับ สถาปัตยกรรมระบบปลอดภัยและถูกต้องตามหลัก DevSecOps",
+          createdAt: new Date(Date.now() - 3600000 * 10).toISOString(),
+          user: {
+            id: "u3",
+            name: "ศ.ดร.สมชาย ใจดี",
+            image: "https://ui-avatars.com/api/?name=Somchai+Jaidee&background=002d62&color=fff",
+          },
+        },
+      ],
     },
   ];
 
@@ -495,14 +514,22 @@ I created this SOC Analyst Interview Notebook covering:
                 <article key={post.id} id={post.id} className="linkedin-card bg-white overflow-hidden">
                   
                   {/* Context line */}
-                  <div className="px-4 pt-3 pb-1 border-b border-[#f3f2ef] flex items-center justify-between text-xs text-[#00000099]">
-                    <span className="flex items-center gap-1.5 truncate">
-                      <span className="text-sm">👤</span>
-                      <strong>Usha T</strong> ชอบสิ่งนี้
+                  <div className="px-4 pt-3 pb-1 border-b border-[#f3f2ef] flex items-center justify-between text-xs text-slate-500">
+                    <span className="flex items-center gap-1.5 truncate font-medium">
+                      {post.postType === "HIRING" ? (
+                        <>💼 <strong className="text-emerald-700 font-bold">โอกาสร่วมงานและสหกิจศึกษา</strong></>
+                      ) : post.postType === "PROJECT_SHOWCASE" ? (
+                        <>🚀 <strong className="text-[#0a66c2] font-bold">ผลงานและนวัตกรรมนักศึกษา</strong></>
+                      ) : post.postType === "CERTIFICATE_EARNED" ? (
+                        <>📜 <strong className="text-purple-700 font-bold">การรับรองสมรรถนะทักษะดิจิทัล</strong></>
+                      ) : (
+                        <>🏛️ <strong className="text-slate-700 font-bold">ข่าวสารและประกาศจากคณาจารย์ มสด.</strong></>
+                      )}
                     </span>
                     <div className="flex items-center gap-2">
-                      <button className="text-gray-400 hover:text-black font-bold text-sm">•••</button>
-                      <button className="text-gray-400 hover:text-black font-bold text-sm">✕</button>
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 font-bold text-slate-600">
+                        {post.tag ? `#${post.tag}` : "#SDU"}
+                      </span>
                     </div>
                   </div>
 
@@ -516,24 +543,32 @@ I created this SOC Analyst Interview Notebook covering:
                             `https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name || "User")}&background=0a66c2&color=fff`
                           }
                           alt={post.author.name || "Author"}
-                          className="w-12 h-12 rounded-full object-cover border border-gray-200"
+                          className="w-12 h-12 rounded-full object-cover border border-slate-200 ring-2 ring-slate-100"
                         />
                       </Link>
                       <div>
                         <Link
                           href={`/u/${post.author.id}`}
-                          className="text-sm font-bold text-black hover:underline hover:text-[#0a66c2] block"
+                          className="text-sm font-bold text-slate-900 hover:underline hover:text-[#0a66c2] block"
                         >
                           {post.author.name}
                         </Link>
-                        <p className="text-xs text-[#00000099] flex items-center gap-1 mt-0.5">
-                          <span>5 วัน • แก้ไขแล้ว •</span>
-                          <span title="สาธารณะ">🌐</span>
+                        <p className="text-[11px] text-slate-500 font-medium">
+                          {post.author.role === "TEACHER"
+                            ? "🏛️ อาจารย์ประจำภาควิชา • มหาวิทยาลัยสวนดุสิต"
+                            : post.author.role === "EMPLOYER"
+                            ? "🏢 ผู้ประกอบการพันธมิตรทางการ มสด."
+                            : "🎓 นักศึกษา • วิทยาการคอมพิวเตอร์ มสด."}
+                        </p>
+                        <p className="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5">
+                          <span>{new Date(post.createdAt).toLocaleDateString("th-TH", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+                          <span>•</span>
+                          <span title="สาธารณะ">🌐 สาธารณะ</span>
                         </p>
                       </div>
                     </div>
 
-                    <button className="text-[#0a66c2] hover:bg-[#ebf4fd] px-3 py-1 rounded-full text-xs font-bold transition flex items-center gap-1">
+                    <button className="text-[#0a66c2] hover:bg-[#ebf4fd] px-3 py-1 rounded-full text-xs font-bold transition flex items-center gap-1 shrink-0">
                       <span>+</span> ติดตาม
                     </button>
                   </div>
@@ -692,90 +727,97 @@ I created this SOC Analyst Interview Notebook covering:
 
         </main>
 
-        {/* ================= RIGHT COLUMN (LinkedIn News & Puzzles - Approx 300px) ================= */}
+        {/* ================= RIGHT COLUMN (SDU News & Trending Skills - Approx 300px) ================= */}
         <aside className="hidden lg:block lg:col-span-3 space-y-2.5">
           
-          {/* ข่าวสาร LinkedIn */}
+          {/* ข่าวสารและประกาศ มสด. */}
           <div className="linkedin-card p-4 bg-white space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-bold text-black">ข่าวสาร LinkedIn</h3>
-              <span className="text-gray-400 cursor-pointer text-sm" title="ข้อมูลข่าวสาร">ℹ️</span>
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+                <span>📰</span> ข่าวสารและประกาศ มสด.
+              </h3>
+              <span className="text-gray-400 cursor-pointer text-xs" title="ข่าวสาร">ℹ️</span>
             </div>
 
-            <p className="text-xs font-semibold text-[#00000099]">เรื่องราวยอดนิยม</p>
+            <p className="text-[11px] font-bold text-[#0a66c2]">เรื่องราวยอดนิยมในแคมปัส</p>
 
             <ul className="space-y-3 text-xs">
               {[
-                { title: "FDA warns of salmonella, E. coli outbre...", time: "6 ชม. ที่แล้ว", readers: "4,892 คน" },
-                { title: "Apple downsizes Siri, Vision Pro and ...", time: "6 ชม. ที่แล้ว", readers: "4,032 คน" },
-                { title: "TikTok agrees to $400M settlement in ...", time: "9 ชม. ที่แล้ว", readers: "1,932 คน" },
-                { title: "Starcloud raises another $250M for dat...", time: "6 ชม. ที่แล้ว", readers: "1,876 คน" },
-                { title: "Disney signs deal with content creator ...", time: "6 ชม. ที่แล้ว", readers: "1,697 คน" },
+                { title: "มสด. ขยายความร่วมมือสหกิจศึกษากับ 30+ องค์กรไอทีชั้นนำ", time: "2 ชม. ที่แล้ว", readers: "1,420 คน" },
+                { title: "เปิดรับสมัครโครงการ SDU Cyber Defense & DevSecOps Workshop", time: "5 ชม. ที่แล้ว", readers: "980 คน" },
+                { title: "บมจ. เทคโนโลยีดีไลท์ เปิดรับฝึกงานผ่านระบบ SkillPassport", time: "1 วันที่แล้ว", readers: "2,150 คน" },
+                { title: "กำหนดการสอบวัดระดับสมรรถนะทักษะดิจิทัลกลาง ประจำปี 2026", time: "2 วันที่แล้ว", readers: "3,420 คน" },
+                { title: "ขอแสดงความยินดีกับทีมชนะเลิศการแข่งขัน SDU Hackathon", time: "3 วันที่แล้ว", readers: "1,890 คน" },
               ].map((news, idx) => (
-                <li key={idx} className="group cursor-pointer">
-                  <p className="font-bold text-black group-hover:text-[#0a66c2] group-hover:underline truncate leading-snug">
+                <li key={idx} className="group cursor-pointer border-b border-slate-100 pb-2 last:border-0 last:pb-0">
+                  <p className="font-bold text-slate-900 group-hover:text-[#0a66c2] group-hover:underline truncate leading-snug">
                     {news.title}
                   </p>
-                  <p className="text-[11px] text-[#00000099] mt-0.5">
+                  <p className="text-[11px] text-slate-500 mt-0.5">
                     {news.time} • ผู้อ่าน {news.readers}
                   </p>
                 </li>
               ))}
             </ul>
 
-            <button className="text-xs font-bold text-[#00000099] hover:text-black flex items-center gap-1 pt-1">
-              แสดงข่าวสารเพิ่มเติม ▾
-            </button>
+            <Link href="/explore" className="text-xs font-bold text-[#0a66c2] hover:underline block pt-1">
+              สำรวจเครือข่าย มสด. ทั้งหมด ▾
+            </Link>
           </div>
 
-          {/* ปริศนาของวันนี้ */}
+          {/* ทักษะและเทรนด์ยอดนิยม */}
           <div className="linkedin-card p-4 bg-white space-y-3">
-            <h3 className="text-base font-bold text-black">ปริศนาของวันนี้</h3>
+            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+              <span>⚡</span> ทักษะยอดนิยมในระบบ (Trending)
+            </h3>
 
-            <div className="space-y-2.5 text-xs">
+            <div className="space-y-2 text-xs">
               {[
-                { icon: "🟧", name: "Zip #523", desc: "ทำเส้นทางให้เสร็จสมบูรณ์" },
-                { icon: "🟦", name: "Patches #158", desc: "ประติดประต่อเข้าด้วยกัน" },
-                { icon: "🟩", name: "Mini Sudoku #376", desc: "วางเลขตำแหน่งที่ถูกต้อง" },
-                { icon: "🟨", name: "Tango #684", desc: "ประคองตาชั่ง" },
-              ].map((game, idx) => (
+                { icon: "🛡️", name: "#DevSecOps", desc: "รับรองแล้ว 48 คน", color: "bg-blue-50 text-blue-700" },
+                { icon: "⚡", name: "#NextJS", desc: "รับรองแล้ว 64 คน", color: "bg-emerald-50 text-emerald-700" },
+                { icon: "🔒", name: "#CyberSecurity", desc: "รับรองแล้ว 35 คน", color: "bg-amber-50 text-amber-700" },
+                { icon: "🗄️", name: "#PrismaORM", desc: "รับรองแล้ว 42 คน", color: "bg-purple-50 text-purple-700" },
+                { icon: "📘", name: "#TypeScript", desc: "รับรองแล้ว 56 คน", color: "bg-sky-50 text-sky-700" },
+              ].map((skill, idx) => (
                 <div
                   key={idx}
-                  className="flex items-center justify-between p-1.5 rounded hover:bg-[#f3f2ef] cursor-pointer transition"
+                  className="flex items-center justify-between p-2 rounded-xl hover:bg-[#f3f2ef] cursor-pointer transition border border-slate-100"
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-base">{game.icon}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{skill.icon}</span>
                     <div>
-                      <p className="font-bold text-black">{game.name}</p>
-                      <p className="text-[11px] text-[#00000099]">{game.desc}</p>
+                      <p className="font-bold text-slate-900">{skill.name}</p>
+                      <p className="text-[10px] text-slate-500">{skill.desc}</p>
                     </div>
                   </div>
-                  <span className="text-gray-400 font-bold">›</span>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${skill.color}`}>
+                    HOT
+                  </span>
                 </div>
               ))}
             </div>
 
-            <button className="text-xs font-bold text-[#00000099] hover:text-black flex items-center gap-1 pt-1">
-              แสดงเพิ่มเติม ▾
-            </button>
+            <Link href="/skills" className="text-xs font-bold text-[#0a66c2] hover:underline block pt-1 text-center">
+              ศูนย์สอบวัดระดับทักษะ ↗
+            </Link>
           </div>
 
-          {/* LinkedIn Footer Links */}
-          <footer className="px-2 text-[11px] text-[#00000099] space-y-2 text-center">
+          {/* SDU Footer Links */}
+          <footer className="px-2 text-[11px] text-slate-500 space-y-2 text-center">
             <div className="flex flex-wrap justify-center gap-x-3 gap-y-1">
-              <Link href="/about" className="hover:text-[#0a66c2] hover:underline">เกี่ยวกับ</Link>
-              <Link href="/about" className="hover:text-[#0a66c2] hover:underline">การเข้าถึง</Link>
-              <Link href="/about" className="hover:text-[#0a66c2] hover:underline">ศูนย์ช่วยเหลือ</Link>
-              <Link href="/settings" className="hover:text-[#0a66c2] hover:underline">ความเป็นส่วนตัวและข้อกำหนด ▾</Link>
-              <Link href="/employer" className="hover:text-[#0a66c2] hover:underline">บริการสำหรับธุรกิจ</Link>
+              <Link href="/about" className="hover:text-[#0a66c2] hover:underline">เกี่ยวกับระบบ</Link>
+              <Link href="/explore" className="hover:text-[#0a66c2] hover:underline">ค้นหาบุคคล</Link>
+              <Link href="/certificates" className="hover:text-[#0a66c2] hover:underline">วุฒิบัตร</Link>
+              <Link href="/settings" className="hover:text-[#0a66c2] hover:underline">ความเป็นส่วนตัว</Link>
+              <Link href="/employer" className="hover:text-[#0a66c2] hover:underline">สำหรับนายจ้าง</Link>
             </div>
-            <p className="pt-1 flex items-center justify-center gap-1.5 text-gray-500">
+            <p className="pt-1 flex items-center justify-center gap-1.5 text-slate-600">
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_of_Suan_Dusit_University.svg?utm_source=th.wikipedia.org&utm_campaign=index&utm_content=original"
                 alt="SDU"
                 className="w-4 h-4 object-contain"
               />
-              <span className="font-semibold text-gray-700">มหาวิทยาลัยสวนดุสิต © 2026</span>
+              <span className="font-semibold text-slate-700">มหาวิทยาลัยสวนดุสิต © 2026</span>
             </p>
           </footer>
 
