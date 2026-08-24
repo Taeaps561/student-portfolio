@@ -509,8 +509,8 @@ export default function LinkedInFeedPage() {
         {/* ================= CENTER COLUMN (Feed & Posts - Approx 555px) ================= */}
         <main className="md:col-span-8 lg:col-span-6 space-y-3">
           
-          {/* 1. Prompt Banner (Only when logged in) */}
-          {isLoggedIn && showJobPrompt && (
+          {/* 1. Prompt Banner (Only for STUDENT role) */}
+          {isLoggedIn && session?.user?.role === "STUDENT" && showJobPrompt && (
             <div className="linkedin-card p-4 relative text-center bg-white shadow-sm border border-slate-200">
               <button
                 onClick={() => setShowJobPrompt(false)}
