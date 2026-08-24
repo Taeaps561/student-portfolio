@@ -185,13 +185,8 @@ export async function GET(req: NextRequest) {
     const dbStudents = await prisma.user.findMany({
       where: {
         role: "STUDENT",
-        email: { not: "admin@email.com" }, // Filter out test admin artifacts
       },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        image: true,
+      include: {
         portfolio: {
           include: {
             skills: true,
@@ -206,43 +201,55 @@ export async function GET(req: NextRequest) {
     // Merge database students with curated student advisees
     const mergedMap = new Map<string, any>();
 
-    // Put curated students first
-    CURATED_STUDENTS.forEach((cs) => {
-      mergedMap.set(cs.name, cs);
+    // 1. Put all DB students first (including newly registered ones!)
+    dbStudents.forEach((dbs, idx) => {
+      const studentName = dbs.name || (dbs.email ? dbs.email.split("@")[0] : `Student ${idx + 1}`);
+      const portfolioObj = dbs.portfolio || {
+        id: `port-${dbs.id}`,
+        bio: "นักศึกษาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยสวนดุสิต",
+        skills: [],
+        projects: [],
+        certificates: [],
+      };
+
+      mergedMap.set(dbs.id, {
+        id: dbs.id,
+        name: studentName,
+        email: dbs.email,
+        image: dbs.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(studentName)}&background=0a66c2&color=fff`,
+        studentCode: "661101" + (1000 + idx).toString(),
+        major: "วิทยาการคอมพิวเตอร์",
+        year: "ชั้นปีที่ 4",
+        gpa: "3.65",
+        projectStatus: "IN_PROGRESS",
+        internshipStatus: "OFFERED",
+        portfolio: portfolioObj,
+      });
     });
 
-    // Overlay real DB students if they have updated skills
-    dbStudents.forEach((dbs) => {
-      if (dbs.name && dbs.name !== "admin_test") {
-        if (mergedMap.has(dbs.name)) {
-          const existing = mergedMap.get(dbs.name);
-          mergedMap.set(dbs.name, {
-            ...existing,
-            id: dbs.id,
-            email: dbs.email,
-            image: dbs.image || existing.image,
-            portfolio: {
-              ...existing.portfolio,
-              skills: dbs.portfolio?.skills?.length ? dbs.portfolio.skills : existing.portfolio.skills,
-              projects: dbs.portfolio?.projects?.length ? dbs.portfolio.projects : existing.portfolio.projects,
-              certificates: dbs.portfolio?.certificates?.length ? dbs.portfolio.certificates : existing.portfolio.certificates,
-            },
-          });
-        } else {
-          mergedMap.set(dbs.name, {
-            id: dbs.id,
-            name: dbs.name,
-            email: dbs.email,
-            image: dbs.image,
-            studentCode: "661101" + Math.floor(1000 + Math.random() * 9000),
-            major: "วิทยาการคอมพิวเตอร์",
-            year: "ชั้นปีที่ 4",
-            gpa: "3.50",
-            projectStatus: "IN_PROGRESS",
-            internshipStatus: "LOOKING",
-            portfolio: dbs.portfolio,
-          });
-        }
+    // 2. Overlay curated students so the showcase dataset is always complete
+    CURATED_STUDENTS.forEach((cs) => {
+      // If a DB student already matches by name or email, enrich it
+      const existingKey = Array.from(mergedMap.keys()).find(
+        (k) => mergedMap.get(k).name === cs.name || mergedMap.get(k).email === cs.email
+      );
+
+      if (existingKey) {
+        const existing = mergedMap.get(existingKey);
+        mergedMap.set(existingKey, {
+          ...cs,
+          id: existing.id,
+          email: existing.email,
+          image: existing.image || cs.image,
+          portfolio: {
+            ...cs.portfolio,
+            skills: existing.portfolio?.skills?.length ? existing.portfolio.skills : cs.portfolio.skills,
+            projects: existing.portfolio?.projects?.length ? existing.portfolio.projects : cs.portfolio.projects,
+            certificates: existing.portfolio?.certificates?.length ? existing.portfolio.certificates : cs.portfolio.certificates,
+          },
+        });
+      } else {
+        mergedMap.set(cs.id, cs);
       }
     });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -19,73 +19,48 @@ interface Advisee {
   lastMeeting: string;
 }
 
-const ADVISEES_DATA: Advisee[] = [
-  {
-    id: "adv-1",
-    studentId: "mock-test",
-    name: "นักศึกษา ทดสอบ",
-    studentCode: "6611011099",
-    major: "วิทยาการคอมพิวเตอร์",
-    year: "ชั้นปีที่ 4",
-    avatar: "https://ui-avatars.com/api/?name=Student+Test&background=0a66c2&color=fff",
-    verifiedSkillsCount: 4,
-    projectStatus: "IN_PROGRESS",
-    internshipStatus: "OFFERED",
-    gpa: "3.75",
-    lastMeeting: "22 ส.ค. 2569",
-  },
-  {
-    id: "adv-2",
-    studentId: "mock-somchai",
-    name: "สมชาย ยอดนักโค้ด",
-    studentCode: "6611011001",
-    major: "วิทยาการคอมพิวเตอร์",
-    year: "ชั้นปีที่ 4",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
-    verifiedSkillsCount: 4,
-    projectStatus: "COMPLETED",
-    internshipStatus: "OFFERED",
-    gpa: "3.85",
-    lastMeeting: "19 ส.ค. 2569",
-  },
-  {
-    id: "adv-3",
-    studentId: "mock-saifah",
-    name: "สายฟ้า แฮกเกอร์",
-    studentCode: "6611011045",
-    major: "วิทยาการคอมพิวเตอร์",
-    year: "ชั้นปีที่ 4",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
-    verifiedSkillsCount: 3,
-    projectStatus: "IN_PROGRESS",
-    internshipStatus: "CONFIRMED",
-    gpa: "3.60",
-    lastMeeting: "15 ส.ค. 2569",
-  },
-  {
-    id: "adv-4",
-    studentId: "mock-jane",
-    name: "เจนจิรา ดีไซเนอร์",
-    studentCode: "6611011088",
-    major: "วิทยาการคอมพิวเตอร์",
-    year: "ชั้นปีที่ 3",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
-    verifiedSkillsCount: 3,
-    projectStatus: "IN_PROGRESS",
-    internshipStatus: "LOOKING",
-    gpa: "3.90",
-    lastMeeting: "12 ส.ค. 2569",
-  },
-];
-
 export default function TeacherAdviseesPage() {
   const { data: session } = useSession();
 
-  const [advisees, setAdvisees] = useState<Advisee[]>(ADVISEES_DATA);
+  const [advisees, setAdvisees] = useState<Advisee[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filterYear, setFilterYear] = useState("ALL");
   const [noteStudent, setNoteStudent] = useState<Advisee | null>(null);
   const [noteText, setNoteText] = useState("");
   const [toastMessage, setToastMessage] = useState("");
+
+  const fetchAdvisees = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/teacher/students");
+      const data = await res.json();
+      if (data.students && data.students.length > 0) {
+        const mapped: Advisee[] = data.students.map((s: any, idx: number) => ({
+          id: s.id,
+          studentId: s.id,
+          name: s.name,
+          studentCode: s.studentCode || `661101${1000 + idx}`,
+          major: s.major || "วิทยาการคอมพิวเตอร์",
+          year: s.year || "ชั้นปีที่ 4",
+          avatar: s.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=0a66c2&color=fff`,
+          verifiedSkillsCount: s.portfolio?.skills?.filter((sk: any) => sk.isVerified)?.length || 0,
+          projectStatus: s.projectStatus || "IN_PROGRESS",
+          internshipStatus: s.internshipStatus || "OFFERED",
+          gpa: s.gpa || "3.65",
+          lastMeeting: "24 ส.ค. 2569",
+        }));
+        setAdvisees(mapped);
+      }
+    } catch (err) {
+      console.error("Failed to fetch advisees", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAdvisees();
+  }, []);
 
   const handleSaveNote = (e: React.FormEvent) => {
     e.preventDefault();

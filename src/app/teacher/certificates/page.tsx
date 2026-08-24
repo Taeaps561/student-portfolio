@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -66,6 +66,7 @@ const INITIAL_RECORDS: CertificateRecord[] = [
 export default function TeacherCertificatesPage() {
   const { data: session } = useSession();
 
+  const [studentOptions, setStudentOptions] = useState<{ name: string; studentCode: string }[]>([]);
   const [records, setRecords] = useState<CertificateRecord[]>(INITIAL_RECORDS);
   const [selectedStudent, setSelectedStudent] = useState("นักศึกษา ทดสอบ (6611011099)");
   const [selectedTemplate, setSelectedTemplate] = useState("วุฒิบัตรรับรองสมรรถนะ DevSecOps มหาวิทยาลัยสวนดุสิต (SDU DevSecOps Practitioner)");
@@ -74,6 +75,28 @@ export default function TeacherCertificatesPage() {
   const [logicScore, setLogicScore] = useState(4);
   const [toastMessage, setToastMessage] = useState("");
   const [issuedSuccess, setIssuedSuccess] = useState(false);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const res = await fetch("/api/teacher/students");
+        const data = await res.json();
+        if (data.students && data.students.length > 0) {
+          const opts = data.students.map((s: any, idx: number) => ({
+            name: s.name,
+            studentCode: s.studentCode || `661101${1000 + idx}`,
+          }));
+          setStudentOptions(opts);
+          if (opts.length > 0) {
+            setSelectedStudent(`${opts[0].name} (${opts[0].studentCode})`);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load students for certificates", err);
+      }
+    };
+    fetchStudents();
+  }, []);
 
   const handleIssueCertificate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,10 +180,15 @@ export default function TeacherCertificatesPage() {
                   onChange={(e) => setSelectedStudent(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#0a66c2]"
                 >
-                  <option value="นักศึกษา ทดสอบ (6611011099)">นักศึกษา ทดสอบ (6611011099) • ชั้นปีที่ 4</option>
-                  <option value="สมชาย ยอดนักโค้ด (6611011001)">สมชาย ยอดนักโค้ด (6611011001) • ชั้นปีที่ 4</option>
-                  <option value="สายฟ้า แฮกเกอร์ (6611011045)">สายฟ้า แฮกเกอร์ (6611011045) • ชั้นปีที่ 4</option>
-                  <option value="เจนจิรา ดีไซเนอร์ (6611011088)">เจนจิรา ดีไซเนอร์ (6611011088) • ชั้นปีที่ 3</option>
+                  {studentOptions.length > 0 ? (
+                    studentOptions.map((st, idx) => (
+                      <option key={idx} value={`${st.name} (${st.studentCode})`}>
+                        {st.name} ({st.studentCode})
+                      </option>
+                    ))
+                  ) : (
+                    <option value="นักศึกษา ทดสอบ (6611011099)">นักศึกษา ทดสอบ (6611011099) • ชั้นปีที่ 4</option>
+                  )}
                 </select>
               </div>
 
