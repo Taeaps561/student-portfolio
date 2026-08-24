@@ -135,9 +135,15 @@ const mockProfilesDirectory: Record<string, any> = {
   },
 };
 
+import { redirect } from "next/navigation";
+
 export default async function LinkedInProfilePage({ params }: PageProps) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect(`/login?callbackUrl=/u/${id}`);
+  }
 
   // 1. Check real user in database
   const user = await prisma.user.findUnique({
