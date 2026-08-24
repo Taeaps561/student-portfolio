@@ -21,7 +21,7 @@ const INITIAL_RECORDS: CertificateRecord[] = [
     id: "cert-1",
     studentName: "นักศึกษา ทดสอบ",
     studentCode: "6611011099",
-    certName: "SDU DevSecOps Specialist (Professional Level)",
+    certName: "วุฒิบัตรรับรองสมรรถนะ DevSecOps มหาวิทยาลัยสวนดุสิต (SDU DevSecOps Practitioner)",
     category: "Security & Cloud Architecture",
     issueDate: "24/08/2026",
     serialNo: "SDU-CERT-DEVSECOPS-2026",
@@ -32,7 +32,7 @@ const INITIAL_RECORDS: CertificateRecord[] = [
     id: "cert-2",
     studentName: "สมชาย ยอดนักโค้ด",
     studentCode: "6611011001",
-    certName: "Certified Full-Stack Web Developer (Next.js & TypeScript)",
+    certName: "วุฒิบัตรการพัฒนาเว็บแอปพลิเคชันขั้นสูง (SDU Advanced Web Engineering)",
     category: "Full-Stack Development",
     issueDate: "20/08/2026",
     serialNo: "SDU-CS-2026-0891",
@@ -43,7 +43,7 @@ const INITIAL_RECORDS: CertificateRecord[] = [
     id: "cert-3",
     studentName: "สายฟ้า แฮกเกอร์",
     studentCode: "6611011045",
-    certName: "Certified Ethical Security Practitioner (SOC Tier 1)",
+    certName: "วุฒิบัตรความปลอดภัยสารสนเทศและโครงข่าย มสด. (SDU Cyber Defense Practicum)",
     category: "Cybersecurity & SOC Analysis",
     issueDate: "18/08/2026",
     serialNo: "SDU-CS-2026-0844",
@@ -54,7 +54,7 @@ const INITIAL_RECORDS: CertificateRecord[] = [
     id: "cert-4",
     studentName: "เจนจิรา ดีไซเนอร์",
     studentCode: "6611011088",
-    certName: "Certified UI/UX Professional (Design Systems & Figma)",
+    certName: "วุฒิบัตรการออกแบบประสบการณ์ผู้ใช้และระบบดิจิทัล (SDU UI/UX & Design Systems)",
     category: "UI/UX & Product Design",
     issueDate: "15/08/2026",
     serialNo: "SDU-CS-2026-0782",
@@ -68,7 +68,7 @@ export default function TeacherCertificatesPage() {
 
   const [records, setRecords] = useState<CertificateRecord[]>(INITIAL_RECORDS);
   const [selectedStudent, setSelectedStudent] = useState("นักศึกษา ทดสอบ (6611011099)");
-  const [selectedTemplate, setSelectedTemplate] = useState("Cisco Certified Network Associate (CCNA)");
+  const [selectedTemplate, setSelectedTemplate] = useState("วุฒิบัตรรับรองสมรรถนะ DevSecOps มหาวิทยาลัยสวนดุสิต (SDU DevSecOps Practitioner)");
   const [presentationScore, setPresentationScore] = useState(5);
   const [collaborationScore, setCollaborationScore] = useState(5);
   const [logicScore, setLogicScore] = useState(4);
@@ -166,18 +166,18 @@ export default function TeacherCertificatesPage() {
 
               <div>
                 <label className="block font-bold text-slate-700 mb-1">
-                  หลักสูตร / วุฒิบัตรที่ออกให้:
+                  หลักสูตร / วุฒิบัตรรับรองสมรรถนะ มสด. ที่ออกให้:
                 </label>
                 <select
                   value={selectedTemplate}
                   onChange={(e) => setSelectedTemplate(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-[#0a66c2]"
                 >
-                  <option value="SDU DevSecOps Specialist (Professional Level)">SDU DevSecOps Specialist</option>
-                  <option value="Cisco Certified Network Associate (CCNA)">Cisco Certified Network Associate (CCNA)</option>
-                  <option value="CompTIA Security+ (Sec+) Certification">CompTIA Security+ (Sec+)</option>
-                  <option value="Certified Ethical Hacker (CEH v12)">Certified Ethical Hacker (CEH v12)</option>
-                  <option value="Google UX Design Professional Standard">Google UX Design Professional Standard</option>
+                  <option value="วุฒิบัตรรับรองสมรรถนะ DevSecOps มหาวิทยาลัยสวนดุสิต (SDU DevSecOps Practitioner)">วุฒิบัตรรับรองสมรรถนะ DevSecOps มสด. (SDU DevSecOps Practitioner)</option>
+                  <option value="วุฒิบัตรการพัฒนาเว็บแอปพลิเคชันขั้นสูง (SDU Advanced Web Engineering)">วุฒิบัตรการพัฒนาเว็บแอปพลิเคชันขั้นสูง (SDU Advanced Web Engineering)</option>
+                  <option value="วุฒิบัตรความปลอดภัยสารสนเทศและโครงข่าย มสด. (SDU Cyber Defense Practicum)">วุฒิบัตรความปลอดภัยสารสนเทศและโครงข่าย มสด. (SDU Cyber Defense Practicum)</option>
+                  <option value="วุฒิบัตรการออกแบบประสบการณ์ผู้ใช้และระบบดิจิทัล (SDU UI/UX & Design Systems)">วุฒิบัตรการออกแบบ UI/UX และระบบดิจิทัล (SDU UI/UX & Design Systems)</option>
+                  <option value="วุฒิบัตรความเป็นเลิศโครงงานนวัตกรรมคอมพิวเตอร์ (SDU Capstone Project Excellence)">วุฒิบัตรความเป็นเลิศโครงงานนวัตกรรมคอมพิวเตอร์ (SDU Capstone Project Excellence)</option>
                 </select>
               </div>
 
