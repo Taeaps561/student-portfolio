@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -125,7 +125,7 @@ const INITIAL_CANDIDATES: Candidate[] = [
     certs: ["CCNA", "CompTIA Security+", "CEH", "SDU DevSecOps Specialist"],
     verifiedSkills: ["Next.js (ระดับ 5)", "React (ระดับ 4)", "DevSecOps (ระดับ 5)", "TypeScript (ระดับ 4)"],
     avatar: "https://ui-avatars.com/api/?name=Student+Test&background=0a66c2&color=fff",
-    appliedJob: "Junior Full-Stack Web Developer",
+    appliedJob: "Junior Full-Stack Web Developer (Next.js & TypeScript)",
     status: "INTERVIEW_SCHEDULED",
   },
   {
@@ -137,7 +137,7 @@ const INITIAL_CANDIDATES: Candidate[] = [
     certs: ["Google UX Design Professional", "Figma Advanced Specialist"],
     verifiedSkills: ["Figma (ระดับ 5)", "UI/UX (ระดับ 5)", "Design Systems (ระดับ 4)"],
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
-    appliedJob: "UI/UX & Product Designer",
+    appliedJob: "UI/UX & Product Designer (Entry-Level)",
     status: "REVIEWING",
   },
   {
@@ -156,10 +156,9 @@ const INITIAL_CANDIDATES: Candidate[] = [
 
 export default function EmployerPage() {
   const { data: session } = useSession();
-  const isEmployer = session?.user?.role === "EMPLOYER";
 
   const [activeTab, setActiveTab] = useState<"JOBS" | "CANDIDATES" | "POST_JOB">("JOBS");
-  const [candidates, setCandidates] = useState<Candidate[]>(INITIAL_CANDIDATES);
+  const [candidates] = useState<Candidate[]>(INITIAL_CANDIDATES);
   const [jobs, setJobs] = useState<JobOpening[]>(SAMPLE_JOBS);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSkill, setFilterSkill] = useState("ALL");
@@ -227,38 +226,38 @@ export default function EmployerPage() {
       <div className="max-w-[1128px] mx-auto space-y-4">
         
         {/* ========================================================================= */}
-        {/* 🏢 RECRUITER HEADER BANNER                                                */}
+        {/* 🏢 CLEAN & READABLE RECRUITER HEADER BANNER                              */}
         {/* ========================================================================= */}
-        <div className="bg-gradient-to-r from-[#002d62] via-[#0a66c2] to-[#047857] rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5">
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[11px] font-extrabold uppercase tracking-wide">
-                🏢 Recruiter & Talent Acquisition Hub
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-full bg-blue-100 text-[#0a66c2] text-xs font-extrabold flex items-center gap-1">
+                🏢 แดชบอร์ดผู้ประกอบการ (Recruiter Hub)
               </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-400/20 text-emerald-200 text-[11px] font-bold">
-                ✓ พันธมิตรทางการ มสด.
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold flex items-center gap-1">
+                ✓ องค์กรพันธมิตร มสด.
               </span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-black tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
               ศูนย์สรรหาและคัดเลือกนักศึกษา (SDU Talent Hub)
             </h1>
-            <p className="text-xs text-blue-100 max-w-2xl">
-              ค้นหา คัดกรอง และเชิญสัมภาษณ์นักศึกษา มหาวิทยาลัยสวนดุสิต ที่ผ่านการรับรองทักษะดิจิทัลและใบประกาศนียบัตรสากล (Verified SkillPassport)
+            <p className="text-xs text-slate-600">
+              องค์กร: <strong className="text-slate-900">{session?.user?.name || "บมจ. เทคโนโลยีดีไลท์"}</strong> • จัดการประกาศรับสมัครงานและคัดเลือกนักศึกษาที่ผ่านการรับรองทักษะดิจิทัล
             </p>
           </div>
 
-          {/* Quick Actions */}
+          {/* Action Buttons */}
           <div className="flex items-center gap-2.5 shrink-0">
             <button
               onClick={() => setActiveTab("POST_JOB")}
-              className="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5"
+              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5"
             >
               <span>➕</span>
               <span>ประกาศรับสมัครงาน</span>
             </button>
             <Link
               href="/messaging"
-              className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition backdrop-blur-md flex items-center gap-1.5 border border-white/20"
+              className="px-4 py-2.5 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5"
             >
               <span>💬</span>
               <span>กล่องข้อความผู้สมัคร</span>
@@ -267,9 +266,46 @@ export default function EmployerPage() {
         </div>
 
         {/* ========================================================================= */}
+        {/* 📊 SUMMARY METRIC CARDS                                                   */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex items-center justify-between">
+            <div>
+              <p className="text-xs text-slate-500 font-semibold">ตำแหน่งงานที่เปิดรับ</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5">{jobs.length} ตำแหน่ง</p>
+            </div>
+            <span className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg">
+              📋
+            </span>
+          </div>
+
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex items-center justify-between">
+            <div>
+              <p className="text-xs text-slate-500 font-semibold">ผู้สมัครทั้งหมด</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5">
+                {jobs.reduce((acc, curr) => acc + curr.applicantsCount, 0)} คน
+              </p>
+            </div>
+            <span className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
+              👥
+            </span>
+          </div>
+
+          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex items-center justify-between">
+            <div>
+              <p className="text-xs text-slate-500 font-semibold">Talent แนะนำที่ตรงเกณฑ์</p>
+              <p className="text-xl font-extrabold text-slate-900 mt-0.5">{candidates.length} คน (Verified 90%+)</p>
+            </div>
+            <span className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg">
+              🎯
+            </span>
+          </div>
+        </div>
+
+        {/* ========================================================================= */}
         {/* 🎛️ PORTAL NAVIGATION TABS                                                 */}
         {/* ========================================================================= */}
-        <div className="bg-white rounded-xl p-2 border border-slate-200 shadow-xs flex items-center justify-between flex-wrap gap-2">
+        <div className="bg-white rounded-xl p-2 border border-slate-200 shadow-2xs flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab("JOBS")}
@@ -280,7 +316,7 @@ export default function EmployerPage() {
               }`}
             >
               <span>📋</span>
-              <span>ตำแหน่งงานที่เปิดรับ ({jobs.length} ตำแหน่ง)</span>
+              <span>ตำแหน่งงานที่เปิดรับ ({jobs.length})</span>
             </button>
 
             <button
@@ -292,7 +328,7 @@ export default function EmployerPage() {
               }`}
             >
               <span>🎯</span>
-              <span>ค้นหา & จับคู่ Talent อัจฉริยะ ({candidates.length} คน)</span>
+              <span>ค้นหา & จับคู่ Talent อัจฉริยะ ({candidates.length})</span>
             </button>
 
             <button
@@ -307,19 +343,141 @@ export default function EmployerPage() {
               <span>สร้างประกาศใหม่</span>
             </button>
           </div>
-
-          <div className="text-[11px] text-slate-500 font-semibold px-2">
-            บัญชีองค์กร: <strong className="text-slate-900">{session?.user?.name || "บมจ. เทคโนโลยีดีไลท์"}</strong>
-          </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* TAB 1: 🎯 TALENT MATCHING & CANDIDATE SEARCH                               */}
+        {/* TAB 1: 📋 JOB POSTINGS (DEFAULT FRONT VIEW)                               */}
+        {/* ========================================================================= */}
+        {activeTab === "JOBS" && (
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 animate-in fade-in">
+            
+            {/* Left 5 Cols: Job List */}
+            <div className="md:col-span-5 space-y-3">
+              <div className="flex items-center justify-between px-1">
+                <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wide">
+                  รายการตำแหน่งที่เปิดรับ ({jobs.length})
+                </h3>
+                <button
+                  onClick={() => setActiveTab("POST_JOB")}
+                  className="text-xs text-[#0a66c2] font-bold hover:underline"
+                >
+                  + เพิ่มตำแหน่งงาน
+                </button>
+              </div>
+
+              {jobs.map((job) => {
+                const isSelected = selectedJob.id === job.id;
+                return (
+                  <div
+                    key={job.id}
+                    onClick={() => setSelectedJob(job)}
+                    className={`p-4 rounded-2xl bg-white border transition cursor-pointer shadow-xs ${
+                      isSelected
+                        ? "border-[#0a66c2] ring-2 ring-blue-100 bg-blue-50/20"
+                        : "border-slate-200 hover:border-slate-300"
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h4 className="text-sm font-bold text-slate-900 leading-snug">
+                          {job.title}
+                        </h4>
+                        <p className="text-xs text-slate-500 mt-0.5">{job.company}</p>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full bg-blue-100 text-blue-700 text-[11px] font-bold shrink-0">
+                        {job.applicantsCount} ผู้สมัคร
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-xs text-slate-500 mt-3 pt-2 border-t border-slate-100">
+                      <span>📍 {job.location}</span>
+                      <span>•</span>
+                      <span className="text-emerald-700 font-bold">{job.salary}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right 7 Cols: Selected Job Details & Actions */}
+            <div className="md:col-span-7 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-5">
+              <div className="border-b border-slate-100 pb-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h2 className="text-lg font-extrabold text-slate-900">
+                      {selectedJob.title}
+                    </h2>
+                    <p className="text-xs text-slate-600 mt-1">
+                      {selectedJob.company} • {selectedJob.location} ({selectedJob.workplace})
+                    </p>
+                  </div>
+                  <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold shrink-0">
+                    🟢 กำลังเปิดรับสมัคร
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-4 text-xs text-slate-600 mt-3.5 bg-slate-50 p-3 rounded-xl">
+                  <span>💰 ค่าตอบแทน: <strong className="text-slate-900">{selectedJob.salary}</strong></span>
+                  <span>👥 ผู้สมัคร: <strong className="text-blue-600">{selectedJob.applicantsCount} คน</strong></span>
+                </div>
+              </div>
+
+              {/* Job Requirements */}
+              <div className="space-y-2.5 text-xs">
+                <h4 className="font-bold text-slate-900 text-sm">รายละเอียดและคุณสมบัติ:</h4>
+                <p className="text-slate-600 leading-relaxed whitespace-pre-line">{selectedJob.description}</p>
+                <div className="pt-2">
+                  <p className="font-bold text-slate-900 mb-1">คุณสมบัติที่ต้องการ:</p>
+                  <ul className="list-disc pl-4 space-y-1 text-slate-600">
+                    {selectedJob.requirements.map((req, idx) => (
+                      <li key={idx}>{req}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Skills Tag */}
+              <div>
+                <p className="text-xs font-bold text-slate-900 mb-2">ทักษะที่เกี่ยวข้อง:</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedJob.skills.map((sk, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2.5 py-1 rounded-lg bg-blue-50 text-[#0a66c2] text-xs font-bold border border-blue-100"
+                    >
+                      ✓ {sk}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons for Employer */}
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                <button
+                  onClick={() => setActiveTab("CANDIDATES")}
+                  className="px-4 py-2.5 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
+                >
+                  <span>👥 ดูรายชื่อผู้สมัครและคัดเลือก ({selectedJob.applicantsCount} คน)</span>
+                </button>
+                <button
+                  onClick={() => alert("ระบบเปิดให้แก้ไขข้อมูลประกาศ")}
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition"
+                >
+                  ✏️ แก้ไขข้อมูลประกาศ
+                </button>
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* TAB 2: 🎯 TALENT MATCHING & CANDIDATES                                    */}
         {/* ========================================================================= */}
         {activeTab === "CANDIDATES" && (
           <div className="space-y-4 animate-in fade-in">
             {/* Search & Skill Filter Bar */}
-            <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-xs space-y-3">
+            <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-2xs space-y-3">
               <div className="flex flex-col sm:flex-row items-center gap-3">
                 <div className="relative flex-1 w-full">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -361,7 +519,7 @@ export default function EmployerPage() {
               {filteredCandidates.map((cand) => (
                 <div
                   key={cand.id}
-                  className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-4"
+                  className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4"
                 >
                   <div className="space-y-3">
                     {/* Header with Avatar & Match Score */}
@@ -452,113 +610,7 @@ export default function EmployerPage() {
         )}
 
         {/* ========================================================================= */}
-        {/* TAB 2: 📋 MY JOB POSTINGS & APPLICANTS LIST                               */}
-        {/* ========================================================================= */}
-        {activeTab === "JOBS" && (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 animate-in fade-in">
-            {/* Left 5 Cols: Job List */}
-            <div className="md:col-span-5 space-y-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xs font-extrabold text-slate-900 uppercase tracking-wide">
-                  ตำแหน่งที่เปิดรับสมัคร ({jobs.length})
-                </h3>
-                <button
-                  onClick={() => setActiveTab("POST_JOB")}
-                  className="text-xs text-[#0a66c2] font-bold hover:underline"
-                >
-                  + เพิ่มตำแหน่งงาน
-                </button>
-              </div>
-
-              {jobs.map((job) => {
-                const isSelected = selectedJob.id === job.id;
-                return (
-                  <div
-                    key={job.id}
-                    onClick={() => setSelectedJob(job)}
-                    className={`p-4 rounded-2xl bg-white border transition cursor-pointer shadow-xs ${
-                      isSelected
-                        ? "border-[#0a66c2] ring-2 ring-blue-100"
-                        : "border-slate-200 hover:border-slate-300"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <div>
-                        <h4 className="text-xs font-bold text-slate-900 leading-snug">
-                          {job.title}
-                        </h4>
-                        <p className="text-[11px] text-slate-500 mt-0.5">{job.company}</p>
-                      </div>
-                      <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black shrink-0">
-                        {job.applicantsCount} ผู้สมัคร
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-[10px] text-slate-500 mt-2">
-                      <span>📍 {job.location}</span>
-                      <span>•</span>
-                      <span className="text-emerald-700 font-bold">{job.salary}</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Right 7 Cols: Selected Job Details & Applicants */}
-            <div className="md:col-span-7 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
-              <div className="border-b border-slate-100 pb-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h2 className="text-base font-extrabold text-slate-900">
-                      {selectedJob.title}
-                    </h2>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      {selectedJob.company} • {selectedJob.location} ({selectedJob.workplace})
-                    </p>
-                  </div>
-                  <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold shrink-0">
-                    🟢 กำลังเปิดรับสมัคร
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-4 text-xs text-slate-500 mt-3">
-                  <span>💰 ค่าตอบแทน: <strong className="text-slate-800">{selectedJob.salary}</strong></span>
-                  <span>👥 จำนวนผู้สมัคร: <strong className="text-blue-600">{selectedJob.applicantsCount} คน</strong></span>
-                </div>
-              </div>
-
-              {/* Job Requirements */}
-              <div className="space-y-2 text-xs">
-                <h4 className="font-bold text-slate-900">รายละเอียดและคุณสมบัติ:</h4>
-                <p className="text-slate-600 leading-relaxed whitespace-pre-line">{selectedJob.description}</p>
-                <ul className="list-disc pl-4 space-y-1 text-slate-600 pt-1">
-                  {selectedJob.requirements.map((req, idx) => (
-                    <li key={idx}>{req}</li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Action Buttons for Employer */}
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                <button
-                  onClick={() => setActiveTab("CANDIDATES")}
-                  className="px-4 py-2 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white text-xs font-bold transition flex items-center gap-1.5 shadow-sm"
-                >
-                  <span>👥 ดูรายชื่อผู้สมัครและคัดเลือก</span>
-                </button>
-                <button
-                  onClick={() => alert("แก้ไขประกาศงานเรียบร้อย")}
-                  className="px-4 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition"
-                >
-                  ✏️ แก้ไขข้อมูลประกาศ
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* TAB 3: ➕ POST A NEW JOB / INTERNSHIP FORM                                */}
+        {/* TAB 3: ➕ POST A NEW JOB FORM                                             */}
         {/* ========================================================================= */}
         {activeTab === "POST_JOB" && (
           <div className="max-w-2xl mx-auto bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5 animate-in fade-in">
@@ -652,7 +704,7 @@ export default function EmployerPage() {
               <div className="pt-2 flex items-center justify-end gap-2">
                 <button
                   type="button"
-                  onClick={() => setActiveTab("CANDIDATES")}
+                  onClick={() => setActiveTab("JOBS")}
                   className="px-4 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition"
                 >
                   ยกเลิก
