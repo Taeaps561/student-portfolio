@@ -39,24 +39,38 @@ const mockProfilesDirectory: Record<string, any> = {
     certificates: [
       {
         id: "c1",
-        name: "Cisco Certified Network Associate (CCNA 200-301)",
-        issuer: "Cisco Systems",
-        issueDate: new Date("2026-03-15"),
-        hashValue: "0xa1b2c3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e",
+        name: "SDU DevSecOps & Cloud Security Specialist",
+        issuer: "Suan Dusit University (มหาวิทยาลัยสวนดุสิต)",
+        issueDate: new Date("2026-03-01"),
+        hashValue: "cert_hash_cb141722c6d4c725dab0936bfa98e7fd",
       },
       {
         id: "c2",
-        name: "CompTIA Security+ (SY0-701)",
-        issuer: "CompTIA",
-        issueDate: new Date("2026-05-20"),
-        hashValue: "0xb2c3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+        name: "CEH (Certified Ethical Hacker)",
+        issuer: "EC-Council",
+        issueDate: new Date("2026-02-15"),
+        hashValue: "cert_hash_3d1ea4debddda0abb2dfeaa8f235cd6",
       },
       {
         id: "c3",
-        name: "วุฒิบัตรรับรองสมรรถนะ DevSecOps มหาวิทยาลัยสวนดุสิต (SDU DevSecOps Practitioner)",
-        issuer: "มหาวิทยาลัยสวนดุสิต",
-        issueDate: new Date("2026-08-24"),
-        hashValue: "0xc3d4e5f60718293a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a",
+        name: "CompTIA Security+ (Sec+)",
+        issuer: "CompTIA",
+        issueDate: new Date("2026-01-10"),
+        hashValue: "cert_hash_4e7e7b27dcc336a2975134e785ec059",
+      },
+      {
+        id: "c4",
+        name: "CCNA (Cisco Certified Network Associate)",
+        issuer: "Cisco Systems",
+        issueDate: new Date("2025-11-20"),
+        hashValue: "cert_hash_3cf0b8fec9c31159178398bebc7ee85f",
+      },
+      {
+        id: "c5",
+        name: "React Developer",
+        issuer: "Meta",
+        issueDate: new Date("2025-01-15"),
+        hashValue: "hash-react-cert-12345",
       },
     ],
   },
@@ -217,14 +231,14 @@ export default async function LinkedInProfilePage({ params }: PageProps) {
   }
 
   // 1. Check real user in database
-  const user = await prisma.user.findUnique({
+  let user = await prisma.user.findUnique({
     where: { id },
     include: {
       portfolio: {
         include: {
           skills: true,
           projects: true,
-          certificates: true,
+          certificates: { orderBy: { issueDate: "desc" } },
         },
       },
       posts: {
@@ -237,6 +251,27 @@ export default async function LinkedInProfilePage({ params }: PageProps) {
       },
     },
   });
+
+  // If id is "mock-test", also resolve to test@example.com from database so certificates are 100% synced
+  if (!user && id === "mock-test") {
+    user = await prisma.user.findUnique({
+      where: { email: "test@example.com" },
+      include: {
+        portfolio: {
+          include: {
+            skills: true,
+            projects: true,
+            certificates: { orderBy: { issueDate: "desc" } },
+          },
+        },
+        posts: {
+          include: { likes: true, comments: true },
+          orderBy: { createdAt: "desc" },
+          take: 3,
+        },
+      },
+    });
+  }
 
   // 2. Check if it's one of our mock profile IDs
   const mockData = mockProfilesDirectory[id];
