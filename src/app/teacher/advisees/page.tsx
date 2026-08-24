@@ -127,43 +127,6 @@ export default function TeacherAdviseesPage() {
         </div>
 
         {/* ========================================================================= */}
-        {/* 🎛️ 3-PAGE NAVIGATION LINKS                                                */}
-        {/* ========================================================================= */}
-        <div className="bg-white rounded-xl p-2 border border-slate-200 shadow-2xs flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-2">
-            <Link
-              href="/teacher"
-              className="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-50 text-slate-700 hover:bg-slate-100"
-            >
-              <span>🏛️</span>
-              <span>1. ตรวจรับรองทักษะนักศึกษา</span>
-            </Link>
-
-            <Link
-              href="/teacher/certificates"
-              className="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-slate-50 text-slate-700 hover:bg-slate-100"
-            >
-              <span>📜</span>
-              <span>2. ออกวุฒิบัตรและประเมิน Rubrics</span>
-            </Link>
-
-            <Link
-              href="/teacher/advisees"
-              className="px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-[#0a66c2] text-white shadow-xs"
-            >
-              <span>👥</span>
-              <span>3. ติดตามนักศึกษาในที่ปรึกษา ({advisees.length} คน) (หน้าปัจจุบัน)</span>
-            </Link>
-          </div>
-
-          {toastMessage && (
-            <div className="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200 animate-in fade-in">
-              {toastMessage}
-            </div>
-          )}
-        </div>
-
-        {/* ========================================================================= */}
         {/* 📊 SUMMARY METRICS                                                        */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
