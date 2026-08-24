@@ -140,14 +140,14 @@ const STUDENT_CONVERSATIONS: Conversation[] = [
 const TEACHER_CONVERSATIONS: Conversation[] = [
   {
     id: "conv-teach-1",
-    name: "นายอภิสิทธิ์ ศรีพัฒน์",
+    name: "นักศึกษา ทดสอบ",
     role: "นักศึกษาชั้นปีที่ 3 • วิทยาการคอมพิวเตอร์ (นักศึกษาในที่ปรึกษา)",
-    avatar: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
+    avatar: "https://ui-avatars.com/api/?name=Student+Test&background=0a66c2&color=fff",
     isOnline: true,
     unreadCount: 1,
     lastMessage: "อาจารย์ครับ ผมอัปเดตสถาปัตยกรรม NextAuth และ DevSecOps ใน GitHub แล้วครับ รบกวนอาจารย์ช่วยตรวจรับรองด้วยครับ",
     lastTime: "15:10",
-    autoReply: "รับทราบครับอภิสิทธิ์ อาจารย์จะเข้าไปตรวจสอบโค้ดและออก Digital Certificate ให้ในระบบครับ",
+    autoReply: "รับทราบครับ อาจารย์จะเข้าไปตรวจสอบโค้ดและออก Digital Certificate ให้ในระบบครับ",
     messages: [
       {
         id: "tm1",
@@ -231,19 +231,19 @@ const TEACHER_CONVERSATIONS: Conversation[] = [
 const EMPLOYER_CONVERSATIONS: Conversation[] = [
   {
     id: "conv-emp-1",
-    name: "นายอภิสิทธิ์ ศรีพัฒน์",
+    name: "นักศึกษา ทดสอบ",
     role: "ผู้สมัครตำแหน่ง Full-Stack Developer • นักศึกษา มสด. (Verified Score: 95%)",
-    avatar: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
+    avatar: "https://ui-avatars.com/api/?name=Student+Test&background=0a66c2&color=fff",
     isOnline: true,
     unreadCount: 1,
     lastMessage: "สวัสดีครับคุณวิชัย ผมสะดวกเข้าสัมภาษณ์รอบ Technical Interview วันพฤหัสบดีนี้ เวลา 10:00 น. ครับ",
     lastTime: "14:10",
-    autoReply: "ยอดเยี่ยมครับอภิสิทธิ์ ทางฝ่ายบุคคลได้ลงตารางนัดหมายและส่งบัตรเชิญ Google Meet ให้ทางอีเมลแล้วครับ",
+    autoReply: "ยอดเยี่ยมครับ ทางฝ่ายบุคคลได้ลงตารางนัดหมายและส่งบัตรเชิญ Google Meet ให้ทางอีเมลแล้วครับ",
     messages: [
       {
         id: "em1",
         sender: "me",
-        text: "สวัสดีครับคุณอภิสิทธิ์ ทาง บมจ. เทคโนโลยีดีไลท์ ประทับใจผลงานและทักษะ DevSecOps ของคุณมากครับ",
+        text: "สวัสดีครับคุณนักศึกษา ทาง บมจ. เทคโนโลยีดีไลท์ ประทับใจผลงานและทักษะ DevSecOps ของคุณมากครับ",
         timestamp: "13:30",
       },
       {

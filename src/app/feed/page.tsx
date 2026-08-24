@@ -192,8 +192,8 @@ export default function LinkedInFeedPage() {
           createdAt: new Date(Date.now() - 3600000).toISOString(),
           user: {
             id: "u1",
-            name: "นายอภิสิทธิ์ ศรีพัฒน์",
-            image: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
+            name: "นักศึกษา ทดสอบ",
+            image: "https://ui-avatars.com/api/?name=Student+Test&background=0a66c2&color=fff",
           },
         },
       ],
@@ -222,9 +222,9 @@ export default function LinkedInFeedPage() {
       imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
       createdAt: new Date(Date.now() - 3600000 * 12).toISOString(),
       author: {
-        id: "student-apisit",
-        name: "นายอภิสิทธิ์ ศรีพัฒน์",
-        image: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
+        id: "student-test",
+        name: "นักศึกษา ทดสอบ",
+        image: "https://ui-avatars.com/api/?name=Student+Test&background=0a66c2&color=fff",
         role: "STUDENT",
       },
       likes: [{ id: "l6", userId: "u1", type: "LIKE" }, { id: "l7", userId: "u4", type: "CELEBRATE" }, { id: "l8", userId: "u5", type: "LOVE" }],

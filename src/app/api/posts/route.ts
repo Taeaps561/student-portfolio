@@ -98,10 +98,10 @@ export async function GET(request: Request) {
       if (!student) {
         student = await prisma.user.create({
           data: {
-            name: "นายอภิสิทธิ์ ศรีพัฒน์",
+            name: "นักศึกษา ทดสอบ",
             email: "test@example.com",
             role: "STUDENT",
-            image: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
+            image: "https://ui-avatars.com/api/?name=Student+Test&background=0a66c2&color=fff",
           }
         });
       }
