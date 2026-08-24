@@ -211,8 +211,12 @@ export default function EmployerPage() {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
-    } else if (status === "authenticated" && session?.user?.role !== "EMPLOYER") {
-      router.push("/feed");
+    } else if (status === "authenticated") {
+      if (session?.user?.role !== "EMPLOYER") {
+        router.push("/feed");
+      } else {
+        router.replace("/employer/jobs");
+      }
     }
   }, [status, session, router]);
 

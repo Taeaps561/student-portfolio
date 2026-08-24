@@ -48,7 +48,7 @@ export default function Navbar() {
   // Role-Specific Navigation items
   if (session?.user?.role === "EMPLOYER") {
     mainNavItems.push({
-      href: "/employer",
+      href: "/employer/jobs",
       label: "สรรหาบุคลากร",
       icon: (active: boolean) => (
         <svg className="w-5 h-5" fill={active ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24">
