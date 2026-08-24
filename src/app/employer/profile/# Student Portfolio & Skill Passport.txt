@@ -1,0 +1,55 @@
+# Student Portfolio & Skill Passport
+
+[มหาวิทยาลัยสวนดุสิตSuan Dusit University](http://localhost:3000/feed)
+[บุคคล](http://localhost:3000/explore)
+[งาน](http://localhost:3000/employer)
+[เข้าร่วมตอนนี้](http://localhost:3000/login)
+[เข้าสู่ระบบ](http://localhost:3000/login)
+[สำรวจบุคคลอื่น](http://localhost:3000/explore)
+[แก้ไขโปรไฟล์](http://localhost:3000/portfolio)
+
+# สมชาย ยอดนักโค้ด
+Full-Stack Developer | Next.js, TypeScript & Cloud Architecture
+[ข้อมูลติดต่อ](http://localhost:3000/about)
+
+## เกี่ยวกับ (About)
+นักพัฒนา Full-stack ภาควิชาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยสวนดุสิต เชี่ยวชาญ Next.js, TypeScript และ Node.js มุ่งมั่นสร้างสรรค์ซอฟต์แวร์ที่มีประสิทธิภาพ ปลอดภัย และตอบโจทย์ผู้ใช้งานจริง
+
+## ทักษะที่ผ่านการรับรอง (Verified Skills)
+ระดับความชำนาญ: ระดับ 5/5 • ตรวจสอบความถูกต้องสมบูรณ์แล้ว
+ระดับความชำนาญ: ระดับ 5/5 • ตรวจสอบความถูกต้องสมบูรณ์แล้ว
+ระดับความชำนาญ: ระดับ 4/5 • ตรวจสอบความถูกต้องสมบูรณ์แล้ว
+ระดับความชำนาญ: ระดับ 4/5 • ตรวจสอบความถูกต้องสมบูรณ์แล้ว
+
+## ผลงานเด่น (Featured Projects)
+
+### Suan Dusit SkillPassport & Portfolio Platform
+ระบบโครงข่ายทักษะดิจิทัลสไตล์ LinkedIn สำหรับนักศึกษาและบุคลากรมหาวิทยาลัยสวนดุสิต
+[GitHub ↗](https://github.com)
+
+### Enterprise Inventory & Analytics WebApp
+ระบบบริหารจัดการคลังสินค้าแบบเรียลไทม์ พร้อมแดชบอร์ดสรุปสถิติ
+[GitHub ↗](https://github.com)
+
+## ใบอนุญาตและใบรับรอง (Licenses & Certifications)
+
+### Certified Full-Stack Web Developer
+มหาวิทยาลัยสวนดุสิต & SkillPassport
+ออกเมื่อ: 22/8/2569 • ไม่มีวันหมดอายุ
+
+### ภาษาในโปรไฟล์
+ไทย (ค่าเริ่มต้น) • อังกฤษ
+
+### โปรไฟล์สาธารณะและ URL
+http://localhost:3000/u/mock-somchai
+
+### ผู้คนที่คุณอาจรู้จัก
+[ศ.ดร.สมชาย ใจดีอาจารย์ที่ปรึกษา](http://localhost:3000/u/mock-teacher)
+ศ.ดร.สมชาย ใจดี
+อาจารย์ที่ปรึกษา
+[สายฟ้า แฮกเกอร์Cybersecurity Analyst](http://localhost:3000/u/mock-saifah)
+สายฟ้า แฮกเกอร์
+Cybersecurity Analyst
+[เจนจิรา ดีไซเนอร์UI/UX Designer](http://localhost:3000/u/mock-jane)
+เจนจิรา ดีไซเนอร์
+UI/UX Designer

@@ -70,21 +70,9 @@ export async function POST(req: NextRequest) {
       }
     });
 
-    // Log to Blockchain Ledger for Immutable security
-    try {
-      const { addBlock } = require("@/lib/blockchain");
-      addBlock(
-        skill.portfolio.user.name || "นักศึกษา",
-        "TEACHER_VERIFIED",
-        `แฟ้มสะสมงานทักษะ ${skill.name} ได้คะแนนเฉลี่ยรูบริคส์ ${scorePercent}% (ระดับ ${calculatedLevel}) ยืนยันโดยอาจารย์ ${session.user.name}`
-      );
-    } catch (bcErr) {
-      console.error("Blockchain log fail during grading:", bcErr);
-    }
-
     return NextResponse.json({
       success: true,
-      message: "บันทึกคะแนนและยื่นเรื่องการประเมินทักษะเข้า Blockchain Ledger สำเร็จ",
+      message: "บันทึกคะแนนและยื่นเรื่องการประเมินทักษะสำเร็จ",
       skill: updatedSkill
     });
   } catch (error: any) {

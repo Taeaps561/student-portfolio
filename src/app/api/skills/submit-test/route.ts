@@ -361,20 +361,6 @@ export async function POST(req: NextRequest) {
         }
       });
 
-      if (passed) {
-        try {
-          const { addBlock } = require("@/lib/blockchain");
-          const studentName = session.user.name || "นักศึกษา ทดสอบ";
-          addBlock(
-            studentName,
-            "SKILL_VERIFIED",
-            `แล็บเขียนโค้ดทักษะ ${updatedSkill.name} (ระดับ ${calculatedLevel}, คะแนนยูนิตเทสต์ ${reqScore}%)`
-          );
-        } catch (bcErr) {
-          console.error("Failed to write blockchain ledger:", bcErr);
-        }
-      }
-
       return NextResponse.json({
         success: true,
         score: reqScore,
@@ -412,20 +398,6 @@ export async function POST(req: NextRequest) {
         isVerified: passed ? true : undefined // Only set verified to true if passed, don't change if failed.
       }
     });
-
-    if (passed) {
-      try {
-        const { addBlock } = require("@/lib/blockchain");
-        const studentName = session.user.name || "นักศึกษา ทดสอบ";
-        addBlock(
-          studentName,
-          "SKILL_VERIFIED",
-          `ทักษะ ${updatedSkill.name} (ระดับ ${calculatedLevel}, คะแนนสอบ ${scorePercent}%)`
-        );
-      } catch (bcErr) {
-        console.error("Failed to write blockchain ledger:", bcErr);
-      }
-    }
 
     return NextResponse.json({
       success: true,

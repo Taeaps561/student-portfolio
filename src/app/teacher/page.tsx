@@ -80,7 +80,7 @@ export default function TeacherDashboardPage() {
       });
 
       if (res.ok) {
-        alert("บันทึกเกรดประเมินทักษะสำเร็จ และบันทึกประวัติลงบล็อกเชน Ledger เรียบร้อย!");
+        alert("บันทึกเกรดประเมินทักษะสำเร็จเรียบร้อย!");
         setActiveArtifactSkill(null);
         await fetchStudents();
       } else {

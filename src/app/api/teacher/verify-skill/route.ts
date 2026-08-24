@@ -38,19 +38,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    if (updatedSkill.isVerified) {
-      try {
-        const { addBlock } = require("@/lib/blockchain");
-        addBlock(
-          updatedSkill.portfolio.user.name || "นักศึกษา",
-          "TEACHER_VERIFIED",
-          `ทักษะ ${updatedSkill.name} (ระดับ ${updatedSkill.level}) ได้รับการยืนยันผลประเมินโดยอาจารย์ ${session.user.name}`
-        );
-      } catch (bcErr) {
-        console.error("Failed to write blockchain ledger:", bcErr);
-      }
-    }
-
     return NextResponse.json({ success: true, skill: updatedSkill });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
