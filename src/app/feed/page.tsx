@@ -378,9 +378,11 @@ export default function LinkedInFeedPage() {
       
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[100] bg-[#002d62] text-white px-5 py-3 rounded-2xl text-xs font-extrabold shadow-2xl border border-blue-400/30 flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-3 whitespace-nowrap">
-          <span className="text-base">✨</span>
-          <span className="text-white font-bold tracking-wide">{toastMessage}</span>
+        <div className="fixed bottom-6 right-6 z-[100] bg-white border-2 border-[#0a66c2] text-slate-900 px-5 py-3 rounded-2xl text-xs font-black shadow-2xl flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-3 whitespace-nowrap">
+          <span className="text-base">🔗</span>
+          <span className="font-extrabold text-slate-900" style={{ color: "#0f172a" }}>
+            {toastMessage}
+          </span>
         </div>
       )}
 
