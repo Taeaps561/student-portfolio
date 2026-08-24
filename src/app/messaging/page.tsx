@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
@@ -21,11 +21,16 @@ interface Conversation {
   lastMessage: string;
   lastTime: string;
   messages: Message[];
+  autoReply?: string;
 }
 
-const INITIAL_CONVERSATIONS: Conversation[] = [
+// =========================================================================
+// 💬 ROLE-BASED CONVERSATION DATA
+// =========================================================================
+
+const STUDENT_CONVERSATIONS: Conversation[] = [
   {
-    id: "conv-1",
+    id: "conv-stud-1",
     name: "ศ.ดร.สมชาย ใจดี",
     role: "อาจารย์ประจำหลักสูตรวิทยาการคอมพิวเตอร์ • Faculty Advisor",
     avatar: "https://ui-avatars.com/api/?name=Somchai+Jaidee&background=002d62&color=fff",
@@ -33,6 +38,7 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     unreadCount: 1,
     lastMessage: "อาจารย์ตรวจและรับรองทักษะ Cloud Architecture ให้เรียบร้อยแล้วนะครับ ผลงานดีเยี่ยมมาก!",
     lastTime: "14:32",
+    autoReply: "ยินดีด้วยครับอาจารย์เห็นความตั้งใจ หากมีโปรเจกต์ใหม่สามารถส่งมาให้ตรวจรับรองเพิ่มเติมได้เสมอครับ",
     messages: [
       {
         id: "m1",
@@ -55,19 +61,20 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     ],
   },
   {
-    id: "conv-2",
+    id: "conv-stud-2",
     name: "คุณวิชัย ปรีชา (บมจ. เทคโนโลยีดีไลท์)",
-    role: "HR & Tech Talent Acquisition",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
+    role: "HR & Tech Talent Acquisition • พันธมิตรทางการ มสด.",
+    avatar: "https://ui-avatars.com/api/?name=Wichai+Preecha&background=059669&color=fff",
     isOnline: true,
     unreadCount: 2,
     lastMessage: "ทางบริษัทสนใจผลงานของคุณ ต้องการเชิญสัมภาษณ์ตำแหน่ง Full-Stack Developer ครับ",
     lastTime: "11:45",
+    autoReply: "ขอบคุณที่ตอบกลับครับ ทางทีม Tech Lead จะส่งลิงก์ห้องสัมภาษณ์ออนไลน์ให้ทางอีเมลอีกครั้งนะครับ",
     messages: [
       {
         id: "m4",
         sender: "them",
-        text: "สวัสดีครับคุณนักศึกษา จาก บมจ. เทคโนโลยีดีไลท์ นะครับ",
+        text: "สวัสดีครับคุณนักศึกษา จาก บมจ. เทคโนโลยีดีไลท์ นะครับ เราเห็นผลงานของคุณใน SkillPassport",
         timestamp: "11:40",
       },
       {
@@ -79,14 +86,15 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
     ],
   },
   {
-    id: "conv-3",
+    id: "conv-stud-3",
     name: "สมชาย ยอดนักโค้ด",
     role: "นักศึกษา Full-Stack Developer มสด.",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
     isOnline: false,
     unreadCount: 0,
-    lastMessage: "สัปดาห์หน้าไปแข่ง Hackathon ด้วยกันไหมครับ เดี๋ยวรวมทีมกัน",
+    lastMessage: "สัปดาห์หน้าไปแข่ง SDU Hackathon ด้วยกันไหมครับ เดี๋ยวรวมทีมกัน",
     lastTime: "เมื่อวาน",
+    autoReply: "โอเคเลยเพื่อน เดี๋ยวเย็นนี้เจอกันที่ห้องแล็บคอมพิวเตอร์นะ!",
     messages: [
       {
         id: "m6",
@@ -103,25 +111,208 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
       {
         id: "m8",
         sender: "them",
-        text: "สัปดาห์หน้าไปแข่ง Hackathon ด้วยกันไหมครับ เดี๋ยวรวมทีมกัน",
+        text: "สัปดาห์หน้าไปแข่ง SDU Hackathon ด้วยกันไหมครับ เดี๋ยวรวมทีมกัน",
         timestamp: "เมื่อวาน 16:20",
       },
     ],
   },
   {
-    id: "conv-4",
+    id: "conv-stud-4",
     name: "เจนจิรา ดีไซเนอร์",
     role: "นักศึกษา UI/UX & Design Systems มสด.",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
     isOnline: false,
     unreadCount: 0,
-    lastMessage: "ส่งไฟล์ Figma Template สำหรับพอร์ตโฟลิโอให้แล้วนะคะ",
+    lastMessage: "ส่งไฟล์ Figma Design System สำหรับหน้าพอร์ตโฟลิโอให้แล้วนะคะ",
     lastTime: "3 วันที่แล้ว",
+    autoReply: "ขอบคุณมากจ้า มีอะไรให้ช่วยปรับแต่งดีไซน์บอกได้ตลอดเลยนะ",
     messages: [
       {
         id: "m9",
         sender: "them",
-        text: "ส่งไฟล์ Figma Template สำหรับพอร์ตโฟลิโอให้แล้วนะคะ ลองเปิดดูได้เลย",
+        text: "ส่งไฟล์ Figma Design System สำหรับหน้าพอร์ตโฟลิโอให้แล้วนะคะ ลองเปิดดูได้เลย",
+        timestamp: "3 วันที่แล้ว",
+      },
+    ],
+  },
+];
+
+const TEACHER_CONVERSATIONS: Conversation[] = [
+  {
+    id: "conv-teach-1",
+    name: "นายอภิสิทธิ์ ศรีพัฒน์",
+    role: "นักศึกษาชั้นปีที่ 3 • วิทยาการคอมพิวเตอร์ (นักศึกษาในที่ปรึกษา)",
+    avatar: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
+    isOnline: true,
+    unreadCount: 1,
+    lastMessage: "อาจารย์ครับ ผมอัปเดตสถาปัตยกรรม NextAuth และ DevSecOps ใน GitHub แล้วครับ รบกวนอาจารย์ช่วยตรวจรับรองด้วยครับ",
+    lastTime: "15:10",
+    autoReply: "รับทราบครับอภิสิทธิ์ อาจารย์จะเข้าไปตรวจสอบโค้ดและออก Digital Certificate ให้ในระบบครับ",
+    messages: [
+      {
+        id: "tm1",
+        sender: "them",
+        text: "กราบเรียนอาจารย์สมชายครับ ผมได้ส่งเอกสารโครงงานระบบ SkillPassport ในระบบเรียบร้อยแล้วครับ",
+        timestamp: "14:50",
+      },
+      {
+        id: "tm2",
+        sender: "me",
+        text: "อาจารย์ตรวจดูเบื้องต้นแล้ว การออกแบบฐานข้อมูลและระบบ RBAC ทำได้รัดกุมดีมากครับ",
+        timestamp: "15:02",
+      },
+      {
+        id: "tm3",
+        sender: "them",
+        text: "อาจารย์ครับ ผมอัปเดตสถาปัตยกรรม NextAuth และ DevSecOps ใน GitHub แล้วครับ รบกวนอาจารย์ช่วยตรวจรับรองด้วยครับ",
+        timestamp: "15:10",
+      },
+    ],
+  },
+  {
+    id: "conv-teach-2",
+    name: "นางสาวณิชาภา สุขใจ",
+    role: "นักศึกษาชั้นปีที่ 4 • สหกิจศึกษา บมจ. เทคโนโลยีดีไลท์",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80",
+    isOnline: true,
+    unreadCount: 0,
+    lastMessage: "อาจารย์คะ ส่งรายงานความก้าวหน้าโครงการสหกิจศึกษาประจำสัปดาห์ที่ 8 ให้แล้วค่ะ",
+    lastTime: "11:20",
+    autoReply: "อาจารย์ได้รับรายงานแล้วครับ ขอให้น้องณิชาภาตั้งใจฝึกงานต่อไปนะครับ",
+    messages: [
+      {
+        id: "tm4",
+        sender: "them",
+        text: "สวัสดีค่ะอาจารย์ ส่งรายงานความก้าวหน้าโครงการสหกิจศึกษาประจำสัปดาห์ที่ 8 ให้แล้วค่ะ",
+        timestamp: "11:20",
+      },
+    ],
+  },
+  {
+    id: "conv-teach-3",
+    name: "คุณวิชัย ปรีชา (บมจ. เทคโนโลยีดีไลท์)",
+    role: "ผู้จัดการฝ่ายบุคคลและเทคโนโลยี • Delight Technology PCL.",
+    avatar: "https://ui-avatars.com/api/?name=Wichai+Preecha&background=059669&color=fff",
+    isOnline: true,
+    unreadCount: 1,
+    lastMessage: "เรียนท่านอาจารย์สมชาย ทางบริษัทขอเชิญร่วมประเมินโครงงานสหกิจศึกษานักศึกษาในวันศุกร์นี้ครับ",
+    lastTime: "09:45",
+    autoReply: "ยินดีเป็นอย่างยิ่งครับคุณวิชัย ทางภาควิชาพร้อมเข้าร่วมประชุมประเมินผลตามวันและเวลาดังกล่าวครับ",
+    messages: [
+      {
+        id: "tm5",
+        sender: "them",
+        text: "เรียนท่านอาจารย์สมชาย ทางบริษัทขอเชิญร่วมประเมินโครงงานสหกิจศึกษานักศึกษาในวันศุกร์นี้ครับ",
+        timestamp: "09:45",
+      },
+    ],
+  },
+  {
+    id: "conv-teach-4",
+    name: "รศ.ดร.ประเสริฐ วิจัยเด่น",
+    role: "หัวหน้าภาควิชาวิทยาการคอมพิวเตอร์ มสด.",
+    avatar: "https://ui-avatars.com/api/?name=Prasert+Vijaiden&background=475569&color=fff",
+    isOnline: false,
+    unreadCount: 0,
+    lastMessage: "อย่าลืมส่งสรุปผลการประเมินทักษะดิจิทัลของนักศึกษาเข้าที่ประชุมคณะนะครับ",
+    lastTime: "เมื่อวาน",
+    autoReply: "เตรียมข้อมูลและกราฟิกสรุปคะแนนรูบริคส์เรียบร้อยแล้วครับอาจารย์หัวหน้าภาค",
+    messages: [
+      {
+        id: "tm6",
+        sender: "them",
+        text: "อย่าลืมส่งสรุปผลการประเมินทักษะดิจิทัลของนักศึกษาเข้าที่ประชุมคณะนะครับ",
+        timestamp: "เมื่อวาน 17:30",
+      },
+    ],
+  },
+];
+
+const EMPLOYER_CONVERSATIONS: Conversation[] = [
+  {
+    id: "conv-emp-1",
+    name: "นายอภิสิทธิ์ ศรีพัฒน์",
+    role: "ผู้สมัครตำแหน่ง Full-Stack Developer • นักศึกษา มสด. (Verified Score: 95%)",
+    avatar: "https://ui-avatars.com/api/?name=Apisit+Sripat&background=0a66c2&color=fff",
+    isOnline: true,
+    unreadCount: 1,
+    lastMessage: "สวัสดีครับคุณวิชัย ผมสะดวกเข้าสัมภาษณ์รอบ Technical Interview วันพฤหัสบดีนี้ เวลา 10:00 น. ครับ",
+    lastTime: "14:10",
+    autoReply: "ยอดเยี่ยมครับอภิสิทธิ์ ทางฝ่ายบุคคลได้ลงตารางนัดหมายและส่งบัตรเชิญ Google Meet ให้ทางอีเมลแล้วครับ",
+    messages: [
+      {
+        id: "em1",
+        sender: "me",
+        text: "สวัสดีครับคุณอภิสิทธิ์ ทาง บมจ. เทคโนโลยีดีไลท์ ประทับใจผลงานและทักษะ DevSecOps ของคุณมากครับ",
+        timestamp: "13:30",
+      },
+      {
+        id: "em2",
+        sender: "me",
+        text: "ต้องการนัดสัมภาษณ์ตำแหน่ง Full-Stack Developer สะดวกวันพฤหัสบดีหรือศุกร์นี้ไหมครับ?",
+        timestamp: "13:31",
+      },
+      {
+        id: "em3",
+        sender: "them",
+        text: "สวัสดีครับคุณวิชัย ผมสะดวกเข้าสัมภาษณ์รอบ Technical Interview วันพฤหัสบดีนี้ เวลา 10:00 น. ครับ",
+        timestamp: "14:10",
+      },
+    ],
+  },
+  {
+    id: "conv-emp-2",
+    name: "นางสาวเจนจิรา ดีไซเนอร์",
+    role: "ผู้สมัครตำแหน่ง UI/UX Designer • นักศึกษา มสด.",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+    isOnline: true,
+    unreadCount: 0,
+    lastMessage: "แนบไฟล์ Portfolio และ Case Study ระบบ Enterprise Design System ให้เรียบร้อยแล้วค่ะ",
+    lastTime: "10:15",
+    autoReply: "ทางทีม Design Lead กำลังรีวิวผลงานนะคะ แล้วจะรีบติดต่อกลับภายใน 2 วันทำการค่ะ",
+    messages: [
+      {
+        id: "em4",
+        sender: "them",
+        text: "แนบไฟล์ Portfolio และ Case Study ระบบ Enterprise Design System ให้เรียบร้อยแล้วค่ะ",
+        timestamp: "10:15",
+      },
+    ],
+  },
+  {
+    id: "conv-emp-3",
+    name: "ศ.ดร.สมชาย ใจดี (มสด.)",
+    role: "อาจารย์ผู้ประสานงานโครงการสหกิจศึกษา • มหาวิทยาลัยสวนดุสิต",
+    avatar: "https://ui-avatars.com/api/?name=Somchai+Jaidee&background=002d62&color=fff",
+    isOnline: true,
+    unreadCount: 0,
+    lastMessage: "ทางมหาวิทยาลัยจัดส่งเอกสาร MOU ความร่วมมือสหกิจศึกษาปี 2026 ให้ทางอีเมลแล้วครับ",
+    lastTime: "เมื่อวาน",
+    autoReply: "ขอบพระคุณท่านอาจารย์ครับ ทางฝ่ายกฎหมายของบริษัทกำลังดำเนินการลงนามเอกสารครับ",
+    messages: [
+      {
+        id: "em5",
+        sender: "them",
+        text: "ทางมหาวิทยาลัยจัดส่งเอกสาร MOU ความร่วมมือสหกิจศึกษาปี 2026 ให้ทางอีเมลแล้วครับ",
+        timestamp: "เมื่อวาน 15:40",
+      },
+    ],
+  },
+  {
+    id: "conv-emp-4",
+    name: "ฝ่ายบุคคล (HR Talent Acquisition Team)",
+    role: "Internal Recruiter • บมจ. เทคโนโลยีดีไลท์",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+    isOnline: false,
+    unreadCount: 0,
+    lastMessage: "สรุปโควตารับนักศึกษาฝึกงานและ Junior Dev ประจำไตรมาสที่ 3 เรียบร้อยแล้วค่ะ",
+    lastTime: "3 วันที่แล้ว",
+    autoReply: "รับทราบครับ เดี๋ยวเราจะเริ่มกระบวนการคัดเลือกผ่านพอร์ตโฟลิโอ SkillPassport ในสัปดาห์นี้เลยครับ",
+    messages: [
+      {
+        id: "em6",
+        sender: "them",
+        text: "สรุปโควตารับนักศึกษาฝึกงานและ Junior Dev ประจำไตรมาสที่ 3 เรียบร้อยแล้วค่ะ",
         timestamp: "3 วันที่แล้ว",
       },
     ],
@@ -130,11 +321,28 @@ const INITIAL_CONVERSATIONS: Conversation[] = [
 
 export default function MessagingPage() {
   const { data: session } = useSession();
-  const [conversations, setConversations] = useState<Conversation[]>(INITIAL_CONVERSATIONS);
-  const [activeId, setActiveId] = useState<string>(INITIAL_CONVERSATIONS[0].id);
+  const currentRole = session?.user?.role || "STUDENT";
+
+  // Select initial dataset according to logged-in user's role
+  const getInitialList = () => {
+    if (currentRole === "TEACHER") return TEACHER_CONVERSATIONS;
+    if (currentRole === "EMPLOYER") return EMPLOYER_CONVERSATIONS;
+    return STUDENT_CONVERSATIONS;
+  };
+
+  const [conversations, setConversations] = useState<Conversation[]>(getInitialList());
+  const [activeId, setActiveId] = useState<string>(getInitialList()[0].id);
   const [searchTerm, setSearchTerm] = useState("");
   const [inputText, setInputText] = useState("");
   const [filterType, setFilterType] = useState<"all" | "unread">("all");
+  const [isTyping, setIsTyping] = useState(false);
+
+  // Sync conversations whenever logged-in user role changes
+  useEffect(() => {
+    const list = getInitialList();
+    setConversations(list);
+    setActiveId(list[0].id);
+  }, [currentRole]);
 
   const activeConv = conversations.find((c) => c.id === activeId) || conversations[0];
 
@@ -142,20 +350,24 @@ export default function MessagingPage() {
     if (e) e.preventDefault();
     if (!inputText.trim()) return;
 
+    const myText = inputText.trim();
+    const nowTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
     const newMessage: Message = {
       id: "msg-" + Date.now(),
       sender: "me",
-      text: inputText.trim(),
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      text: myText,
+      timestamp: nowTime,
     };
 
+    // Update conversation with sent message
     setConversations((prev) =>
       prev.map((c) => {
         if (c.id === activeId) {
           return {
             ...c,
-            lastMessage: newMessage.text,
-            lastTime: newMessage.timestamp,
+            lastMessage: myText,
+            lastTime: nowTime,
             messages: [...c.messages, newMessage],
           };
         }
@@ -164,6 +376,35 @@ export default function MessagingPage() {
     );
 
     setInputText("");
+
+    // Simulate realistic auto-reply from contact after 1.5s
+    if (activeConv.autoReply) {
+      setIsTyping(true);
+      setTimeout(() => {
+        setIsTyping(false);
+        const replyTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const replyMsg: Message = {
+          id: "reply-" + Date.now(),
+          sender: "them",
+          text: activeConv.autoReply || "รับทราบข้อความเรียบร้อยครับ ขอบคุณครับ!",
+          timestamp: replyTime,
+        };
+
+        setConversations((prev) =>
+          prev.map((c) => {
+            if (c.id === activeId) {
+              return {
+                ...c,
+                lastMessage: replyMsg.text,
+                lastTime: replyTime,
+                messages: [...c.messages, replyMsg],
+              };
+            }
+            return c;
+          })
+        );
+      }, 1400);
+    }
   };
 
   const filteredConversations = conversations.filter((c) => {
@@ -176,10 +417,28 @@ export default function MessagingPage() {
 
   return (
     <div className="min-h-screen bg-[#f4f2ee] pt-[85px] px-4 pb-12">
-      <div className="max-w-[1128px] mx-auto">
+      <div className="max-w-[1128px] mx-auto space-y-3">
         
+        {/* Role Context Bar */}
+        <div className="bg-white rounded-xl px-4 py-2.5 border border-slate-200 shadow-xs flex items-center justify-between text-xs font-semibold">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-slate-600">กล่องข้อความประจำบัญชี:</span>
+            <span className="font-bold text-slate-900">
+              {currentRole === "TEACHER"
+                ? "🏛️ อาจารย์ (Teacher Portal Messenger)"
+                : currentRole === "EMPLOYER"
+                ? "🏢 ผู้ประกอบการ / HR (Recruiter Messenger)"
+                : "🎓 นักศึกษา (Student Messenger)"}
+            </span>
+          </div>
+          <span className="text-slate-500 text-[11px] hidden sm:inline">
+            ผู้ใช้งาน: <strong className="text-[#0a66c2]">{session?.user?.name || "ผู้ใช้งาน"}</strong>
+          </span>
+        </div>
+
         {/* Main 2-Pane Chat Container */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[640px] max-h-[calc(100vh-120px)]">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-12 min-h-[640px] max-h-[calc(100vh-140px)]">
           
           {/* ================= LEFT PANE: CONVERSATION LIST (5 COLS) ================= */}
           <div className="md:col-span-5 border-r border-slate-200 flex flex-col h-full bg-white">
@@ -414,6 +673,22 @@ export default function MessagingPage() {
                   </div>
                 );
               })}
+
+              {/* Typing indicator */}
+              {isTyping && (
+                <div className="flex items-center gap-2">
+                  <img
+                    src={activeConv.avatar}
+                    alt="Avatar"
+                    className="w-7 h-7 rounded-full object-cover border border-slate-200 shrink-0"
+                  />
+                  <div className="bg-white px-3.5 py-2 rounded-2xl rounded-bl-none border border-slate-200 shadow-xs flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.2s]"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.4s]"></span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Message Input Box */}
