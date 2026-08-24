@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
@@ -154,8 +154,19 @@ const INITIAL_CANDIDATES: Candidate[] = [
   },
 ];
 
+import { useRouter } from "next/navigation";
+
 export default function EmployerPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    } else if (status === "authenticated" && session?.user?.role !== "EMPLOYER") {
+      router.push("/feed");
+    }
+  }, [status, session, router]);
 
   const [activeTab, setActiveTab] = useState<"JOBS" | "CANDIDATES" | "POST_JOB">("JOBS");
   const [candidates] = useState<Candidate[]>(INITIAL_CANDIDATES);
@@ -163,6 +174,21 @@ export default function EmployerPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSkill, setFilterSkill] = useState("ALL");
   const [selectedJob, setSelectedJob] = useState<JobOpening>(SAMPLE_JOBS[0]);
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-[#f4f2ee] pt-[120px] flex items-center justify-center text-xs font-bold text-slate-500">
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 border-2 border-[#0a66c2] border-t-transparent rounded-full animate-spin"></div>
+          <span>กำลังตรวจสอบสิทธิ์ความปลอดภัย...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "unauthenticated" || session?.user?.role !== "EMPLOYER") {
+    return null;
+  }
 
   // Form for posting a new job
   const [newTitle, setNewTitle] = useState("");
