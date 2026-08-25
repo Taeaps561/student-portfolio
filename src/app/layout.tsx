@@ -20,6 +20,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "มหาวิทยาลัยสวนดุสิต | Student Portfolio & Professional Network",
   description: "ระบบหนังสือเดินทางทักษะดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มหาวิทยาลัยสวนดุสิต",
+  icons: {
+    icon: "https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_of_Suan_Dusit_University.svg",
+    shortcut: "https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_of_Suan_Dusit_University.svg",
+    apple: "https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_of_Suan_Dusit_University.svg",
+  },
 };
 
 export default function RootLayout({
