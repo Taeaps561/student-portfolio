@@ -1,5 +1,5 @@
 # 📋 รายงานความคืบหน้าโครงงาน (Project Status Report) — สัปดาห์ที่ 11
-**รายวิชา:** DevSecOps  
+**รายวิชา:** การพัฒนาเว็บแอปพลิเคชันให้มีความมั่นคงปลอดภัย (Secure Web Application Development)  
 **ชื่อโครงงาน:** Student Portfolio & Skill Passport (ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มสด.)  
 **กลุ่มที่:** 3 (Student Portfolio & Skill Passport)  
 **GitHub Repository:** [https://github.com/Taeaps561/student-portfolio](https://github.com/Taeaps561/student-portfolio)  

@@ -10,7 +10,7 @@ export default function ProgressPage() {
         {/* HEADER HERO */}
         <div className="bg-gradient-to-br from-[#002d62] via-[#0a4b9c] to-[#0284c7] text-white rounded-2xl p-6 sm:p-8 shadow-lg relative overflow-hidden">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-extrabold border border-white/20 mb-3">
-            🛡️ รายวิชา DevSecOps • รายงานความคืบหน้าสัปดาห์ที่ 11
+            🛡️ รายวิชา การพัฒนาเว็บแอปพลิเคชันให้มีความมั่นคงปลอดภัย • สัปดาห์ที่ 11
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight mb-2">
             Student Portfolio & Skill Passport
