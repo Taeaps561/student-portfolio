@@ -127,6 +127,14 @@ export default function TeacherCertificatesPage() {
     }, 4000);
   };
 
+  const handleDeleteRecord = (id: string, certName: string) => {
+    if (confirm(`คุณต้องการยกเลิกหรือลบรายการ '${certName}' ออกจากประวัติหรือไม่?`)) {
+      setRecords(records.filter((r) => r.id !== id));
+      setToastMessage(`🗑️ ลบรายการ '${certName}' เรียบร้อยแล้ว`);
+      setTimeout(() => setToastMessage(""), 3000);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f4f2ee] pt-[85px] px-4 pb-16">
       <div className="max-w-[1128px] mx-auto space-y-4">
@@ -301,12 +309,22 @@ export default function TeacherCertificatesPage() {
                     <span className="font-mono text-purple-700 truncate max-w-[280px]">
                       Hash: {rec.hashValue.slice(0, 24)}...
                     </span>
-                    <button
-                      onClick={() => alert(`ตรวจสอบความถูกต้องของ ${rec.serialNo} สำเร็จ: Verified Digital Signature Valid ✓`)}
-                      className="text-[#0a66c2] font-bold hover:underline self-start sm:self-auto"
-                    >
-                      🔍 ตรวจสอบ Signature
-                    </button>
+                    <div className="flex items-center gap-3 self-start sm:self-auto">
+                      <button
+                        onClick={() => alert(`ตรวจสอบความถูกต้องของ ${rec.serialNo} สำเร็จ: Verified Digital Signature Valid ✓`)}
+                        className="text-[#0a66c2] font-bold hover:underline cursor-pointer"
+                      >
+                        🔍 ตรวจสอบ Signature
+                      </button>
+                      <button
+                        onClick={() => handleDeleteRecord(rec.id, rec.certName)}
+                        className="text-rose-600 font-bold hover:text-rose-800 hover:underline cursor-pointer flex items-center gap-0.5"
+                        title="ลบ/ยกเลิกวุฒิบัตรนี้"
+                      >
+                        <span>🗑️</span>
+                        <span>ลบ</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
