@@ -149,34 +149,34 @@ export default function ProgressPage() {
             
             <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-4 space-y-2.5">
               <h3 className="text-sm font-black text-emerald-900 flex items-center gap-1.5">
-                <span>✅</span> งานที่ทำเสร็จแล้ว (สัปดาห์ 1–11)
+                <span>✅</span> ส่วนหลักที่พัฒนาเสร็จแล้ว (5 ข้อ)
               </h3>
               <ul className="text-xs text-emerald-950 space-y-2 leading-relaxed">
-                <li><strong>🗄️ Database & ORM:</strong> เชื่อมต่อ Prisma SQLite พร้อมบันทึก User, Portfolio, Skill, Certificate, Post, AuditLog</li>
-                <li><strong>🔐 Multi-Role Auth:</strong> เข้าสู่ระบบ 3 Roles (Student, Teacher, Employer) ปลอดภัยด้วย NextAuth.js และ Password Hash</li>
-                <li><strong>🛡️ RBAC Protection:</strong> ตรวจสอบสิทธิ์ฝั่ง Server ป้องกันการเปิด URL ข้าม Role โดยตรง</li>
-                <li><strong>📜 Digital Certificates:</strong> ออกใบรับรองดิจิทัล มสด. พร้อมเข้ารหัส SHA-256 ป้องกันการปลอมแปลง</li>
-                <li><strong>🌐 Community Feed:</strong> โพสต์และแชร์ผลงานวิชาการ บันทึกจริงลง Database</li>
+                <li><strong>🔐 1. Authentication:</strong> ระบบสามารถ Login และ Logout ได้ รวมถึงมีการจัดการ Session ของผู้ใช้งาน</li>
+                <li><strong>🛡️ 2. RBAC:</strong> ระบบแบ่งสิทธิ์ออกเป็น Student, Teacher และ Employer และแต่ละ Role สามารถเข้าถึง Feature ที่แตกต่างกัน</li>
+                <li><strong>🗄️ 3. Database:</strong> ระบบมี Backend เชื่อมต่อกับ SQLite ผ่าน Prisma และสามารถอ่านและเขียนข้อมูลจริงได้</li>
+                <li><strong>📜 4. Digital Certificate:</strong> ระบบสามารถออก Certificate และสร้าง SHA-256 Hash สำหรับใช้ตรวจสอบความถูกต้องของข้อมูล</li>
+                <li><strong>🚫 5. Route Protection:</strong> ระบบมีการป้องกัน Route ที่ต้อง Login และตรวจสอบ Role ก่อนอนุญาตให้เข้าถึง Resource ที่สำคัญ</li>
               </ul>
             </div>
 
             <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-4 space-y-2.5">
               <h3 className="text-sm font-black text-amber-900 flex items-center gap-1.5">
-                <span>🔄</span> งานที่กำลังทำ (In-Progress)
+                <span>🔄</span> แผนงานสัปดาห์ที่ 12
               </h3>
               <ul className="text-xs text-amber-950 space-y-2 leading-relaxed">
-                <li><strong>🔍 Automated SAST Scan:</strong> ติดตั้ง GitHub Actions Security Scan (npm audit, Semgrep)</li>
-                <li><strong>⚡ Next.js Cache Tuning:</strong> ปรับแต่งประสิทธิภาพการโหลดหน้าเว็บและ API Caching</li>
+                <li><strong>🔍 Automated SAST:</strong> ติดตั้ง Static Application Security Testing เพื่อตรวจสอบ Source Code และค้นหาประเด็น Security อัตโนมัติ</li>
+                <li><strong>🛡️ Security Hardening:</strong> ปรับแต่ง Security Headers และตรวจสอบสิทธิ์การเข้าถึงข้อมูล</li>
               </ul>
             </div>
 
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2.5">
               <h3 className="text-sm font-black text-slate-800 flex items-center gap-1.5">
-                <span>⏳</span> งานที่ยังไม่ได้เริ่ม
+                <span>⏳</span> แผนงานสัปดาห์ที่ 13
               </h3>
               <ul className="text-xs text-slate-700 space-y-2 leading-relaxed">
-                <li><strong>🤖 AI Career Recommender:</strong> ระบบวิเคราะห์ทักษะและแนะนำอาชีพที่เหมาะสม</li>
-                <li><strong>☁️ Cloud Production:</strong> Deploy ระบบขึ้น Vercel / Supabase Production</li>
+                <li><strong>☁️ Production Deployment:</strong> เตรียมระบบสำหรับ Production Deployment ขึ้น Cloud</li>
+                <li><strong>🧪 Final System Testing:</strong> ทดสอบระบบความปลอดภัยอีกครั้งก่อนส่งมอบ</li>
               </ul>
             </div>
 
@@ -214,9 +214,9 @@ export default function ProgressPage() {
                     2. ข้อมูล Mock ไม่สะท้อนบริบท<br />
                     <span className="text-[11px] text-slate-500 font-normal">ข้อมูลเริ่มต้นเป็น Placeholder ทั่วไป</span>
                   </td>
-                  <td className="p-3 text-slate-600">ใช้ข้อมูลตั้งต้นที่ไม่เชื่อมโยงกับหลักสูตรคอมพิวเตอร์และ DevSecOps</td>
+                  <td className="p-3 text-slate-600">ใช้ข้อมูลตั้งต้นที่ไม่เชื่อมโยงกับหลักสูตรคอมพิวเตอร์และความปลอดภัย</td>
                   <td className="p-3 text-emerald-800 font-medium">
-                    <strong className="text-emerald-700 font-bold">✓ ปรับ Database Seeding:</strong> สร้างข้อมูลนักศึกษาจริง 7 คน พร้อมทักษะ CCNA, CEH, DevSecOps ตรงตามบริบท มสด.
+                    <strong className="text-emerald-700 font-bold">✓ ปรับ Database Seeding:</strong> สร้างข้อมูลนักศึกษาจริง 7 คน พร้อมทักษะ CCNA, CEH ตรงตามบริบท มสด.
                   </td>
                 </tr>
                 <tr>
@@ -242,18 +242,19 @@ export default function ProgressPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border-l-4 border-[#002d62] bg-slate-50 p-4 rounded-r-xl space-y-2">
-              <h3 className="text-sm font-black text-[#002d62]">สัปดาห์ที่ 12: Security Hardening & CI/CD</h3>
+              <h3 className="text-sm font-black text-[#002d62]">สัปดาห์ที่ 12: Security Testing (Automated SAST)</h3>
               <ul className="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
-                <li>ติดตั้ง GitHub Actions CI/CD ทำ Automated SAST Security Scanning</li>
-                <li>ตั้งค่า Security Headers (Helmet, CSRF Protection, Rate Limiting)</li>
+                <li>ติดตั้ง Automated SAST (Static Application Security Testing) เพื่อตรวจสอบ Source Code และค้นหาประเด็นด้าน Security แบบอัตโนมัติก่อนนำระบบขึ้น Production</li>
+                <li>ทำ Security Code Review และทดสอบการจัดการสิทธิ์ความปลอดภัย</li>
               </ul>
             </div>
 
             <div className="border-l-4 border-emerald-600 bg-slate-50 p-4 rounded-r-xl space-y-2">
-              <h3 className="text-sm font-black text-emerald-800">สัปดาห์ที่ 13: Feature Completion & Deployment</h3>
+              <h3 className="text-sm font-black text-emerald-800">สัปดาห์ที่ 13: Production Deployment & Final Testing</h3>
               <ul className="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
-                <li>ปรับแต่ง Responsive UI และเชื่อมต่อ AI Career Path Recommender</li>
-                <li>Deploy ระบบขึ้น Cloud Production (Vercel / Supabase) พร้อมส่งมอบ</li>
+                <li>เตรียมระบบสำหรับ Production Deployment (Vercel / Supabase Cloud)</li>
+                <li>ทดสอบระบบความปลอดภัยและฟังก์ชันทั้งหมดอีกครั้งอย่างละเอียดก่อนส่งมอบ</li>
+                <li>จัดทำเอกสารและคู่มือการส่งมอบโปรเจกต์ฉบับสมบูรณ์</li>
               </ul>
             </div>
           </div>

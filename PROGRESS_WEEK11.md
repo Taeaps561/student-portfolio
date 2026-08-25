@@ -18,33 +18,20 @@
 
 ## 📊 2. สถานะความคืบหน้าของงาน (Task Progress)
 
-### ✅ งานที่ทำเสร็จแล้ว (Completed Tasks - สัปดาห์ที่ 1-11)
-1. **ระบบฐานข้อมูลและ Audit Logging (Database & ORM):**
-   - ออกแบบ Schema ฐานข้อมูลด้วย Prisma ORM รองรับ User, Account, Session, Portfolio, Skill, Project, Certificate, Post, AuditLog
-   - จัดเก็บ Config เชื่อมต่อใน `.env` และตั้งค่า `.gitignore` ไม่ให้หลุดขึ้น GitHub
-2. **ระบบยืนยันตัวตนและสมัครสมาชิก (Authentication & Registration):**
-   - พัฒนาระบบ Sign-In และ Registration พร้อม Role Selector (นักศึกษา, อาจารย์, นายจ้าง)
-   - จัดเก็บ Password ปลอดภัย พร้อมแสดงข้อความแจ้งเตือนกลาง (Generic Neutral Error Message)
-   - มี Server-side Session Guard ป้องกันการเข้าถึง Dashboard โดยตรงหากยังไม่ได้ Login
-3. **การควบคุมสิทธิ์ตามบทบาท (Role-Based Access Control - RBAC):**
-   - รองรับ 3 Roles: **Student**, **Teacher**, และ **Employer**
-   - Smart Dashboard Routing แยกหน้าตามบทบาท (`/dashboard` ➡️ `/teacher` ➡️ `/employer`)
-   - ระบบตรวจสอบสิทธิ์ที่ฝั่ง Server (Server-side Validation ส่ง 401 Unauthorized หากไม่มีสิทธิ์)
-4. **ระบบใบรับรองและวุฒิบัตรดิจิทัล (Digital Certificates & SHA-256 Verification):**
-   - รองรับใบรับรองสากลและแคมปัส (CCNA, CompTIA Security+, CEH, SDU DevSecOps Specialist)
-   - สร้างรหัส Cryptographic SHA-256 Hash ประจำแต่ละใบรับรอง พร้อมเครื่องมือตรวจสอบความถูกต้อง
-   - พรีวิวและพิมพ์ใบประกาศนียบัตรดิจิทัลของมหาวิทยาลัยสวนดุสิตพร้อม QR Verification Code
-5. **ระบบฟีดข่าวสารวิชาการและกล่องข้อความ (Community Feed & Role-based Messenger):**
-   - หน้าฟีดชุมชน มสด. บันทึกลงฐานข้อมูลจริง รองรับโพสต์อาจารย์, รับสมัครงานสหกิจศึกษา และโชว์ผลงาน
-   - กล่องข้อความแยกชุดการสนทนาตามบทบาท พร้อมระบบ Auto-Reply ตอบกลับอัตโนมัติ
+### ✅ ส่วนหลักที่พัฒนาเสร็จแล้ว (Completed Tasks — 85%)
+1. **Authentication:** ระบบสามารถ Login และ Logout ได้ รวมถึงมีการจัดการ Session ของผู้ใช้งานอย่างปลอดภัยด้วย NextAuth.js
+2. **RBAC (Role-Based Access Control):** ระบบแบ่งสิทธิ์ออกเป็น Student, Teacher และ Employer และแต่ละ Role สามารถเข้าถึง Feature ที่แตกต่างกัน
+3. **Database:** ระบบมี Backend เชื่อมต่อกับ SQLite ผ่าน Prisma ORM และสามารถอ่านและเขียนข้อมูลจริงลงฐานข้อมูลได้
+4. **Digital Certificate:** ระบบสามารถออก Certificate และสร้าง SHA-256 Cryptographic Hash สำหรับใช้ตรวจสอบความถูกต้องของข้อมูลและป้องกันการปลอมแปลง
+5. **Route Protection:** ระบบมีการป้องกัน Route ที่ต้อง Login และตรวจสอบสิทธิ์ Role ที่ฝั่ง Server ก่อนอนุญาตให้เข้าถึง Resource ที่สำคัญ
 
 ### 🔄 งานที่กำลังดำเนินการ (In-Progress Tasks)
-1. การติดตั้ง DevSecOps Security Scanning Pipeline (SAST / GitHub Actions Workflow)
-2. การปรับแต่งประสิทธิภาพการโหลดหน้าเว็บและแคช (Next.js Caching & Optimization)
+1. การติดตั้ง Automated SAST (Static Application Security Testing) ผ่าน GitHub Actions
+2. การปรับแต่งความปลอดภัยของระบบและการจัดการ Session Header
 
 ### ⏳ งานที่ยังไม่ได้เริ่ม (Not Started Tasks)
-1. ระบบ AI แนะนำทักษะและวิเคราะห์ตลาดงาน (Skill Recommendation Engine)
-2. การ Deploy ขึ้น Production Cloud Server (Vercel / AWS / Supabase)
+1. การเตรียมระบบสำหรับ Production Deployment ขึ้น Cloud Server
+2. การทดสอบเจาะระบบและประเมินความปลอดภัยรอบสุดท้ายก่อนส่งมอบ
 
 ---
 
@@ -53,8 +40,8 @@
 | ปัญหาที่พบ (Issue) | สาเหตุ (Root Cause) | แนวทางแก้ไข (Resolution) |
 | :--- | :--- | :--- |
 | 1. ผู้ใช้สามารถพิมพ์ URL เข้าหน้า Dashboard หรือหน้าอาจารย์ได้โดยตรง | การตรวจสอบสิทธิ์เดิมทำเพียงฝั่ง Client-side | เพิ่ม `getServerSession` ใน Server Components และตรวจสอบ `session.user.role` ทุกครั้ง หากไม่มีสิทธิ์จะ Redirect หรือส่ง `401 Unauthorized` |
-| 2. ข้อมูล Mock ในระบบเดิมเป็นข้อมูลทั่วไป ไม่สะท้อนบริบท มสด. | ข้อมูลเริ่มต้นเป็น Placeholder สำเร็จรูป | ปรับปรุง Mock Dataset และ Database Seeding ให้เป็นบริบทจริงของ มสด. และ DevSecOps |
-| 3. ปัญหาความเป็นส่วนตัวของข้อมูลนักศึกษา (PDPA) | การเปิดเผย GPA หรือเบอร์โทรศัพท์สู่สาธารณะ | ทำระบบ **Data Masking** และใช้ชื่อจำลอง "นักศึกษา ทดสอบ" ในระบบหน้าเว็บ |
+| 2. ข้อมูล Mock ในระบบเดิมเป็นข้อมูลทั่วไป ไม่สะท้อนบริบท มสด. | ข้อมูลเริ่มต้นเป็น Placeholder สำเร็จรูป | ปรับปรุง Mock Dataset และ Database Seeding ให้เป็นบริบทจริงของ มสด. (7 บัญชีนักศึกษา พร้อมทักษะ CCNA, CEH) |
+| 3. ปัญหาความเป็นส่วนตัวของข้อมูลนักศึกษา (PDPA) | การเปิดเผย GPA หรือเบอร์โทรศัพท์สู่สาธารณะ | ทำระบบ **Data Masking** ซ่อนข้อมูลสำคัญ และเปิดเผยเฉพาะบทบาทที่ได้รับอนุญาต |
 
 ---
 
@@ -63,20 +50,21 @@
 ```
 [█████████████████░░░] 85%
 ```
-- **Backend & Database:** 90%
-- **Authentication & Security (DevSecOps):** 90%
-- **Core CRUD & Digital Certificate:** 90%
-- **Advanced Features (AI, CI/CD Pipeline):** 50%
+- **Authentication & RBAC:** 90%
+- **Backend & Database (Prisma SQLite):** 90%
+- **Digital Certificates (SHA-256):** 90%
+- **Route Protection & Security:** 90%
 - **ภาพรวมความสำเร็จของโครงการ:** **85%**
 
 ---
 
 ## 🗓️ 5. แผนการพัฒนาในสัปดาห์ที่ 12–13 (Future Roadmap)
 
-### สัปดาห์ที่ 12: Security Hardening & CI/CD Pipeline
-- ติดตั้ง GitHub Actions CI/CD ทำ Automated SAST Security Scanning (npm audit, Semgrep)
-- ปรับแต่ง Security Headers (Helmet, CSRF Protection, Rate Limiting)
+### สัปดาห์ที่ 12: Security Testing (Automated SAST)
+- ติดตั้ง Automated SAST (Static Application Security Testing) เพื่อตรวจสอบ Source Code และค้นหาประเด็นด้าน Security ได้แบบอัตโนมัติก่อนนำระบบขึ้น Production
+- ทำ Security Code Review และทดสอบการจัดการสิทธิ์ความปลอดภัย
 
-### สัปดาห์ที่ 13: Feature Completion & Deployment
-- ปรับแต่ง Responsive UI และเชื่อมต่อ AI Career Path Recommender
-- Deploy ระบบขึ้น Cloud Production (Vercel / Supabase) พร้อมจัดเตรียมเอกสารฉบับสมบูรณ์
+### สัปดาห์ที่ 13: Production Deployment & Final Testing
+- เตรียมระบบสำหรับ Production Deployment (Vercel / Supabase Cloud)
+- ทดสอบระบบความปลอดภัยและฟังก์ชันทั้งหมดอีกครั้งอย่างละเอียดก่อนส่งมอบ
+- จัดทำเอกสารและคู่มือการส่งมอบโปรเจกต์ฉบับสมบูรณ์

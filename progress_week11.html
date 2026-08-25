@@ -835,7 +835,7 @@
         <div>
           <div class="slide-num-tag">Slide 04 • Task Breakdown</div>
           <h2 class="slide-heading">3. สถานะความคืบหน้าของงาน (Task Progress)</h2>
-          <p class="slide-subheading">จำแนกตามงานที่ทำเสร็จแล้ว, กำลังดำเนินการ และแผนงานถัดไป</p>
+          <p class="slide-subheading">5 ส่วนหลักที่พัฒนาเสร็จแล้ว และแผนการดำเนินงานต่อเนื่อง</p>
         </div>
       </div>
 
@@ -843,35 +843,36 @@
         <!-- DONE -->
         <div class="task-card-column">
           <div class="task-col-head done">
-            <span>✅</span> ทำเสร็จแล้ว (สัปดาห์ 1–11)
+            <span>✅</span> ส่วนหลักที่พัฒนาเสร็จแล้ว (5 ข้อ)
           </div>
           <ul class="task-items-list">
-            <li><strong>🗄️ Database:</strong> เชื่อมต่อ Prisma SQLite บันทึก User, Portfolio, Skills, Certs, Posts, AuditLog</li>
-            <li><strong>🔐 Auth & RBAC:</strong> ล็อกอิน 3 Roles พร้อม Server-side Session Guard</li>
-            <li><strong>📜 Certificates:</strong> ออกวุฒิบัตรดิจิทัลพร้อม SHA-256 Verification</li>
-            <li><strong>🌐 Social Feed:</strong> ฟีดข่าวสารวิชาการ มสด. บันทึกลงฐานข้อมูลจริง</li>
+            <li><strong>🔐 1. Authentication:</strong> ระบบสามารถ Login และ Logout ได้ รวมถึงมีการจัดการ Session ของผู้ใช้งาน</li>
+            <li><strong>🛡️ 2. RBAC:</strong> ระบบแบ่งสิทธิ์ออกเป็น Student, Teacher และ Employer และแต่ละ Role เข้าถึง Feature ที่แตกต่างกัน</li>
+            <li><strong>🗄️ 3. Database:</strong> มี Backend เชื่อมต่อกับ SQLite ผ่าน Prisma และสามารถอ่านและเขียนข้อมูลจริงได้</li>
+            <li><strong>📜 4. Digital Certificate:</strong> ระบบสามารถออก Certificate และสร้าง SHA-256 Hash สำหรับใช้ตรวจสอบความถูกต้องของข้อมูล</li>
+            <li><strong>🚫 5. Route Protection:</strong> ระบบมีการป้องกัน Route ที่ต้อง Login และตรวจสอบ Role ก่อนอนุญาตให้เข้าถึง Resource ที่สำคัญ</li>
           </ul>
         </div>
 
         <!-- IN PROGRESS -->
         <div class="task-card-column">
           <div class="task-col-head doing">
-            <span>🔄</span> กำลังทำ (In-Progress)
+            <span>🔄</span> แผนงานสัปดาห์ที่ 12
           </div>
           <ul class="task-items-list">
-            <li><strong>🔍 SAST Security Scan:</strong> ติดตั้ง GitHub Actions Automated Security Scan (npm audit, Semgrep)</li>
-            <li><strong>⚡ Performance Tuning:</strong> ปรับแต่ง Caching และ Server Components</li>
+            <li><strong>🔍 Automated SAST:</strong> ติดตั้ง Static Application Security Testing เพื่อตรวจสอบ Source Code และค้นหาประเด็น Security อัตโนมัติ</li>
+            <li><strong>🛡️ Security Hardening:</strong> ปรับแต่ง Security Headers และตรวจสอบสิทธิ์การเข้าถึงข้อมูล</li>
           </ul>
         </div>
 
         <!-- NOT STARTED -->
         <div class="task-card-column">
           <div class="task-col-head todo">
-            <span>⏳</span> ยังไม่ได้เริ่ม
+            <span>⏳</span> แผนงานสัปดาห์ที่ 13
           </div>
           <ul class="task-items-list">
-            <li><strong>🤖 AI Career Matching:</strong> ระบบ AI วิเคราะห์ทักษะและจับคู่ตลาดงานอัตโนมัติ</li>
-            <li><strong>☁️ Cloud Production:</strong> Deploy ระบบขึ้น Vercel / Supabase</li>
+            <li><strong>☁️ Production Deployment:</strong> เตรียมระบบสำหรับ Production Deployment ขึ้น Cloud</li>
+            <li><strong>🧪 Final System Testing:</strong> ทดสอบระบบความปลอดภัยอีกครั้งก่อนส่งมอบ</li>
           </ul>
         </div>
       </div>
@@ -883,7 +884,7 @@
         <div>
           <div class="slide-num-tag">Slide 05 • Issues & Solutions</div>
           <h2 class="slide-heading">4. ปัญหาที่พบและแนวทางแก้ไข (Issues & Resolutions)</h2>
-          <p class="slide-subheading">การแก้ปัญหาตามหลักการความมั่นคงปลอดภัย DevSecOps</p>
+          <p class="slide-subheading">การแก้ปัญหาตามหลักการความมั่นคงปลอดภัยของเว็บแอปพลิเคชัน</p>
         </div>
       </div>
 
@@ -914,7 +915,7 @@
           </div>
           <div>
             <span style="font-size:0.75rem; color:#94a3b8; display:block;">แนวทางแก้ไข</span>
-            <div class="solve-text">✓ Seeding 7 บัญชีนักศึกษาจริงพร้อมทักษะ CCNA, CEH, DevSecOps มสด.</div>
+            <div class="solve-text">✓ Seeding 7 บัญชีนักศึกษาจริงพร้อมทักษะ CCNA, CEH มสด.</div>
           </div>
         </div>
 
@@ -939,31 +940,31 @@
     <div class="slide" id="slide-6">
       <div class="slide-header">
         <div>
-          <div class="slide-num-tag">Slide 06 • Future Plan</div>
+          <div class="slide-num-tag">Slide 06 • Future Roadmap</div>
           <h2 class="slide-heading">5. แผนการพัฒนาในสัปดาห์ที่ 12–13</h2>
-          <p class="slide-subheading">มุ่งเน้นการเสริมความปลอดภัยระดับสูงและเตรียมส่งมอบระบบ</p>
+          <p class="slide-subheading">เน้นในส่วนของ Security Testing และ Deployment ก่อนส่งมอบระบบ</p>
         </div>
       </div>
 
       <div class="roadmap-slide-grid">
         <div class="roadmap-box">
           <div class="roadmap-title">
-            <span>🛡️</span> สัปดาห์ที่ 12: Security Hardening & CI/CD
+            <span>🛡️</span> สัปดาห์ที่ 12: Security Testing (Automated SAST)
           </div>
           <ul class="roadmap-list">
-            <li>ติดตั้ง GitHub Actions CI/CD Pipeline สำหรับ Automated SAST</li>
-            <li>ตั้งค่า Security Headers (Helmet, CSRF Protection, Rate Limiting)</li>
-            <li>ทดสอบเจาะระบบและตรวจสอบช่องโหว่ความปลอดภัยก่อนขึ้น Production</li>
+            <li>ติดตั้ง Automated SAST (Static Application Security Testing) เพื่อตรวจสอบ Source Code อัตโนมัติ</li>
+            <li>ค้นหาประเด็นด้าน Security ได้แบบอัตโนมัติก่อนนำระบบขึ้น Production</li>
+            <li>ทำ Security Code Review และทดสอบการจัดการสิทธิ์ความปลอดภัย</li>
           </ul>
         </div>
 
         <div class="roadmap-box" style="border-top-color:#10b981;">
           <div class="roadmap-title" style="color:#34d399;">
-            <span>☁️</span> สัปดาห์ที่ 13: AI & Cloud Deployment
+            <span>☁️</span> สัปดาห์ที่ 13: Production Deployment & Final Testing
           </div>
           <ul class="roadmap-list">
-            <li>เชื่อมต่อ AI Career Path Recommender แนะนำทักษะที่ขาด</li>
-            <li>Deploy ระบบขึ้น Cloud Production (Vercel / Supabase)</li>
+            <li>เตรียมระบบสำหรับ Production Deployment (Vercel / Supabase Cloud)</li>
+            <li>ทดสอบระบบความปลอดภัยอีกครั้งอย่างละเอียดก่อนส่งมอบ</li>
             <li>จัดทำเอกสารและคู่มือการส่งมอบโปรเจกต์ฉบับสมบูรณ์</li>
           </ul>
         </div>
