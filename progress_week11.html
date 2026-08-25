@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายงานความคืบหน้าโครงงาน DevSecOps สัปดาห์ที่ 11 | มหาวิทยาลัยสวนดุสิต</title>
+  
+  <!-- Google Fonts: Prompt & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #002d62;
+      --primary-light: #0a66c2;
+      --secondary: #059669;
+      --accent: #d97706;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Prompt', 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem 4rem 1rem;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* HEADER BANNER */
+    .header-card {
+      background: linear-gradient(135deg, #002d62 0%, #0a4b9c 60%, #0284c7 100%);
+      color: #ffffff;
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header-card::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .header-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    .header-subtitle {
+      font-size: 1rem;
+      color: #e2e8f0;
+      font-weight: 400;
+      max-width: 750px;
+    }
+
+    .meta-bar {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.18);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #f1f5f9;
+      font-weight: 500;
+    }
+
+    /* CARD STYLES */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 0.6rem;
+    }
+
+    /* TEAM GRID */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .member-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .member-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: #cbd5e1;
+    }
+
+    .member-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .member-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #002d62;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .member-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .member-role-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      margin-top: 0.15rem;
+    }
+
+    .member-tasks {
+      font-size: 0.8rem;
+      color: #475569;
+      line-height: 1.5;
+      padding-left: 1.1rem;
+    }
+
+    .member-tasks li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* PROGRESS BAR */
+    .progress-section {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 0.75rem;
+    }
+
+    .progress-percent {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--secondary);
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 14px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .progress-fill {
+      width: 85%;
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+      border-radius: 999px;
+      transition: width 1s ease-in-out;
+    }
+
+    .progress-breakdown {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .breakdown-pill {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* TASK STATUS LISTS */
+    .task-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .task-box {
+      border-radius: 12px;
+      padding: 1.25rem;
+      border: 1px solid;
+    }
+
+    .task-box.completed {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .task-box.in-progress {
+      background: #fffbeb;
+      border-color: #fde68a;
+    }
+
+    .task-box.not-started {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+    }
+
+    .task-box-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .task-box.completed .task-box-title { color: #166534; }
+    .task-box.in-progress .task-box-title { color: #92400e; }
+    .task-box.not-started .task-box-title { color: #475569; }
+
+    .task-list {
+      list-style: none;
+      font-size: 0.82rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .task-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      line-height: 1.45;
+    }
+
+    /* ISSUES TABLE */
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid #cbd5e1;
+    }
+
+    td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+
+    tr:hover td {
+      background: #f8fafc;
+    }
+
+    /* ROADMAP TIMELINE */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .timeline-card {
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.25rem;
+      position: relative;
+      border-left: 5px solid #0a66c2;
+    }
+
+    .timeline-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #002d62;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-card ul {
+      font-size: 0.8rem;
+      color: #475569;
+      padding-left: 1.2rem;
+      line-height: 1.5;
+    }
+
+    /* FOOTER ACTION BUTTONS */
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: #002d62;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0,45,98,0.3);
+    }
+
+    .btn-primary:hover {
+      background: #0a4b9c;
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: #059669;
+      color: white;
+      box-shadow: 0 2px 4px rgba(5,150,105,0.3);
+    }
+
+    .btn-success:hover {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: white;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+    }
+
+    .btn-outline:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+
+    @media print {
+      body { padding: 0; background: white; }
+      .action-bar { display: none; }
+      .card { box-shadow: none; border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- 1. TOP HEADER BANNER -->
+    <header class="header-card">
+      <div class="badge-pill">
+        🛡️ รายวิชา DevSecOps • สัปดาห์ที่ 11
+      </div>
+      <h1 class="header-title">Student Portfolio & Skill Passport</h1>
+      <p class="header-subtitle">
+        ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มหาวิทยาลัยสวนดุสิต
+      </p>
+
+      <div class="meta-bar">
+        <div class="meta-item">
+          <span>👥</span> กลุ่มที่: <strong>3 (Student Portfolio & Skill Passport)</strong>
+        </div>
+        <div class="meta-item">
+          <span>🎓</span> สถาบัน: <strong>มหาวิทยาลัยสวนดุสิต (SDU)</strong>
+        </div>
+        <div class="meta-item">
+          <span>🔗</span> Git Repo: <strong>github.com/Taeaps561/student-portfolio</strong>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. TEAM MEMBERS -->
+    <section class="card">
+      <h2 class="card-title">
+        <span>👥</span> 1. ข้อมูลโครงงานและรายชื่อสมาชิก (3 คน)
+      </h2>
+      <div class="team-grid">
+        
+        <!-- Member 1 -->
+        <div class="member-card">
+          <div class="member-header">
+            <div class="member-avatar" style="background:#002d62;">010</div>
+            <div>
+              <div class="member-name">นายอภิสิทธิ์ ศรีพัฒน์</div>
+              <span class="member-role-badge">Backend, Database & Security Lead</span>
+            </div>
+          </div>
+          <ul class="member-tasks">
+            <li>พัฒนาระบบ Authentication & Multi-Role Registration (NextAuth.js, Credentials + Session Guards)</li>
+            <li>ออกแบบ Prisma Schema & SQLite/PostgreSQL Database (User, Portfolio, Project, Certificate, AuditLog, Skill)</li>
+            <li>พัฒนาระบบ Data Masking (ปิดบัง GPA / ข้อมูลสำคัญ) และ Cryptographic Digital Signature (SHA-256 Hashing)</li>
+          </ul>
+        </div>
+
+        <!-- Member 2 -->
+        <div class="member-card">
+          <div class="member-header">
+            <div class="member-avatar" style="background:#059669;">008</div>
+            <div>
+              <div class="member-name">นายปภังกร ทองเจริญ</div>
+              <span class="member-role-badge" style="background:#dcfce7; color:#15803d;">GitHub Integration & API Specialist</span>
+            </div>
+          </div>
+          <ul class="member-tasks">
+            <li>พัฒนา Backend Service เชื่อมต่อ GitHub REST API (<code>/api/github</code>) ดึง Repositories, ภาษา และประวัติ Commit</li>
+            <li>พัฒนาระบบ Audit Logging บันทึกเหตุการณ์ความปลอดภัย (Security Event Logs) ลงฐานข้อมูล</li>
+            <li>จัดการ API Endpoints สำหรับระบบโพสต์ฟีด (<code>/api/posts</code>), ทักษะ (<code>/api/skills</code>) และใบรับรอง (<code>/api/certificates</code>)</li>
+          </ul>
+        </div>
+
+        <!-- Member 3 -->
+        <div class="member-card">
+          <div class="member-header">
+            <div class="member-avatar" style="background:#0284c7;">009</div>
+            <div>
+              <div class="member-name">นายปวีณวัชร์ เหลืองอุทัย</div>
+              <span class="member-role-badge" style="background:#e0f2fe; color:#0369a1;">Frontend, UX/UI & QA Lead</span>
+            </div>
+          </div>
+          <ul class="member-tasks">
+            <li>พัฒนาหน้าจอ Responsive UI: หน้าแรกฟีด (<code>/feed</code>), ศูนย์อาจารย์ (<code>/teacher</code>, <code>/teacher/certificates</code>, <code>/teacher/advisees</code>), และสรรหาบุคลากร (<code>/employer/jobs</code>, <code>/employer/matching</code>)</li>
+            <li>ออกแบบพรีวิวใบประกาศนียบัตรดิจิทัล มหาวิทยาลัยสวนดุสิต (Printable SDU Diploma Modal)</li>
+            <li>ดูแล Flow การใช้งานโดยรวม และทำ System Testing ตรวจสอบสิทธิ์การเข้าถึงตามหลัก DevSecOps</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. OVERALL PROGRESS -->
+    <section class="card progress-section">
+      <div class="progress-header">
+        <div>
+          <h2 class="card-title" style="margin-bottom:0.25rem; border:none; padding:0;">
+            <span>📈</span> 2. เปอร์เซ็นต์ความสำเร็จโดยรวม (Overall Progress)
+          </h2>
+          <p style="font-size:0.8rem; color:#64748b;">คำนวณจากสถานะงาน Backend, Security, UI และ Database</p>
+        </div>
+        <div class="progress-percent">85%</div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+
+      <div class="progress-breakdown">
+        <div class="breakdown-pill">
+          <span>⚙️ Backend & Database</span>
+          <span style="color:#059669;">90%</span>
+        </div>
+        <div class="breakdown-pill">
+          <span>🛡️ Auth & DevSecOps Security</span>
+          <span style="color:#059669;">90%</span>
+        </div>
+        <div class="breakdown-pill">
+          <span>📜 Core CRUD & Digital Certificate</span>
+          <span style="color:#059669;">90%</span>
+        </div>
+        <div class="breakdown-pill">
+          <span>🚀 Advanced (AI / CI-CD Pipeline)</span>
+          <span style="color:#d97706;">50%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. TASK STATUS -->
+    <section class="card">
+      <h2 class="card-title">
+        <span>📊</span> 3. สถานะความคืบหน้าของงาน (Task Progress)
+      </h2>
+
+      <div class="task-columns">
+        
+        <!-- Completed Tasks -->
+        <div class="task-box completed">
+          <div class="task-box-title">
+            <span>✅</span> งานที่ทำเสร็จแล้ว (สัปดาห์ 1–11)
+          </div>
+          <ul class="task-list">
+            <li><strong>🗄️ Database & ORM:</strong> เชื่อมต่อ Prisma SQLite พร้อมบันทึก User, Portfolio, Skill, Certificate, Post, AuditLog</li>
+            <li><strong>🔐 Multi-Role Auth:</strong> เข้าสู่ระบบ 3 Roles (Student, Teacher, Employer) ปลอดภัยด้วย NextAuth.js และ Password Hash</li>
+            <li><strong>🛡️ RBAC Protection:</strong> ตรวจสอบสิทธิ์ฝั่ง Server ป้องกันการเปิด URL ข้าม Role โดยตรง</li>
+            <li><strong>📜 Digital Certificates:</strong> ออกใบรับรองดิจิทัล มสด. พร้อมเข้ารหัส SHA-256 ป้องกันการปลอมแปลง</li>
+            <li><strong>🌐 Community Feed:</strong> โพสต์และแชร์ผลงานวิชาการ บันทึกจริงลง Database</li>
+          </ul>
+        </div>
+
+        <!-- In-Progress Tasks -->
+        <div class="task-box in-progress">
+          <div class="task-box-title">
+            <span>🔄</span> งานที่กำลังทำ (In-Progress)
+          </div>
+          <ul class="task-list">
+            <li><strong>🔍 Automated SAST Scan:</strong> ติดตั้ง GitHub Actions Security Scan (npm audit, Semgrep)</li>
+            <li><strong>⚡ Next.js Cache Tuning:</strong> ปรับแต่งประสิทธิภาพการโหลดหน้าเว็บและ API Caching</li>
+          </ul>
+        </div>
+
+        <!-- Not Started Tasks -->
+        <div class="task-box not-started">
+          <div class="task-box-title">
+            <span>⏳</span> งานที่ยังไม่ได้เริ่ม
+          </div>
+          <ul class="task-list">
+            <li><strong>🤖 AI Career Recommender:</strong> ระบบวิเคราะห์ทักษะและแนะนำอาชีพที่เหมาะสม</li>
+            <li><strong>☁️ Cloud Production Deployment:</strong> Deploy ระบบขึ้น Vercel / Supabase Production</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. ISSUES & RESOLUTIONS -->
+    <section class="card">
+      <h2 class="card-title">
+        <span>⚠️</span> 4. ปัญหาที่พบและแนวทางแก้ไข (Issues & Resolutions)
+      </h2>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 30%;">ปัญหาที่พบ (Issue)</th>
+              <th style="width: 30%;">สาเหตุ (Root Cause)</th>
+              <th style="width: 40%;">แนวทางแก้ไข (Resolution)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. การเปิด URL ข้ามสิทธิ์</strong><br><span style="color:#64748b;">ผู้ใช้สามารถพิมพ์ URL เข้าหน้า Dashboard หรือหน้าอาจารย์ได้โดยตรง</span></td>
+              <td>การตรวจสอบสิทธิ์เดิมทำเพียงฝั่ง Client-side ผ่าน React State</td>
+              <td><span style="color:#059669; font-weight:700;">✓ เพิ่ม Server-side Validation:</span> เช็ค <code>session.user.role</code> ผ่าน Middleware/Server Guard หากไม่มีสิทธิ์จะดีดกลับหน้า <code>/login</code> ทันที</td>
+            </tr>
+            <tr>
+              <td><strong>2. ข้อมูล Mock ไม่สมจริง</strong><br><span style="color:#64748b;">ข้อมูลเริ่มต้นเป็น Placeholder ทั่วไป ไม่สะท้อนบริบท มสด.</span></td>
+              <td>ใช้ข้อมูลตั้งต้นที่ไม่เชื่อมโยงกับหลักสูตรคอมพิวเตอร์และ DevSecOps</td>
+              <td><span style="color:#059669; font-weight:700;">✓ ปรับ Database Seeding:</span> สร้างข้อมูลนักศึกษาจริง 7 คน พร้อมทักษะ CCNA, CEH, DevSecOps ตรงตามบริบท มสด.</td>
+            </tr>
+            <tr>
+              <td><strong>3. ความเป็นส่วนตัวของข้อมูล (PDPA)</strong><br><span style="color:#64748b;">การเปิดเผยเกรดเฉลี่ยหรือเบอร์โทรสู่สาธารณะ</span></td>
+              <td>ไม่มีกลไก Data Masking สำหรับบุคคลภายนอก</td>
+              <td><span style="color:#059669; font-weight:700;">✓ ทำ Data Masking:</span> ซ่อนข้อมูลส่วนบุคคลที่อ่อนไหว และเปิดเผยเฉพาะบทบาทที่ได้รับอนุญาต</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. FUTURE ROADMAP -->
+    <section class="card">
+      <h2 class="card-title">
+        <span>🗓️</span> 5. แผนการพัฒนาในสัปดาห์ที่ 12–13 (Future Roadmap)
+      </h2>
+
+      <div class="timeline">
+        <div class="timeline-card">
+          <div class="timeline-title">สัปดาห์ที่ 12: Security Hardening & CI/CD</div>
+          <ul>
+            <li>ติดตั้ง GitHub Actions CI/CD ทำ Automated SAST Security Scanning</li>
+            <li>ตั้งค่า Security Headers (Helmet, CSRF Protection, Rate Limiting)</li>
+          </ul>
+        </div>
+
+        <div class="timeline-card" style="border-left-color: #059669;">
+          <div class="timeline-title">สัปดาห์ที่ 13: Feature Completion & Deployment</div>
+          <ul>
+            <li>ปรับแต่ง Responsive UI และเชื่อมต่อ AI Career Path Recommender</li>
+            <li>Deploy ระบบขึ้น Cloud Production (Vercel / Supabase) พร้อมส่งมอบ</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTION BUTTONS -->
+    <div class="action-bar">
+      <a href="http://localhost:3000" target="_blank" class="btn btn-primary">
+        🚀 เปิดระบบ Live Demo (localhost:3000)
+      </a>
+      <a href="http://localhost:5555" target="_blank" class="btn btn-success">
+        🗄️ เปิดดูฐานข้อมูล Prisma Studio (localhost:5555)
+      </a>
+      <a href="https://github.com/Taeaps561/student-portfolio" target="_blank" class="btn btn-outline">
+        🐙 เปิด GitHub Repository
+      </a>
+      <button onclick="window.print()" class="btn btn-outline">
+        🖨️ พิมพ์ / บันทึกเป็น PDF
+      </button>
+    </div>
+
+  </div>
+
+</body>
+</html>
