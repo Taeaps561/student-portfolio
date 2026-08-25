@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>รายงานความคืบหน้าโครงงาน DevSecOps สัปดาห์ที่ 11 | มหาวิทยาลัยสวนดุสิต</title>
+  <title>สไลด์นำเสนอความคืบหน้า DevSecOps สัปดาห์ที่ 11 | มหาวิทยาลัยสวนดุสิต</title>
   
   <!-- Google Fonts: Prompt & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,19 +12,17 @@
 
   <style>
     :root {
-      --primary: #002d62;
-      --primary-light: #0a66c2;
-      --secondary: #059669;
-      --accent: #d97706;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --border: #e2e8f0;
-      --text: #0f172a;
-      --text-muted: #64748b;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
-      --radius: 16px;
+      --sdu-navy: #002d62;
+      --sdu-blue: #0a66c2;
+      --sdu-accent: #0284c7;
+      --emerald: #059669;
+      --amber: #d97706;
+      --bg-dark: #090e17;
+      --slide-bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
     }
 
     * {
@@ -32,665 +30,1054 @@
       margin: 0;
       padding: 0;
       font-family: 'Prompt', 'Outfit', sans-serif;
+      user-select: none;
     }
 
     body {
-      background-color: var(--bg);
+      background-color: var(--bg-dark);
       color: var(--text);
-      line-height: 1.6;
-      padding: 2rem 1rem 4rem 1rem;
-    }
-
-    .container {
-      max-width: 1080px;
-      margin: 0 auto;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* TOP PRESENTATION BAR */
+    .top-bar {
+      width: 100%;
+      height: 52px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 100;
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .sdu-badge {
+      background: linear-gradient(135deg, #002d62, #0a66c2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .btn-top {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border: 1px solid var(--card-border);
+      padding: 0.35rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s;
+    }
+
+    .btn-top:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    /* SLIDES WRAPPER */
+    .deck-container {
+      width: 100%;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(94vw, 1200px);
+      height: min(78vh, 680px);
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      padding: 2.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: scale(0.96) translateX(40px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+      pointer-events: auto;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: scale(0.96) translateX(-40px);
+    }
+
+    /* SLIDE HEADER */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .slide-num-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--sdu-accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.25rem;
+    }
+
+    .slide-heading {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+    }
+
+    .slide-subheading {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* SLIDE 1: COVER */
+    .cover-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
       gap: 1.5rem;
     }
 
-    /* HEADER BANNER */
-    .header-card {
-      background: linear-gradient(135deg, #002d62 0%, #0a4b9c 60%, #0284c7 100%);
-      color: #ffffff;
-      border-radius: var(--radius);
-      padding: 2.5rem 2rem;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header-card::after {
-      content: '';
-      position: absolute;
-      top: -50px;
-      right: -50px;
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    .badge-pill {
+    .cover-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px);
-      padding: 0.35rem 0.85rem;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      background: rgba(10, 102, 194, 0.2);
+      border: 1px solid rgba(10, 102, 194, 0.4);
       border-radius: 999px;
-      font-size: 0.8rem;
+      color: #38bdf8;
       font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.75rem;
-      border: 1px solid rgba(255,255,255,0.25);
+      font-size: 0.9rem;
     }
 
-    .header-title {
-      font-size: 1.85rem;
-      font-weight: 800;
-      line-height: 1.25;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.5px;
+    .cover-title {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+      max-width: 900px;
     }
 
-    .header-subtitle {
-      font-size: 1rem;
-      color: #e2e8f0;
-      font-weight: 400;
+    .cover-desc {
+      font-size: 1.15rem;
+      color: #cbd5e1;
       max-width: 750px;
     }
 
-    .meta-bar {
-      margin-top: 1.25rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid rgba(255,255,255,0.18);
+    .cover-team-strip {
       display: flex;
+      gap: 1rem;
       flex-wrap: wrap;
-      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .team-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 0.6rem 1.2rem;
+      border-radius: 12px;
       font-size: 0.85rem;
-    }
-
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      color: #f1f5f9;
-      font-weight: 500;
-    }
-
-    /* CARD STYLES */
-    .card {
-      background: var(--surface);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .card-title {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      border-bottom: 2px solid #f1f5f9;
-      padding-bottom: 0.6rem;
     }
 
-    /* TEAM GRID */
-    .team-grid {
+    .team-pill strong {
+      color: #38bdf8;
+    }
+
+    /* SLIDE 2: MEMBERS GRID */
+    .members-slide-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      flex: 1;
     }
 
-    .member-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 1.25rem;
+    .member-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+      justify-content: space-between;
+      backdrop-filter: blur(8px);
     }
 
-    .member-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      border-color: #cbd5e1;
-    }
-
-    .member-header {
+    .member-box-top {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
     }
 
-    .member-avatar {
-      width: 48px;
-      height: 48px;
+    .member-num-circle {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: #002d62;
+      background: linear-gradient(135deg, var(--sdu-navy), var(--sdu-blue));
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-
-    .member-name {
       font-size: 0.95rem;
-      font-weight: 700;
-      color: #0f172a;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.2);
     }
 
-    .member-role-badge {
-      display: inline-block;
-      font-size: 0.7rem;
+    .member-title-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .member-role-tag {
+      font-size: 0.75rem;
       font-weight: 700;
-      background: #e0f2fe;
-      color: #0369a1;
-      padding: 0.15rem 0.5rem;
-      border-radius: 6px;
+      color: #38bdf8;
+      display: block;
       margin-top: 0.15rem;
     }
 
-    .member-tasks {
-      font-size: 0.8rem;
-      color: #475569;
-      line-height: 1.5;
-      padding-left: 1.1rem;
-    }
-
-    .member-tasks li {
-      margin-bottom: 0.3rem;
-    }
-
-    /* PROGRESS BAR */
-    .progress-section {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-    }
-
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 0.75rem;
-    }
-
-    .progress-percent {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--secondary);
-      font-family: 'Outfit', sans-serif;
-    }
-
-    .progress-track {
-      width: 100%;
-      height: 14px;
-      background: #e2e8f0;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-bottom: 1.25rem;
-    }
-
-    .progress-fill {
-      width: 85%;
-      height: 100%;
-      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-      border-radius: 999px;
-      transition: width 1s ease-in-out;
-    }
-
-    .progress-breakdown {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.75rem;
-    }
-
-    .breakdown-pill {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 0.75rem 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    /* TASK STATUS LISTS */
-    .task-columns {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .task-box {
-      border-radius: 12px;
-      padding: 1.25rem;
-      border: 1px solid;
-    }
-
-    .task-box.completed {
-      background: #f0fdf4;
-      border-color: #bbf7d0;
-    }
-
-    .task-box.in-progress {
-      background: #fffbeb;
-      border-color: #fde68a;
-    }
-
-    .task-box.not-started {
-      background: #f8fafc;
-      border-color: #e2e8f0;
-    }
-
-    .task-box-title {
-      font-size: 0.95rem;
-      font-weight: 800;
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .task-box.completed .task-box-title { color: #166534; }
-    .task-box.in-progress .task-box-title { color: #92400e; }
-    .task-box.not-started .task-box-title { color: #475569; }
-
-    .task-list {
-      list-style: none;
+    .member-duties {
       font-size: 0.82rem;
+      color: #cbd5e1;
+      line-height: 1.6;
+      list-style-type: none;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
     }
 
-    .task-list li {
+    .member-duties li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    .member-duties li::before {
+      content: '✓';
+      color: var(--emerald);
+      font-weight: 900;
+    }
+
+    /* SLIDE 3: PROGRESS & METRICS */
+    .progress-slide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2rem;
+      align-items: center;
+      flex: 1;
+    }
+
+    .big-score-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .huge-percent {
+      font-size: 5rem;
+      font-weight: 900;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .score-label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .score-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .progress-categories {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cat-bar-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+    }
+
+    .cat-bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .cat-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .cat-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #0ea5e9, #10b981);
+    }
+
+    /* SLIDE 4: TASKS GRID */
+    .tasks-slide-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 1rem;
+      flex: 1;
+    }
+
+    .task-card-column {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .task-col-head {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .task-col-head.done { color: #34d399; }
+    .task-col-head.doing { color: #fbbf24; }
+    .task-col-head.todo { color: #94a3b8; }
+
+    .task-items-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+    }
+
+    .task-items-list li {
       display: flex;
       align-items: flex-start;
       gap: 0.4rem;
       line-height: 1.45;
     }
 
-    /* ISSUES TABLE */
-    .table-wrapper {
-      overflow-x: auto;
+    /* SLIDE 5: ISSUES & SOLUTIONS */
+    .issues-slide-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex: 1;
+      justify-content: center;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      text-align: left;
-    }
-
-    th {
-      background: #f1f5f9;
-      color: #334155;
-      font-weight: 700;
-      padding: 0.75rem 1rem;
-      border-bottom: 2px solid #cbd5e1;
-    }
-
-    td {
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid #e2e8f0;
-      vertical-align: top;
-    }
-
-    tr:hover td {
-      background: #f8fafc;
-    }
-
-    /* ROADMAP TIMELINE */
-    .timeline {
+    .issue-row-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: 1.2fr 1fr 1.5fr;
+      gap: 1.25rem;
+      align-items: center;
+      font-size: 0.82rem;
+    }
+
+    .issue-text {
+      color: #fca5a5;
+      font-weight: 600;
+    }
+
+    .cause-text {
+      color: #94a3b8;
+    }
+
+    .solve-text {
+      color: #86efac;
+      font-weight: 600;
+    }
+
+    /* SLIDE 6: ROADMAP */
+    .roadmap-slide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      flex: 1;
+      align-items: center;
+    }
+
+    .roadmap-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      border-top: 4px solid var(--sdu-accent);
+      display: flex;
+      flex-direction: column;
       gap: 1rem;
     }
 
-    .timeline-card {
-      border: 1px solid #e2e8f0;
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 1.25rem;
-      position: relative;
-      border-left: 5px solid #0a66c2;
-    }
-
-    .timeline-title {
-      font-size: 0.95rem;
+    .roadmap-title {
+      font-size: 1.1rem;
       font-weight: 800;
-      color: #002d62;
-      margin-bottom: 0.5rem;
-    }
-
-    .timeline-card ul {
-      font-size: 0.8rem;
-      color: #475569;
-      padding-left: 1.2rem;
-      line-height: 1.5;
-    }
-
-    /* FOOTER ACTION BUTTONS */
-    .action-bar {
+      color: #ffffff;
       display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .roadmap-list {
+      list-style: none;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .roadmap-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .roadmap-list li::before {
+      content: '⚡';
+    }
+
+    /* SLIDE 7: LIVE DEMO CALLOUT */
+    .demo-slide-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .demo-buttons-deck {
+      display: flex;
+      gap: 1rem;
       flex-wrap: wrap;
-      gap: 0.75rem;
       justify-content: center;
       margin-top: 1rem;
     }
 
-    .btn {
+    .btn-deck-big {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      gap: 0.6rem;
+      padding: 0.9rem 1.8rem;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-weight: 800;
       text-decoration: none;
       transition: all 0.2s;
       cursor: pointer;
       border: none;
     }
 
-    .btn-primary {
-      background: #002d62;
-      color: white;
-      box-shadow: 0 2px 4px rgba(0,45,98,0.3);
+    .btn-deck-primary {
+      background: linear-gradient(135deg, #002d62, #0a66c2);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 20px -5px rgba(10, 102, 194, 0.5);
     }
 
-    .btn-primary:hover {
-      background: #0a4b9c;
-      transform: translateY(-1px);
+    .btn-deck-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px -5px rgba(10, 102, 194, 0.7);
     }
 
-    .btn-success {
-      background: #059669;
-      color: white;
-      box-shadow: 0 2px 4px rgba(5,150,105,0.3);
+    .btn-deck-success {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.5);
     }
 
-    .btn-success:hover {
-      background: #047857;
-      transform: translateY(-1px);
+    .btn-deck-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.7);
     }
 
-    .btn-outline {
-      background: white;
-      color: #334155;
-      border: 1px solid #cbd5e1;
+    /* BOTTOM CONTROLS */
+    .bottom-bar {
+      width: 100%;
+      height: 60px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 100;
     }
 
-    .btn-outline:hover {
-      background: #f1f5f9;
-      border-color: #94a3b8;
+    .slide-dots {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
     }
 
-    @media print {
-      body { padding: 0; background: white; }
-      .action-bar { display: none; }
-      .card { box-shadow: none; border: 1px solid #ccc; }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .dot.active {
+      width: 28px;
+      border-radius: 999px;
+      background: #38bdf8;
+    }
+
+    .nav-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 1px solid var(--card-border);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
+    }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 90px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-
-    <!-- 1. TOP HEADER BANNER -->
-    <header class="header-card">
-      <div class="badge-pill">
-        🛡️ รายวิชา DevSecOps • สัปดาห์ที่ 11
-      </div>
-      <h1 class="header-title">Student Portfolio & Skill Passport</h1>
-      <p class="header-subtitle">
-        ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มหาวิทยาลัยสวนดุสิต
-      </p>
-
-      <div class="meta-bar">
-        <div class="meta-item">
-          <span>👥</span> กลุ่มที่: <strong>3 (Student Portfolio & Skill Passport)</strong>
-        </div>
-        <div class="meta-item">
-          <span>🎓</span> สถาบัน: <strong>มหาวิทยาลัยสวนดุสิต (SDU)</strong>
-        </div>
-        <div class="meta-item">
-          <span>🔗</span> Git Repo: <strong>github.com/Taeaps561/student-portfolio</strong>
-        </div>
-      </div>
-    </header>
-
-    <!-- 2. TEAM MEMBERS -->
-    <section class="card">
-      <h2 class="card-title">
-        <span>👥</span> 1. ข้อมูลโครงงานและรายชื่อสมาชิก (3 คน)
-      </h2>
-      <div class="team-grid">
-        
-        <!-- Member 1 -->
-        <div class="member-card">
-          <div class="member-header">
-            <div class="member-avatar" style="background:#002d62;">010</div>
-            <div>
-              <div class="member-name">นายอภิสิทธิ์ ศรีพัฒน์</div>
-              <span class="member-role-badge">Backend, Database & Security Lead</span>
-            </div>
-          </div>
-          <ul class="member-tasks">
-            <li>พัฒนาระบบ Authentication & Multi-Role Registration (NextAuth.js, Credentials + Session Guards)</li>
-            <li>ออกแบบ Prisma Schema & SQLite/PostgreSQL Database (User, Portfolio, Project, Certificate, AuditLog, Skill)</li>
-            <li>พัฒนาระบบ Data Masking (ปิดบัง GPA / ข้อมูลสำคัญ) และ Cryptographic Digital Signature (SHA-256 Hashing)</li>
-          </ul>
-        </div>
-
-        <!-- Member 2 -->
-        <div class="member-card">
-          <div class="member-header">
-            <div class="member-avatar" style="background:#059669;">008</div>
-            <div>
-              <div class="member-name">นายปภังกร ทองเจริญ</div>
-              <span class="member-role-badge" style="background:#dcfce7; color:#15803d;">GitHub Integration & API Specialist</span>
-            </div>
-          </div>
-          <ul class="member-tasks">
-            <li>พัฒนา Backend Service เชื่อมต่อ GitHub REST API (<code>/api/github</code>) ดึง Repositories, ภาษา และประวัติ Commit</li>
-            <li>พัฒนาระบบ Audit Logging บันทึกเหตุการณ์ความปลอดภัย (Security Event Logs) ลงฐานข้อมูล</li>
-            <li>จัดการ API Endpoints สำหรับระบบโพสต์ฟีด (<code>/api/posts</code>), ทักษะ (<code>/api/skills</code>) และใบรับรอง (<code>/api/certificates</code>)</li>
-          </ul>
-        </div>
-
-        <!-- Member 3 -->
-        <div class="member-card">
-          <div class="member-header">
-            <div class="member-avatar" style="background:#0284c7;">009</div>
-            <div>
-              <div class="member-name">นายปวีณวัชร์ เหลืองอุทัย</div>
-              <span class="member-role-badge" style="background:#e0f2fe; color:#0369a1;">Frontend, UX/UI & QA Lead</span>
-            </div>
-          </div>
-          <ul class="member-tasks">
-            <li>พัฒนาหน้าจอ Responsive UI: หน้าแรกฟีด (<code>/feed</code>), ศูนย์อาจารย์ (<code>/teacher</code>, <code>/teacher/certificates</code>, <code>/teacher/advisees</code>), และสรรหาบุคลากร (<code>/employer/jobs</code>, <code>/employer/matching</code>)</li>
-            <li>ออกแบบพรีวิวใบประกาศนียบัตรดิจิทัล มหาวิทยาลัยสวนดุสิต (Printable SDU Diploma Modal)</li>
-            <li>ดูแล Flow การใช้งานโดยรวม และทำ System Testing ตรวจสอบสิทธิ์การเข้าถึงตามหลัก DevSecOps</li>
-          </ul>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 3. OVERALL PROGRESS -->
-    <section class="card progress-section">
-      <div class="progress-header">
-        <div>
-          <h2 class="card-title" style="margin-bottom:0.25rem; border:none; padding:0;">
-            <span>📈</span> 2. เปอร์เซ็นต์ความสำเร็จโดยรวม (Overall Progress)
-          </h2>
-          <p style="font-size:0.8rem; color:#64748b;">คำนวณจากสถานะงาน Backend, Security, UI และ Database</p>
-        </div>
-        <div class="progress-percent">85%</div>
-      </div>
-
-      <div class="progress-track">
-        <div class="progress-fill"></div>
-      </div>
-
-      <div class="progress-breakdown">
-        <div class="breakdown-pill">
-          <span>⚙️ Backend & Database</span>
-          <span style="color:#059669;">90%</span>
-        </div>
-        <div class="breakdown-pill">
-          <span>🛡️ Auth & DevSecOps Security</span>
-          <span style="color:#059669;">90%</span>
-        </div>
-        <div class="breakdown-pill">
-          <span>📜 Core CRUD & Digital Certificate</span>
-          <span style="color:#059669;">90%</span>
-        </div>
-        <div class="breakdown-pill">
-          <span>🚀 Advanced (AI / CI-CD Pipeline)</span>
-          <span style="color:#d97706;">50%</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. TASK STATUS -->
-    <section class="card">
-      <h2 class="card-title">
-        <span>📊</span> 3. สถานะความคืบหน้าของงาน (Task Progress)
-      </h2>
-
-      <div class="task-columns">
-        
-        <!-- Completed Tasks -->
-        <div class="task-box completed">
-          <div class="task-box-title">
-            <span>✅</span> งานที่ทำเสร็จแล้ว (สัปดาห์ 1–11)
-          </div>
-          <ul class="task-list">
-            <li><strong>🗄️ Database & ORM:</strong> เชื่อมต่อ Prisma SQLite พร้อมบันทึก User, Portfolio, Skill, Certificate, Post, AuditLog</li>
-            <li><strong>🔐 Multi-Role Auth:</strong> เข้าสู่ระบบ 3 Roles (Student, Teacher, Employer) ปลอดภัยด้วย NextAuth.js และ Password Hash</li>
-            <li><strong>🛡️ RBAC Protection:</strong> ตรวจสอบสิทธิ์ฝั่ง Server ป้องกันการเปิด URL ข้าม Role โดยตรง</li>
-            <li><strong>📜 Digital Certificates:</strong> ออกใบรับรองดิจิทัล มสด. พร้อมเข้ารหัส SHA-256 ป้องกันการปลอมแปลง</li>
-            <li><strong>🌐 Community Feed:</strong> โพสต์และแชร์ผลงานวิชาการ บันทึกจริงลง Database</li>
-          </ul>
-        </div>
-
-        <!-- In-Progress Tasks -->
-        <div class="task-box in-progress">
-          <div class="task-box-title">
-            <span>🔄</span> งานที่กำลังทำ (In-Progress)
-          </div>
-          <ul class="task-list">
-            <li><strong>🔍 Automated SAST Scan:</strong> ติดตั้ง GitHub Actions Security Scan (npm audit, Semgrep)</li>
-            <li><strong>⚡ Next.js Cache Tuning:</strong> ปรับแต่งประสิทธิภาพการโหลดหน้าเว็บและ API Caching</li>
-          </ul>
-        </div>
-
-        <!-- Not Started Tasks -->
-        <div class="task-box not-started">
-          <div class="task-box-title">
-            <span>⏳</span> งานที่ยังไม่ได้เริ่ม
-          </div>
-          <ul class="task-list">
-            <li><strong>🤖 AI Career Recommender:</strong> ระบบวิเคราะห์ทักษะและแนะนำอาชีพที่เหมาะสม</li>
-            <li><strong>☁️ Cloud Production Deployment:</strong> Deploy ระบบขึ้น Vercel / Supabase Production</li>
-          </ul>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- 5. ISSUES & RESOLUTIONS -->
-    <section class="card">
-      <h2 class="card-title">
-        <span>⚠️</span> 4. ปัญหาที่พบและแนวทางแก้ไข (Issues & Resolutions)
-      </h2>
-
-      <div class="table-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th style="width: 30%;">ปัญหาที่พบ (Issue)</th>
-              <th style="width: 30%;">สาเหตุ (Root Cause)</th>
-              <th style="width: 40%;">แนวทางแก้ไข (Resolution)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>1. การเปิด URL ข้ามสิทธิ์</strong><br><span style="color:#64748b;">ผู้ใช้สามารถพิมพ์ URL เข้าหน้า Dashboard หรือหน้าอาจารย์ได้โดยตรง</span></td>
-              <td>การตรวจสอบสิทธิ์เดิมทำเพียงฝั่ง Client-side ผ่าน React State</td>
-              <td><span style="color:#059669; font-weight:700;">✓ เพิ่ม Server-side Validation:</span> เช็ค <code>session.user.role</code> ผ่าน Middleware/Server Guard หากไม่มีสิทธิ์จะดีดกลับหน้า <code>/login</code> ทันที</td>
-            </tr>
-            <tr>
-              <td><strong>2. ข้อมูล Mock ไม่สมจริง</strong><br><span style="color:#64748b;">ข้อมูลเริ่มต้นเป็น Placeholder ทั่วไป ไม่สะท้อนบริบท มสด.</span></td>
-              <td>ใช้ข้อมูลตั้งต้นที่ไม่เชื่อมโยงกับหลักสูตรคอมพิวเตอร์และ DevSecOps</td>
-              <td><span style="color:#059669; font-weight:700;">✓ ปรับ Database Seeding:</span> สร้างข้อมูลนักศึกษาจริง 7 คน พร้อมทักษะ CCNA, CEH, DevSecOps ตรงตามบริบท มสด.</td>
-            </tr>
-            <tr>
-              <td><strong>3. ความเป็นส่วนตัวของข้อมูล (PDPA)</strong><br><span style="color:#64748b;">การเปิดเผยเกรดเฉลี่ยหรือเบอร์โทรสู่สาธารณะ</span></td>
-              <td>ไม่มีกลไก Data Masking สำหรับบุคคลภายนอก</td>
-              <td><span style="color:#059669; font-weight:700;">✓ ทำ Data Masking:</span> ซ่อนข้อมูลส่วนบุคคลที่อ่อนไหว และเปิดเผยเฉพาะบทบาทที่ได้รับอนุญาต</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- 6. FUTURE ROADMAP -->
-    <section class="card">
-      <h2 class="card-title">
-        <span>🗓️</span> 5. แผนการพัฒนาในสัปดาห์ที่ 12–13 (Future Roadmap)
-      </h2>
-
-      <div class="timeline">
-        <div class="timeline-card">
-          <div class="timeline-title">สัปดาห์ที่ 12: Security Hardening & CI/CD</div>
-          <ul>
-            <li>ติดตั้ง GitHub Actions CI/CD ทำ Automated SAST Security Scanning</li>
-            <li>ตั้งค่า Security Headers (Helmet, CSRF Protection, Rate Limiting)</li>
-          </ul>
-        </div>
-
-        <div class="timeline-card" style="border-left-color: #059669;">
-          <div class="timeline-title">สัปดาห์ที่ 13: Feature Completion & Deployment</div>
-          <ul>
-            <li>ปรับแต่ง Responsive UI และเชื่อมต่อ AI Career Path Recommender</li>
-            <li>Deploy ระบบขึ้น Cloud Production (Vercel / Supabase) พร้อมส่งมอบ</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ACTION BUTTONS -->
-    <div class="action-bar">
-      <a href="http://localhost:3000" target="_blank" class="btn btn-primary">
-        🚀 เปิดระบบ Live Demo (localhost:3000)
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-left">
+      <span class="sdu-badge">SDU DevSecOps</span>
+      <span>รายงานความคืบหน้าโครงงาน • สัปดาห์ที่ 11</span>
+    </div>
+    <div class="top-right">
+      <a href="http://localhost:3000" target="_blank" class="btn-top">
+        🚀 Live Demo
       </a>
-      <a href="http://localhost:5555" target="_blank" class="btn btn-success">
-        🗄️ เปิดดูฐานข้อมูล Prisma Studio (localhost:5555)
+      <a href="http://localhost:5555" target="_blank" class="btn-top">
+        🗄️ Prisma Studio
       </a>
-      <a href="https://github.com/Taeaps561/student-portfolio" target="_blank" class="btn btn-outline">
-        🐙 เปิด GitHub Repository
-      </a>
-      <button onclick="window.print()" class="btn btn-outline">
-        🖨️ พิมพ์ / บันทึกเป็น PDF
+      <button onclick="toggleFullScreen()" class="btn-top" title="เปิดโหมดเต็มจอ">
+        ⛶ เต็มจอ
       </button>
+    </div>
+  </div>
+
+  <!-- SLIDES DECK CONTAINER -->
+  <div class="deck-container">
+
+    <!-- ==================== SLIDE 1: COVER ==================== -->
+    <div class="slide active" id="slide-1">
+      <div class="cover-content">
+        <div class="cover-badge">
+          🛡️ โครงงานวิชา DevSecOps • กลุ่มที่ 3
+        </div>
+        <h1 class="cover-title">
+          Student Portfolio &<br>Skill Passport
+        </h1>
+        <p class="cover-desc">
+          ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มหาวิทยาลัยสวนดุสิต
+        </p>
+
+        <div class="cover-team-strip">
+          <div class="team-pill">
+            <strong>010</strong> อภิสิทธิ์ ศรีพัฒน์
+          </div>
+          <div class="team-pill">
+            <strong>008</strong> ปภังกร ทองเจริญ
+          </div>
+          <div class="team-pill">
+            <strong>009</strong> ปวีณวัชร์ เหลืองอุทัย
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 2: MEMBERS ==================== -->
+    <div class="slide" id="slide-2">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">Slide 02 • Team & Roles</div>
+          <h2 class="slide-heading">1. รายชื่อสมาชิกและบทบาทหน้าที่ (3 คน)</h2>
+          <p class="slide-subheading">แบ่งหน้าที่ความรับผิดชอบตามแนวทาง DevSecOps อย่างชัดเจน</p>
+        </div>
+      </div>
+
+      <div class="members-slide-grid">
+        <!-- 010 -->
+        <div class="member-box">
+          <div>
+            <div class="member-box-top">
+              <div class="member-num-circle">010</div>
+              <div>
+                <div class="member-title-name">นายอภิสิทธิ์ ศรีพัฒน์</div>
+                <span class="member-role-tag">Backend, Database & Security</span>
+              </div>
+            </div>
+            <ul class="member-duties">
+              <li>พัฒนาระบบ Multi-Role Auth (Student / Teacher / Employer)</li>
+              <li>ออกแบบ Prisma Schema & SQLite/PostgreSQL Database</li>
+              <li>ทำระบบ Data Masking & SHA-256 Digital Certificate</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 008 -->
+        <div class="member-box">
+          <div>
+            <div class="member-box-top">
+              <div class="member-num-circle" style="background:linear-gradient(135deg, #059669, #10b981);">008</div>
+              <div>
+                <div class="member-title-name">นายปภังกร ทองเจริญ</div>
+                <span class="member-role-tag" style="color:#34d399;">GitHub Integration & API</span>
+              </div>
+            </div>
+            <ul class="member-duties">
+              <li>พัฒนา Backend Service เชื่อมต่อ GitHub REST API</li>
+              <li>พัฒนาระบบ Security Event Audit Logging ลงฐานข้อมูล</li>
+              <li>จัดการ API Endpoints สำหรับ Feed, Skills และ Certificates</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 009 -->
+        <div class="member-box">
+          <div>
+            <div class="member-box-top">
+              <div class="member-num-circle" style="background:linear-gradient(135deg, #0284c7, #38bdf8);">009</div>
+              <div>
+                <div class="member-title-name">นายปวีณวัชร์ เหลืองอุทัย</div>
+                <span class="member-role-tag" style="color:#7dd3fc;">Frontend, UX/UI & QA Lead</span>
+              </div>
+            </div>
+            <ul class="member-duties">
+              <li>พัฒนา UI Responsive (Feed, Teacher Hub, Employer Portal)</li>
+              <li>ออกแบบ Printable SDU Diploma Modal สวนดุสิต</li>
+              <li>ทำ System QA Testing ตรวจสอบสิทธิ์ Route RBAC</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 3: PROGRESS ==================== -->
+    <div class="slide" id="slide-3">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">Slide 03 • Overall Progress</div>
+          <h2 class="slide-heading">2. เปอร์เซ็นต์ความสำเร็จโดยรวม (85%)</h2>
+          <p class="slide-subheading">สรุปสถานะความพร้อมของระบบทั้งหมดในสัปดาห์ที่ 11</p>
+        </div>
+      </div>
+
+      <div class="progress-slide-grid">
+        <div class="big-score-box">
+          <div class="huge-percent">85%</div>
+          <div class="score-label">ภาพรวมโครงงานสำเร็จ</div>
+          <div class="score-sub">พร้อมส่งรายงาน & Live Demo 100%</div>
+        </div>
+
+        <div class="progress-categories">
+          <div class="cat-bar-item">
+            <div class="cat-bar-header">
+              <span>⚙️ Backend & Database Architecture</span>
+              <span style="color:#10b981;">90%</span>
+            </div>
+            <div class="cat-track"><div class="cat-fill" style="width: 90%;"></div></div>
+          </div>
+
+          <div class="cat-bar-item">
+            <div class="cat-bar-header">
+              <span>🛡️ Multi-Role Auth & DevSecOps Security</span>
+              <span style="color:#10b981;">90%</span>
+            </div>
+            <div class="cat-track"><div class="cat-fill" style="width: 90%;"></div></div>
+          </div>
+
+          <div class="cat-bar-item">
+            <div class="cat-bar-header">
+              <span>📜 Digital Certificates & SHA-256 Signature</span>
+              <span style="color:#10b981;">90%</span>
+            </div>
+            <div class="cat-track"><div class="cat-fill" style="width: 90%;"></div></div>
+          </div>
+
+          <div class="cat-bar-item">
+            <div class="cat-bar-header">
+              <span>🚀 Advanced (AI Matching & CI/CD Pipeline)</span>
+              <span style="color:#f59e0b;">50%</span>
+            </div>
+            <div class="cat-track"><div class="cat-fill" style="width: 50%; background:#f59e0b;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 4: TASKS STATUS ==================== -->
+    <div class="slide" id="slide-4">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">Slide 04 • Task Breakdown</div>
+          <h2 class="slide-heading">3. สถานะความคืบหน้าของงาน (Task Progress)</h2>
+          <p class="slide-subheading">จำแนกตามงานที่ทำเสร็จแล้ว, กำลังดำเนินการ และแผนงานถัดไป</p>
+        </div>
+      </div>
+
+      <div class="tasks-slide-grid">
+        <!-- DONE -->
+        <div class="task-card-column">
+          <div class="task-col-head done">
+            <span>✅</span> ทำเสร็จแล้ว (สัปดาห์ 1–11)
+          </div>
+          <ul class="task-items-list">
+            <li><strong>🗄️ Database:</strong> เชื่อมต่อ Prisma SQLite บันทึก User, Portfolio, Skills, Certs, Posts, AuditLog</li>
+            <li><strong>🔐 Auth & RBAC:</strong> ล็อกอิน 3 Roles พร้อม Server-side Session Guard</li>
+            <li><strong>📜 Certificates:</strong> ออกวุฒิบัตรดิจิทัลพร้อม SHA-256 Verification</li>
+            <li><strong>🌐 Social Feed:</strong> ฟีดข่าวสารวิชาการ มสด. บันทึกลงฐานข้อมูลจริง</li>
+          </ul>
+        </div>
+
+        <!-- IN PROGRESS -->
+        <div class="task-card-column">
+          <div class="task-col-head doing">
+            <span>🔄</span> กำลังทำ (In-Progress)
+          </div>
+          <ul class="task-items-list">
+            <li><strong>🔍 SAST Security Scan:</strong> ติดตั้ง GitHub Actions Automated Security Scan (npm audit, Semgrep)</li>
+            <li><strong>⚡ Performance Tuning:</strong> ปรับแต่ง Caching และ Server Components</li>
+          </ul>
+        </div>
+
+        <!-- NOT STARTED -->
+        <div class="task-card-column">
+          <div class="task-col-head todo">
+            <span>⏳</span> ยังไม่ได้เริ่ม
+          </div>
+          <ul class="task-items-list">
+            <li><strong>🤖 AI Career Matching:</strong> ระบบ AI วิเคราะห์ทักษะและจับคู่ตลาดงานอัตโนมัติ</li>
+            <li><strong>☁️ Cloud Production:</strong> Deploy ระบบขึ้น Vercel / Supabase</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 5: ISSUES & SOLUTIONS ==================== -->
+    <div class="slide" id="slide-5">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">Slide 05 • Issues & Solutions</div>
+          <h2 class="slide-heading">4. ปัญหาที่พบและแนวทางแก้ไข (Issues & Resolutions)</h2>
+          <p class="slide-subheading">การแก้ปัญหาตามหลักการความมั่นคงปลอดภัย DevSecOps</p>
+        </div>
+      </div>
+
+      <div class="issues-slide-list">
+        <div class="issue-row-card">
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">ปัญหาที่พบ</span>
+            <div class="issue-text">1. การเปิด URL ข้ามสิทธิ์ (URL Bypass)</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">สาเหตุ</span>
+            <div class="cause-text">ตรวจสอบเพียงฝั่ง Client-side</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">แนวทางแก้ไข</span>
+            <div class="solve-text">✓ เพิ่ม Server-side Session & Role Guard ดีดกลับหน้า Login ทันที</div>
+          </div>
+        </div>
+
+        <div class="issue-row-card">
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">ปัญหาที่พบ</span>
+            <div class="issue-text">2. ข้อมูล Mock ไม่สมจริง</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">สาเหตุ</span>
+            <div class="cause-text">ข้อมูลเริ่มต้นเป็น Placeholder สำเร็จรูป</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">แนวทางแก้ไข</span>
+            <div class="solve-text">✓ Seeding 7 บัญชีนักศึกษาจริงพร้อมทักษะ CCNA, CEH, DevSecOps มสด.</div>
+          </div>
+        </div>
+
+        <div class="issue-row-card">
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">ปัญหาที่พบ</span>
+            <div class="issue-text">3. ความเป็นส่วนตัวข้อมูล (PDPA)</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">สาเหตุ</span>
+            <div class="cause-text">เปิดเผย GPA / เบอร์โทรสู่สาธารณะ</div>
+          </div>
+          <div>
+            <span style="font-size:0.75rem; color:#94a3b8; display:block;">แนวทางแก้ไข</span>
+            <div class="solve-text">✓ พัฒนาระบบ Data Masking ปิดบังข้อมูลสำคัญแก่บุคคลภายนอก</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 6: ROADMAP ==================== -->
+    <div class="slide" id="slide-6">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">Slide 06 • Future Plan</div>
+          <h2 class="slide-heading">5. แผนการพัฒนาในสัปดาห์ที่ 12–13</h2>
+          <p class="slide-subheading">มุ่งเน้นการเสริมความปลอดภัยระดับสูงและเตรียมส่งมอบระบบ</p>
+        </div>
+      </div>
+
+      <div class="roadmap-slide-grid">
+        <div class="roadmap-box">
+          <div class="roadmap-title">
+            <span>🛡️</span> สัปดาห์ที่ 12: Security Hardening & CI/CD
+          </div>
+          <ul class="roadmap-list">
+            <li>ติดตั้ง GitHub Actions CI/CD Pipeline สำหรับ Automated SAST</li>
+            <li>ตั้งค่า Security Headers (Helmet, CSRF Protection, Rate Limiting)</li>
+            <li>ทดสอบเจาะระบบและตรวจสอบช่องโหว่ความปลอดภัยก่อนขึ้น Production</li>
+          </ul>
+        </div>
+
+        <div class="roadmap-box" style="border-top-color:#10b981;">
+          <div class="roadmap-title" style="color:#34d399;">
+            <span>☁️</span> สัปดาห์ที่ 13: AI & Cloud Deployment
+          </div>
+          <ul class="roadmap-list">
+            <li>เชื่อมต่อ AI Career Path Recommender แนะนำทักษะที่ขาด</li>
+            <li>Deploy ระบบขึ้น Cloud Production (Vercel / Supabase)</li>
+            <li>จัดทำเอกสารและคู่มือการส่งมอบโปรเจกต์ฉบับสมบูรณ์</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 7: LIVE DEMO ==================== -->
+    <div class="slide" id="slide-7">
+      <div class="demo-slide-center">
+        <div class="cover-badge" style="background:rgba(16, 185, 129, 0.2); border-color:rgba(16, 185, 129, 0.4); color:#34d399;">
+          ✨ ระบบพร้อมสำหรับการสาธิต (Ready for Live Demo)
+        </div>
+        <h2 style="font-size: 2.5rem; font-weight: 900; color: #ffffff;">
+          เข้าสู่ขั้นตอนการสาธิตระบบจริง
+        </h2>
+        <p style="font-size: 1rem; color: #cbd5e1; max-width: 650px;">
+          สามารถเปิดระบบ Live Demo หรือเข้าดูฐานข้อมูล Prisma Studio ได้ทันทีผ่านปุ่มด้านล่าง
+        </p>
+
+        <div class="demo-buttons-deck">
+          <a href="http://localhost:3000" target="_blank" class="btn-deck-big btn-deck-primary">
+            🚀 เปิดระบบ Live Demo (localhost:3000)
+          </a>
+          <a href="http://localhost:5555" target="_blank" class="btn-deck-big btn-deck-success">
+            🗄️ เปิด Prisma Studio (localhost:5555)
+          </a>
+          <a href="https://github.com/Taeaps561/student-portfolio" target="_blank" class="btn-top" style="padding:0.9rem 1.4rem; font-size:0.95rem; border-radius:14px;">
+            🐙 GitHub Repository
+          </a>
+        </div>
+      </div>
     </div>
 
   </div>
+
+  <!-- BOTTOM CONTROLS & NAVIGATION -->
+  <div class="bottom-bar">
+    <!-- SLIDE DOTS -->
+    <div class="slide-dots" id="dotsContainer"></div>
+
+    <!-- PREV / NEXT BUTTONS -->
+    <div class="nav-buttons">
+      <button class="nav-btn" onclick="prevSlide()" title="สไลด์ก่อนหน้า (ลูกศรซ้าย)">❮</button>
+      <div class="slide-counter" id="slideCounter">1 / 7</div>
+      <button class="nav-btn" onclick="nextSlide()" title="สไลด์ถัดไป (ลูกศรขวา / Space)">❯</button>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 7;
+
+    function renderDots() {
+      const container = document.getElementById('dotsContainer');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = `dot ${i === currentSlide ? 'active' : ''}`;
+        dot.onclick = () => goToSlide(i);
+        container.appendChild(dot);
+      }
+      document.getElementById('slideCounter').innerText = `${currentSlide} / ${totalSlides}`;
+    }
+
+    function showSlide(index) {
+      document.querySelectorAll('.slide').forEach((slide, i) => {
+        slide.classList.remove('active', 'prev');
+        if (i + 1 === index) {
+          slide.classList.add('active');
+        } else if (i + 1 < index) {
+          slide.classList.add('prev');
+        }
+      });
+      currentSlide = index;
+      renderDots();
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    function goToSlide(index) {
+      if (index >= 1 && index <= totalSlides) {
+        showSlide(index);
+      }
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      }
+    });
+
+    // Fullscreen Handler
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // Initial render
+    renderDots();
+  </script>
 
 </body>
 </html>
