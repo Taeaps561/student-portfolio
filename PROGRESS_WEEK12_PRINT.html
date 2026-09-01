@@ -79,38 +79,42 @@
     /* SECTION HEADERS */
     h2 {
       font-family: 'Prompt', sans-serif;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 700;
       color: #002d62;
       background: #f1f5f9;
       border-left: 4px solid #0a66c2;
-      padding: 5px 10px;
-      margin-top: 14px;
-      margin-bottom: 8px;
+      padding: 4px 8px;
+      margin-top: 12px;
+      margin-bottom: 6px;
       border-radius: 0 4px 4px 0;
+      page-break-after: avoid;
+      break-after: avoid;
     }
 
     h3 {
       font-family: 'Prompt', sans-serif;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       color: #0f172a;
-      margin-top: 10px;
+      margin-top: 8px;
       margin-bottom: 4px;
+      page-break-after: avoid;
+      break-after: avoid;
     }
 
     p {
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       text-align: justify;
     }
 
     ul, ol {
       margin-left: 18px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     li {
-      margin-bottom: 3px;
+      margin-bottom: 2.5px;
     }
 
     strong {
@@ -122,13 +126,15 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 8px 0 10px 0;
-      font-size: 11.5px;
+      margin: 6px 0 8px 0;
+      font-size: 11px;
+      page-break-inside: avoid;
+      break-inside: avoid;
     }
 
     th, td {
       border: 1px solid #cbd5e1;
-      padding: 6px 8px;
+      padding: 5px 7px;
       text-align: left;
       vertical-align: top;
     }
@@ -399,6 +405,8 @@
       <li><strong>Cloud Database Readiness:</strong> รองรับ <strong>PostgreSQL Cloud (Supabase / Neon)</strong> พร้อม Connection Pooling และ Prisma Client</li>
       <li><strong>Environment Isolation:</strong> จัดการ Environment Variables ผ่าน Vercel Dashboard ป้องกัน Database Secrets รั่วไหล</li>
     </ul>
+
+    <div class="page-break"></div>
 
     <!-- SECTION 6: FOLLOW PROGRESS WEEK 11 -->
     <h2>🔄 6. การติดตามความก้าวหน้าจากสัปดาห์ที่ 11 สู่สัปดาห์ที่ 12</h2>
