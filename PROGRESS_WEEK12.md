@@ -3,6 +3,7 @@
 **ชื่อโครงงาน:** Student Portfolio & Skill Passport (ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มสด.)  
 **กลุ่มที่:** 3 (Student Portfolio & Skill Passport)  
 **GitHub Repository:** [https://github.com/Taeaps561/student-portfolio](https://github.com/Taeaps561/student-portfolio)  
+**Live Production URL:** [https://student-portfolio-ten-phi.vercel.app](https://student-portfolio-ten-phi.vercel.app)  
 
 ---
 
@@ -137,16 +138,16 @@
 | :--- | :---: | :--- |
 | **1. การติดตั้ง Automated SAST Security** | ✅ **เสร็จสมบูรณ์ 100%** | สร้างไฟล์ `.github/workflows/sast-security.yml` ติดตั้ง Semgrep SAST, ESLint และ npm audit ใน GitHub Actions |
 | **2. การจัดการ Session & Security Headers** | ✅ **เสร็จสมบูรณ์ 100%** | เสริมความปลอดภัย Session Cookie (`HttpOnly`, `SameSite=Lax`), Route Protection Guards และ Data Masking สำหรับ PDPA |
-| **3. การเตรียม Production Deployment** | ✅ **เสร็จสมบูรณ์ 95%** | ปรับแต่ง Prisma รองรับ Cloud PostgreSQL, ออกแบบ Cloud Architecture บน Vercel + Supabase/Neon |
+| **3. Production Cloud Deployment** | ✅ **เสร็จสมบูรณ์ 100%** | Deploy ขึ้น Vercel Cloud สำเร็จ พร้อมใช้งานออนไลน์ที่ `https://student-portfolio-ten-phi.vercel.app` |
 | **4. ชุดข้อมูลจริง (Real Data Set)** | ✅ **เสร็จสมบูรณ์ 100%** | นำเข้าข้อมูลนักศึกษา มสด. 7 บัญชี พร้อมทักษะ, ใบเซอร์, ผลงาน และระบบฟีดครบถ้วน |
 
 ### ความก้าวหน้าโดยรวมของโครงการ (Overall Progress)
 ```
-[███████████████████░] 95%
+[████████████████████] 98% (Production Ready & Live on Cloud)
 ```
-- **Authentication & Multi-Role RBAC:** 95%
-- **Database & Prisma Schema (Dual-Mode SQLite/Postgres):** 95%
-- **Digital Certificates & SHA-256 Integrity:** 95%
-- **DevSecOps Automated SAST Pipeline:** 95%
-- **Cloud Deployment Readiness:** 95%
-- **ภาพรวมความสำเร็จของโครงการ:** **95%**
+- **Authentication & Multi-Role RBAC:** 100%
+- **Database & Prisma Schema (Dual-Mode SQLite/Postgres):** 100%
+- **Digital Certificates & SHA-256 Integrity:** 100%
+- **DevSecOps Automated SAST Pipeline:** 100%
+- **Cloud Deployment (Vercel Live):** 100%
+- **ภาพรวมความสำเร็จของโครงการ:** **98%**

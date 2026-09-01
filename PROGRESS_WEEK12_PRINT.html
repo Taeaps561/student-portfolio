@@ -236,7 +236,7 @@
       <div class="doc-subtitle">ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มหาวิทยาลัยสวนดุสิต</div>
       <div class="doc-meta">
         <strong>รายวิชา:</strong> การพัฒนาเว็บแอปพลิเคชันให้มีความมั่นคงปลอดภัย (Secure Web Application Development)<br>
-        <strong>กลุ่มที่:</strong> 3 &nbsp;|&nbsp; <strong>GitHub Repository:</strong> https://github.com/Taeaps561/student-portfolio
+        <strong>กลุ่มที่:</strong> 3 &nbsp;|&nbsp; <strong>GitHub:</strong> https://github.com/Taeaps561/student-portfolio &nbsp;|&nbsp; <strong>Live URL:</strong> https://student-portfolio-ten-phi.vercel.app
       </div>
     </div>
 
@@ -392,11 +392,12 @@
     <p><strong>ความถูกต้องสมบูรณ์:</strong> ใบประกาศนียบัตรทุกใบมีค่า Digital Signature Hash แท้จริง และสามารถนำไปสแกนตรวจสอบผ่านหน้า <code>/verify</code> ได้จริง 100%</p>
 
     <!-- SECTION 5: CLOUD DEPLOYMENT -->
-    <h2>☁️ 5. การขึ้นระบบบนโฮสต์และคลาวด์ (Host & Cloud Deployment)</h2>
+    <h2>☁️ 5. การขึ้นระบบบนโฮสต์และคลาวด์ (Host & Cloud Deployment — Live On Vercel)</h2>
     <ul>
-      <li><strong>Frontend & Serverless API:</strong> โฮสต์บน <strong>Vercel Edge Network</strong> เชื่อมต่ออัตโนมัติกับ GitHub Main Branch รองรับ HTTPS/SSL</li>
-      <li><strong>Cloud Database:</strong> ใช้ <strong>Supabase Managed PostgreSQL</strong> หรือ <strong>Neon Serverless Postgres</strong> พร้อม Connection Pooling</li>
-      <li><strong>การจัดการความปลอดภัยใน Cloud:</strong> แยก Environment Variables ไว้ใน Vercel Dashboard (<code>DATABASE_URL</code>, <code>NEXTAUTH_SECRET</code>, <code>NEXTAUTH_URL</code>) ป้องกัน Credential รั่วไหล</li>
+      <li><strong>Production Live URL:</strong> <a href="https://student-portfolio-ten-phi.vercel.app" style="color: #0369a1; font-weight: bold; text-decoration: underline;">https://student-portfolio-ten-phi.vercel.app</a> (ออนไลน์พร้อมใช้งาน 100%)</li>
+      <li><strong>Frontend & Serverless API:</strong> โฮสต์บน <strong>Vercel Edge Network</strong> พร้อมระบบ Automated CI/CD เชื่อมต่อกับ GitHub Main Branch</li>
+      <li><strong>Cloud Database Readiness:</strong> รองรับ <strong>PostgreSQL Cloud (Supabase / Neon)</strong> พร้อม Connection Pooling และ Prisma Client</li>
+      <li><strong>Environment Isolation:</strong> จัดการ Environment Variables ผ่าน Vercel Dashboard ป้องกัน Database Secrets รั่วไหล</li>
     </ul>
 
     <!-- SECTION 6: FOLLOW PROGRESS WEEK 11 -->
@@ -421,23 +422,23 @@
           <td>เสริม Cookie HttpOnly, Server-Side Guards และ Data Masking ซ่อนข้อมูลอ่อนไหวตาม PDPA</td>
         </tr>
         <tr>
-          <td><strong>3. Real Dataset & Cloud Ready</strong></td>
-          <td><span class="badge-status">✓ เสร็จสมบูรณ์ 95%</span></td>
-          <td>นำเข้าข้อมูลนักศึกษา มสด. 7 บัญชี และคอนฟิก Prisma รองรับ Cloud PostgreSQL เรียบร้อย</td>
+          <td><strong>3. Production Cloud Deployment</strong></td>
+          <td><span class="badge-status">✓ เสร็จสมบูรณ์ 100%</span></td>
+          <td>Deploy ขึ้น Vercel Cloud สำเร็จ พร้อม Live URL <code>student-portfolio-ten-phi.vercel.app</code></td>
         </tr>
       </tbody>
     </table>
 
     <div class="progress-box">
-      <strong>📊 ความก้าวหน้าสะสมของโครงการ: 95%</strong>
+      <strong>📊 ความก้าวหน้าสะสมของโครงการ: 98% (Production Ready & Live on Cloud)</strong>
       <div class="progress-bar-outer">
-        <div class="progress-bar-inner"></div>
+        <div class="progress-bar-inner" style="width: 98%;"></div>
       </div>
       <div style="font-size: 10.5px; color: #475569; display: flex; justify-content: space-between;">
-        <span>• Authentication & RBAC: 95%</span>
-        <span>• Database (SQLite/PostgreSQL): 95%</span>
-        <span>• SAST Pipeline & Security: 95%</span>
-        <span>• Cloud Deployment: 95%</span>
+        <span>• Authentication & RBAC: 100%</span>
+        <span>• Database & Models: 100%</span>
+        <span>• SAST & DevSecOps: 100%</span>
+        <span>• Cloud Deployment: 100%</span>
       </div>
     </div>
 
