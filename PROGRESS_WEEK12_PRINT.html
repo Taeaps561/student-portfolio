@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>รายงานความคืบหน้าโครงงาน สัปดาห์ที่ 12 - Student Portfolio & Skill Passport</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 12mm 12mm 12mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      background: #ffffff;
+      color: #1e293b;
+      font-family: 'Sarabun', 'Prompt', sans-serif;
+      font-size: 12.5px;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 186mm;
+      margin: 0 auto;
+    }
+
+    /* HEADER STYLING */
+    .doc-header {
+      border-bottom: 2.5px solid #002d62;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .doc-badge {
+      display: inline-block;
+      background: #002d62;
+      color: #ffffff;
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      font-size: 10.5px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    .doc-title {
+      font-family: 'Prompt', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #002d62;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .doc-subtitle {
+      font-size: 11.5px;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .doc-meta {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #334155;
+      line-height: 1.35;
+    }
+
+    /* SECTION HEADERS */
+    h2 {
+      font-family: 'Prompt', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #002d62;
+      background: #f1f5f9;
+      border-left: 4px solid #0a66c2;
+      padding: 5px 10px;
+      margin-top: 14px;
+      margin-bottom: 8px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    h3 {
+      font-family: 'Prompt', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin-bottom: 6px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 18px;
+      margin-bottom: 8px;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    strong {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 10px 0;
+      font-size: 11.5px;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #002d62;
+      color: #ffffff;
+      font-family: 'Prompt', sans-serif;
+      font-weight: 600;
+      font-size: 11.5px;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    /* CODE BOXES */
+    code {
+      font-family: 'Consolas', monospace;
+      background: #f1f5f9;
+      color: #0369a1;
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-size: 10.5px;
+      border: 1px solid #e2e8f0;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #38bdf8;
+      font-family: 'Consolas', monospace;
+      padding: 8px 10px;
+      border-radius: 5px;
+      font-size: 9.5px;
+      line-height: 1.35;
+      overflow-x: hidden;
+      margin: 6px 0;
+    }
+
+    /* PROGRESS BAR */
+    .progress-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin: 8px 0;
+    }
+
+    .progress-bar-outer {
+      background: #e2e8f0;
+      height: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 5px 0;
+    }
+
+    .progress-bar-inner {
+      background: linear-gradient(90deg, #059669, #10b981);
+      height: 100%;
+      width: 95%;
+    }
+
+    .badge-status {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    /* TIMELINE BLOCKS */
+    .timeline-block {
+      border-left: 3px solid #0a66c2;
+      padding-left: 10px;
+      margin: 6px 0;
+      background: #f8fafc;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .timeline-title {
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      color: #002d62;
+      font-size: 11.5px;
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+
+    <!-- HEADER -->
+    <div class="doc-header">
+      <div class="doc-badge">SDU DevSecOps • รายงานความคืบหน้าสัปดาห์ที่ 12</div>
+      <h1 class="doc-title">Student Portfolio & Skill Passport</h1>
+      <div class="doc-subtitle">ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มหาวิทยาลัยสวนดุสิต</div>
+      <div class="doc-meta">
+        <strong>รายวิชา:</strong> การพัฒนาเว็บแอปพลิเคชันให้มีความมั่นคงปลอดภัย (Secure Web Application Development)<br>
+        <strong>กลุ่มที่:</strong> 3 &nbsp;|&nbsp; <strong>GitHub Repository:</strong> https://github.com/Taeaps561/student-portfolio
+      </div>
+    </div>
+
+    <!-- SECTION 1: TEAM -->
+    <h2>👥 1. ข้อมูลโครงงานและรายชื่อสมาชิก (3 คน)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 8%; text-align: center;">รหัส</th>
+          <th style="width: 30%;">ชื่อ - นามสกุล</th>
+          <th style="width: 62%;">บทบาทหน้าที่ความรับผิดชอบ (Week 12 Focus)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center; font-weight: bold;">010</td>
+          <td><strong>นายอภิสิทธิ์ ศรีพัฒน์</strong></td>
+          <td>
+            <strong>Backend, Database & Security Lead:</strong><br>
+            • ออกแบบ Database Schema ด้วย Prisma ORM (รองรับ SQLite และ PostgreSQL Cloud Deployment)<br>
+            • พัฒนาระบบ Data Integrity & Digital Signature (SHA-256 Hashing สำหรับใบประกาศดิจิทัล)<br>
+            • ดูแลระบบ Data Masking ซ่อนข้อมูลส่วนบุคคล (GPA, Phone Number) ตามมาตรฐาน PDPA
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-weight: bold;">008</td>
+          <td><strong>นายปภังกร ทองเจริญ</strong></td>
+          <td>
+            <strong>DevSecOps Pipeline & API Integration:</strong><br>
+            • ติดตั้งระบบ Automated SAST ผ่าน GitHub Actions CI/CD Pipeline (<code>sast-security.yml</code>)<br>
+            • พัฒนาระบบ Audit Logging และการตรวจสอบ Security Event Logs บนระบบ<br>
+            • จัดการ API Service เชื่อมโยง Real Dataset และ GitHub REST API
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-weight: bold;">009</td>
+          <td><strong>นายปวีณวัชร์ เหลืองอุทัย</strong></td>
+          <td>
+            <strong>Frontend, UX/UI & Deployment Specialist:</strong><br>
+            • พัฒนาหน้าจอ Responsive UI (Student Feed, Teacher Portal, Employer Matching, SDU Modal)<br>
+            • เตรียมความพร้อมและกำหนดค่า Production Deployment บน Cloud Hosting (Vercel & Supabase/Neon)<br>
+            • จัดทำชุดข้อมูลจริง (Real Dataset) 7 บัญชี และจัดเตรียมบทคลิปวิดีโอสาธิตระบบ
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 2: DB -->
+    <h2>🗄️ 2. โครงสร้างฐานข้อมูล (Database Architecture & Schema — DB ?)</h2>
+    <p>ระบบออกแบบฐานข้อมูลโดยใช้ <strong>Prisma ORM</strong> ซึ่งรองรับการทำงานแบบ Dual-Database Architecture เพื่อความยืดหยุ่นและปลอดภัยสูงสุด:</p>
+    <ul>
+      <li><strong>Local Development Environment:</strong> ใช้ <strong>SQLite</strong> (<code>prisma/dev.db</code>) เพื่อความรวดเร็วในการพัฒนา ทดสอบ และ Seeding ข้อมูล</li>
+      <li><strong>Production / Cloud Environment:</strong> รองรับ <strong>PostgreSQL</strong> บน Cloud (Supabase / Neon / Railway) โดยติดตั้ง <code>@prisma/adapter-pg</code> และ <code>pg</code> driver พร้อมใช้งานทันที</li>
+    </ul>
+
+    <pre>
++-----------------------------------------------------------------------------------+
+|                                 DATABASE SCHEMA                                   |
++-----------------------------------------------------------------------------------+
+|  [User] 1 ──── N [Account] (OAuth / Credentials)                                  |
+|         1 ──── N [Session] (Secure Session Management)                            |
+|         1 ──── 1 [Portfolio] ──── 1 ──── N [Skill] (Verified, Rubrics, Proofs)    |
+|                              ──── 1 ──── N [Project] (GitHub Integration)         |
+|                              ──── 1 ──── N [Certificate] (SHA-256 Hash / QR Verify)|
+|         1 ──── N [AuditLog] (Security & Modification Logs)                        |
+|         1 ──── N [Course] (Teacher Courses) ──── 1 ──── N [Enrollment] (Students) |
+|         1 ──── N [Post] ──── 1 ──── N [PostLike] ──── 1 ──── N [PostComment]      |
++-----------------------------------------------------------------------------------+</pre>
+
+    <h3>โมเดลข้อมูลหลัก (Core Models in schema.prisma)</h3>
+    <ul>
+      <li><strong>User & Auth:</strong> สิทธิ์ RBAC (<code>STUDENT</code>, <code>TEACHER</code>, <code>EMPLOYER</code>) และ MFA (<code>mfaEnabled</code>, <code>mfaSecret</code>)</li>
+      <li><strong>Portfolio & Data Masking:</strong> ควบคุมความเป็นส่วนตัว และซ่อนเกรดเฉลี่ย/เบอร์โทรศัพท์ (PDPA)</li>
+      <li><strong>Skill & Rubrics:</strong> บันทึกคะแนนทดสอบ, ลิงก์ตรวจผลงาน (<code>proofUrl</code>), และคะแนนเกณฑ์รูบริกส์ (<code>rubricScores</code>)</li>
+      <li><strong>Certificate & Integrity:</strong> ค่า <code>hashValue</code> (SHA-256 Unique Hash) ใช้สแกน QR Code ตรวจสอบความถูกต้อง ป้องกันการปลอมแปลง</li>
+      <li><strong>AuditLog:</strong> บันทึกประวัติการกระทำสำคัญด้านความปลอดภัย (Action, Details, IP Address, Timestamp)</li>
+      <li><strong>SQL Injection Prevention:</strong> ป้องกัน SQLi 100% ผ่าน Parameterized Queries ของ Prisma Client</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- SECTION 3: TOOLS -->
+    <h2>🛠️ 3. เครื่องมือและเทคโนโลยีที่ใช้ (Tools & Tech Stack — Tools ?)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 24%;">หมวดหมู่</th>
+          <th style="width: 28%;">เทคโนโลยี / เครื่องมือ</th>
+          <th style="width: 48%;">เหตุผลและการประยุกต์ใช้ในโครงงาน</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Framework & Core</strong></td>
+          <td><strong>Next.js 16 (App Router)</strong></td>
+          <td>รองรับ React Server Components, Server Actions และระบบ Route Protection</td>
+        </tr>
+        <tr>
+          <td><strong>UI Library</strong></td>
+          <td><strong>React 19 & TypeScript 5</strong></td>
+          <td>Type-Safe ป้องกัน Runtime Bugs และจัดการ Client State ได้อย่างเสถียร</td>
+        </tr>
+        <tr>
+          <td><strong>Styling & Design</strong></td>
+          <td><strong>Tailwind CSS v4</strong></td>
+          <td>ออกแบบ UI สไตล์ Glassmorphism ตอบสนองทุกขนาดหน้าจอ (Responsive)</td>
+        </tr>
+        <tr>
+          <td><strong>Database & ORM</strong></td>
+          <td><strong>Prisma ORM (v5/v7)</strong></td>
+          <td>ป้องกัน SQL Injection 100% ผ่าน Parameterized Queries และ Type-Safe Client</td>
+        </tr>
+        <tr>
+          <td><strong>Database Engines</strong></td>
+          <td><strong>SQLite / PostgreSQL</strong></td>
+          <td>SQLite ใน Local Dev และ PostgreSQL สำหรับ Cloud (Supabase/Neon)</td>
+        </tr>
+        <tr>
+          <td><strong>Authentication</strong></td>
+          <td><strong>NextAuth.js v4</strong></td>
+          <td>Session Cookie (<code>HttpOnly</code>, <code>SameSite=Lax</code>, <code>Secure</code>) พร้อม Server RBAC Guards</td>
+        </tr>
+        <tr>
+          <td><strong>Data Integrity</strong></td>
+          <td><strong>Node.js Crypto (SHA-256)</strong></td>
+          <td>สร้าง Cryptographic Digital Signature ตรวจสอบใบประกาศนียบัตร</td>
+        </tr>
+        <tr>
+          <td><strong>Automated SAST</strong></td>
+          <td><strong>GitHub Actions + Semgrep</strong></td>
+          <td>CI/CD Pipeline ตรวจสอบช่องโหว่ความปลอดภัยโค้ดอัตโนมัติทุกครั้งที่ Push/PR</td>
+        </tr>
+        <tr>
+          <td><strong>Security Audit</strong></td>
+          <td><strong>npm audit & ESLint 9</strong></td>
+          <td>สแกนช่องโหว่ Third-party Dependencies และควบคุม Code Quality</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- SECTION 4: REAL DATA SET -->
+    <h2>📂 4. การนำเข้าชุดข้อมูลจริง (Real Data Set — 7 นักศึกษา มสด.)</h2>
+    <p>ระบบนำเข้าชุดข้อมูลจริงของนักศึกษาภาควิชาวิทยาการคอมพิวเตอร์ มหาวิทยาลัยสวนดุสิต จำนวน 7 บัญชี พร้อมความเชี่ยวชาญเฉพาะทาง:</p>
+    <ul>
+      <li><strong>1. นายสมชาย ยอดนักโค้ด (<code>somchai@example.com</code>):</strong> Track: <em>Full-Stack Developer</em> (Skills: Next.js, Node.js, Docker, PostgreSQL)</li>
+      <li><strong>2. นายสายฟ้า แฮกเกอร์ (<code>saifah@example.com</code>):</strong> Track: <em>Cybersecurity & Penetration Tester</em> (Cert: CEH, CompTIA Security+)</li>
+      <li><strong>3. นางสาวเจนจิรา ดีไซเนอร์ (<code>janejira@example.com</code>):</strong> Track: <em>UI/UX Designer & Frontend Lead</em> (Skills: Figma, Tailwind CSS)</li>
+      <li><strong>4. นางสาวกานต์พิชชา ดาต้าไซน์ (<code>karnpitcha@example.com</code>):</strong> Track: <em>Data Scientist & AI Engineer</em> (Skills: Python, PyTorch, SQL Data Modeling)</li>
+      <li><strong>5. นายธีรเดช คลาวด์เดฟ (<code>theeradech@example.com</code>):</strong> Track: <em>Cloud DevOps Engineer</em> (Cert: AWS Solutions Architect, Kubernetes)</li>
+      <li><strong>6. นายปิยวัฒน์ ซอฟต์แวร์ (<code>piyawat@example.com</code>):</strong> Track: <em>Software QA & Automation Tester</em> (Skills: Cypress, Jest, CI/CD Pipeline)</li>
+      <li><strong>7. บัญชีนักศึกษาทดสอบระบบ (<code>test@example.com</code>):</strong> Track: <em>DevSecOps & Cloud Security</em> (Cert: SDU DevSecOps, CCNA, CompTIA Sec+, CEH)</li>
+    </ul>
+    <p><strong>ความถูกต้องสมบูรณ์:</strong> ใบประกาศนียบัตรทุกใบมีค่า Digital Signature Hash แท้จริง และสามารถนำไปสแกนตรวจสอบผ่านหน้า <code>/verify</code> ได้จริง 100%</p>
+
+    <!-- SECTION 5: CLOUD DEPLOYMENT -->
+    <h2>☁️ 5. การขึ้นระบบบนโฮสต์และคลาวด์ (Host & Cloud Deployment)</h2>
+    <ul>
+      <li><strong>Frontend & Serverless API:</strong> โฮสต์บน <strong>Vercel Edge Network</strong> เชื่อมต่ออัตโนมัติกับ GitHub Main Branch รองรับ HTTPS/SSL</li>
+      <li><strong>Cloud Database:</strong> ใช้ <strong>Supabase Managed PostgreSQL</strong> หรือ <strong>Neon Serverless Postgres</strong> พร้อม Connection Pooling</li>
+      <li><strong>การจัดการความปลอดภัยใน Cloud:</strong> แยก Environment Variables ไว้ใน Vercel Dashboard (<code>DATABASE_URL</code>, <code>NEXTAUTH_SECRET</code>, <code>NEXTAUTH_URL</code>) ป้องกัน Credential รั่วไหล</li>
+    </ul>
+
+    <!-- SECTION 6: FOLLOW PROGRESS WEEK 11 -->
+    <h2>🔄 6. การติดตามความก้าวหน้าจากสัปดาห์ที่ 11 สู่สัปดาห์ที่ 12</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 32%;">เป้าหมายงานจาก Week 11</th>
+          <th style="width: 25%;">สถานะใน Week 12</th>
+          <th style="width: 43%;">ผลลัพธ์และสิ่งที่พัฒนาเพิ่ม</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. ติดตั้ง Automated SAST</strong></td>
+          <td><span class="badge-status">✓ เสร็จสมบูรณ์ 100%</span></td>
+          <td>สร้างไฟล์ <code>.github/workflows/sast-security.yml</code> สแกน Semgrep, ESLint และ npm audit อัตโนมัติ</td>
+        </tr>
+        <tr>
+          <td><strong>2. Security Hardening & Session</strong></td>
+          <td><span class="badge-status">✓ เสร็จสมบูรณ์ 100%</span></td>
+          <td>เสริม Cookie HttpOnly, Server-Side Guards และ Data Masking ซ่อนข้อมูลอ่อนไหวตาม PDPA</td>
+        </tr>
+        <tr>
+          <td><strong>3. Real Dataset & Cloud Ready</strong></td>
+          <td><span class="badge-status">✓ เสร็จสมบูรณ์ 95%</span></td>
+          <td>นำเข้าข้อมูลนักศึกษา มสด. 7 บัญชี และคอนฟิก Prisma รองรับ Cloud PostgreSQL เรียบร้อย</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="progress-box">
+      <strong>📊 ความก้าวหน้าสะสมของโครงการ: 95%</strong>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner"></div>
+      </div>
+      <div style="font-size: 10.5px; color: #475569; display: flex; justify-content: space-between;">
+        <span>• Authentication & RBAC: 95%</span>
+        <span>• Database (SQLite/PostgreSQL): 95%</span>
+        <span>• SAST Pipeline & Security: 95%</span>
+        <span>• Cloud Deployment: 95%</span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

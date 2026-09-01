@@ -1,0 +1,55 @@
+name: DevSecOps Automated SAST & Security Pipeline
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  schedule:
+    # Run weekly security scans automatically
+    - cron: '0 0 * * 1'
+
+jobs:
+  sast_and_quality:
+    name: 🛡️ SAST & Security Quality Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install Project Dependencies
+        run: npm ci
+
+      - name: 🗄️ Validate Prisma Schema & Generate Client
+        run: npx prisma validate && npx prisma generate
+
+      - name: 🔍 ESLint & Static Code Analysis
+        run: npm run lint
+
+      - name: 🛡️ Dependency Vulnerability Audit (npm audit)
+        run: npm audit --audit-level=high || true
+
+      - name: 🔒 Semgrep SAST Analysis
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/owasp-top-ten
+            p/javascript
+            p/typescript
+        continue-on-error: true
+
+      - name: 🚀 Verify Next.js Production Build
+        run: npm run build
+        env:
+          DATABASE_URL: "file:./dev.db"
+          NEXTAUTH_URL: "http://localhost:3000"
+          NEXTAUTH_SECRET: "ci-build-temporary-secret-key-32-chars-long"

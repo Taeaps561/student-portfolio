@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สไลด์นำเสนอความคืบหน้า DevSecOps สัปดาห์ที่ 12 | มหาวิทยาลัยสวนดุสิต</title>
+  
+  <!-- Favicon SDU Logo -->
+  <link rel="icon" type="image/svg+xml" href="https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_of_Suan_Dusit_University.svg">
+  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_of_Suan_Dusit_University.svg">
+  
+  <!-- Google Fonts: Prompt & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --sdu-navy: #002d62;
+      --sdu-blue: #0a66c2;
+      --sdu-accent: #0284c7;
+      --emerald: #059669;
+      --amber: #d97706;
+      --purple: #8b5cf6;
+      --bg-dark: #090e17;
+      --slide-bg: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Prompt', 'Outfit', sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* TOP PRESENTATION BAR */
+    .top-bar {
+      width: 100%;
+      height: 52px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 100;
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .sdu-badge {
+      background: linear-gradient(135deg, #002d62, #0a66c2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .btn-top {
+      background: rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      border: 1px solid var(--card-border);
+      padding: 0.35rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s;
+    }
+
+    .btn-top:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    /* SLIDES WRAPPER */
+    .deck-container {
+      width: 100%;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .slide {
+      position: absolute;
+      width: min(94vw, 1200px);
+      height: min(78vh, 680px);
+      background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+      padding: 2.2rem 2.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: scale(0.96) translateX(40px);
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+      pointer-events: auto;
+    }
+
+    .slide.prev {
+      opacity: 0;
+      transform: scale(0.96) translateX(-40px);
+    }
+
+    /* SLIDE HEADER */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.2rem;
+    }
+
+    .slide-num-tag {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--sdu-accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.2rem;
+    }
+
+    .slide-heading {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+    }
+
+    .slide-subheading {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* SLIDE 1: COVER */
+    .cover-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 1.25rem;
+    }
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1.2rem;
+      background: rgba(10, 102, 194, 0.2);
+      border: 1px solid rgba(10, 102, 194, 0.4);
+      border-radius: 999px;
+      color: #38bdf8;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .cover-title {
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+      max-width: 920px;
+    }
+
+    .cover-desc {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      max-width: 780px;
+    }
+
+    .cover-team-strip {
+      display: flex;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .team-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 0.55rem 1.1rem;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .team-pill strong {
+      color: #38bdf8;
+    }
+
+    /* GRID LAYOUTS */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      flex: 1;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.15rem;
+      flex: 1;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      flex: 1;
+    }
+
+    /* CARD STYLING */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.15rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 0.6rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .badge-blue { background: rgba(10, 102, 194, 0.25); color: #38bdf8; border: 1px solid rgba(10, 102, 194, 0.5); }
+    .badge-green { background: rgba(5, 150, 105, 0.25); color: #34d399; border: 1px solid rgba(5, 150, 105, 0.5); }
+    .badge-amber { background: rgba(217, 119, 6, 0.25); color: #fbbf24; border: 1px solid rgba(217, 119, 6, 0.5); }
+    .badge-purple { background: rgba(139, 92, 246, 0.25); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.5); }
+
+    .card-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .card-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+    }
+
+    .card-list li::before {
+      content: "•";
+      color: #38bdf8;
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    /* CODE BOX */
+    .code-box {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.75rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      line-height: 1.4;
+    }
+
+    /* PROGRESS BAR AT BOTTOM */
+    .bottom-bar {
+      width: 100%;
+      height: 60px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 100;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-nav {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 0.45rem 0.95rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--sdu-blue);
+      border-color: #38bdf8;
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 450px;
+      margin: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .step-dot {
+      flex: 1;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .step-dot.active {
+      background: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+    }
+
+    .step-dot.passed {
+      background: #059669;
+    }
+
+    .slide-counter {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <div class="top-left">
+      <span class="sdu-badge">SDU DevSecOps</span>
+      <span>สัปดาห์ที่ 12: Progress & Cloud Readiness</span>
+    </div>
+    <div class="top-right">
+      <a href="http://localhost:3000" target="_blank" class="btn-top">
+        <span>🌐</span> เปิดเว็บแอปจริง (Live Demo)
+      </a>
+      <button onclick="toggleFullscreen()" class="btn-top">
+        <span>⛶</span> เต็มจอ (F11)
+      </button>
+    </div>
+  </header>
+
+  <!-- DECK CONTAINER -->
+  <main class="deck-container">
+
+    <!-- SLIDE 1: COVER -->
+    <section class="slide active" data-slide="1">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">SDU SECURE WEB APPLICATION • WEEK 12</div>
+          <div class="slide-heading">รายงานความก้าวหน้าโครงการสัปดาห์ที่ 12</div>
+        </div>
+        <span class="card-badge badge-blue">Group 3 • 95% Completed</span>
+      </div>
+
+      <div class="cover-content">
+        <div class="cover-badge">
+          🛡️ Student Portfolio & Skill Passport (กลุ่มที่ 3 มสด.)
+        </div>
+        <h1 class="cover-title">
+          Database, Tools, Real Dataset & Cloud Deployment
+        </h1>
+        <p class="cover-desc">
+          ระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มหาวิทยาลัยสวนดุสิต ตามมาตรฐานความมั่นคงปลอดภัย DevSecOps
+        </p>
+
+        <div class="cover-team-strip">
+          <div class="team-pill">
+            <span>👤</span> 010 นายอภิสิทธิ์ ศรีพัฒน์ <strong>(Database & Security)</strong>
+          </div>
+          <div class="team-pill">
+            <span>👤</span> 008 นายปภังกร ทองเจริญ <strong>(DevSecOps & SAST)</strong>
+          </div>
+          <div class="team-pill">
+            <span>👤</span> 009 นายปวีณวัชร์ เหลืองอุทัย <strong>(Frontend & Cloud)</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: DB ARCHITECTURE -->
+    <section class="slide" data-slide="2">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">TOPIC 1 • DATABASE ARCHITECTURE</div>
+          <div class="slide-heading">🗄️ โครงสร้างฐานข้อมูลและการจัดการข้อมูล (DB ?)</div>
+          <div class="slide-subheading">สถาปัตยกรรม Dual-Mode: SQLite ใน Local Dev และ PostgreSQL พร้อมขึ้น Cloud</div>
+        </div>
+        <span class="card-badge badge-green">Prisma ORM • SQLi 100% Protected</span>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">
+            <span>🔐</span> User & Access Control
+          </div>
+          <span class="card-badge badge-blue">NextAuth & RBAC</span>
+          <ul class="card-list">
+            <li><strong>User:</strong> รองรับ 3 Role (STUDENT, TEACHER, EMPLOYER)</li>
+            <li><strong>MFA Fields:</strong> รองรับ <code>mfaEnabled</code> และ <code>mfaSecret</code></li>
+            <li><strong>Account & Session:</strong> จัดเก็บ Session Token แบบเข้ารหัส ป้องกัน Session Hijacking</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>📜</span> Portfolio & Diplomas
+          </div>
+          <span class="card-badge badge-green">SHA-256 Hashing</span>
+          <ul class="card-list">
+            <li><strong>Portfolio:</strong> ระบบ Data Masking ซ่อน GPA และเบอร์โทร</li>
+            <li><strong>Certificate:</strong> สร้างค่า <code>hashValue</code> ด้วย SHA-256 ป้องกันการปลอมแปลงใบเซอร์</li>
+            <li><strong>Skill:</strong> บันทึกเกณฑ์รูบริกส์ (<code>rubricScores</code>) และลิงก์ตรวจผลงาน (<code>proofUrl</code>)</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>👥</span> Courses & Social Feed
+          </div>
+          <span class="card-badge badge-purple">Community & Audit</span>
+          <ul class="card-list">
+            <li><strong>Course & Enrollment:</strong> อาจารย์ออกใบรับรองเมื่อนักศึกษาเรียนจบ</li>
+            <li><strong>AuditLog:</strong> บันทึกทุก Security Event พร้อม IP Address</li>
+            <li><strong>Post & Reactions:</strong> ฟีดแลกเปลี่ยนความรู้สไตล์ LinkedIn มสด.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code-box">
+        // Prisma Engine: Dual-Mode Driver Support (SQLite / PostgreSQL)
+        datasource db { provider = "sqlite" url = env("DATABASE_URL") } // Cloud ready with @prisma/adapter-pg
+      </div>
+    </section>
+
+    <!-- SLIDE 3: TOOLS & TECH STACK -->
+    <section class="slide" data-slide="3">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">TOPIC 2 • TOOLS & TECH STACK</div>
+          <div class="slide-heading">🛠️ เครื่องมือและเทคโนโลยีที่เลือกใช้ (Tools ?)</div>
+          <div class="slide-subheading">ผสานเทคโนโลยี Modern Web Development ร่วมกับเครื่องมือ DevSecOps มาตรฐานสากล</div>
+        </div>
+        <span class="card-badge badge-blue">Full-Stack DevSecOps</span>
+      </div>
+
+      <div class="grid-4">
+        <div class="card">
+          <div class="card-title">
+            <span>⚡</span> Core & UI
+          </div>
+          <ul class="card-list">
+            <li><strong>Next.js 16:</strong> App Router, Server Actions & Server Components</li>
+            <li><strong>React 19:</strong> Client State & Seamless Transitions</li>
+            <li><strong>TypeScript 5:</strong> Strict Type-Safe ป้องกัน Runtime Bugs</li>
+            <li><strong>Tailwind CSS v4:</strong> Glassmorphism & UI System</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>🗄️</span> Data & ORM
+          </div>
+          <ul class="card-list">
+            <li><strong>Prisma ORM 5/7:</strong> Type-Safe Query Builder</li>
+            <li><strong>Parameterized Queries:</strong> ป้องกัน SQL Injection 100%</li>
+            <li><strong>SQLite:</strong> รวดเร็วใน Local Dev Testing</li>
+            <li><strong>PostgreSQL:</strong> Production DB พร้อม Connection Pool</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>🛡️</span> Security & Auth
+          </div>
+          <ul class="card-list">
+            <li><strong>NextAuth.js:</strong> JWT Session, HttpOnly & SameSite Cookie</li>
+            <li><strong>Multi-Role Guards:</strong> ตรวจสอบสิทธิ์ที่ฝั่ง Server-Side</li>
+            <li><strong>Crypto SHA-256:</strong> ออก Digital Signature ใบประกาศ</li>
+            <li><strong>Data Masking:</strong> ซ่อนข้อมูลอ่อนไหวตาม PDPA</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>🔍</span> DevSecOps & SAST
+          </div>
+          <ul class="card-list">
+            <li><strong>GitHub Actions:</strong> CI/CD Security Workflow อัตโนมัติ</li>
+            <li><strong>Semgrep SAST:</strong> สแกน OWASP Top 10 & Code Audit</li>
+            <li><strong>ESLint 9:</strong> Code Quality & Security Linters</li>
+            <li><strong>npm audit:</strong> ตรวจสอบ Dependencies Vulnerability</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: REAL DATA SET -->
+    <section class="slide" data-slide="4">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">TOPIC 3 • REAL DATA SET</div>
+          <div class="slide-heading">📂 การนำเข้าชุดข้อมูลจริง (Insert Real Data Set)</div>
+          <div class="slide-subheading">7 บัญชีนักศึกษาจริง มสด. พร้อมใบเซอร์สากล ทักษะผ่านการทดสอบ และผลงาน GitHub จริง</div>
+        </div>
+        <span class="card-badge badge-amber">7 Real Accounts Seeded</span>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">
+            <span>⚡</span> 1. สมชาย ยอดนักโค้ด
+          </div>
+          <span class="card-badge badge-green">Full-Stack Developer</span>
+          <ul class="card-list">
+            <li><strong>Certificates:</strong> Oracle Java SE, AWS Cloud Practitioner</li>
+            <li><strong>Skills:</strong> Next.js, Node.js, PostgreSQL, Docker</li>
+            <li><strong>Project:</strong> SDU Smart Campus API Gateway</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>🛡️</span> 2. สายฟ้า แฮกเกอร์
+          </div>
+          <span class="card-badge badge-amber">Cybersecurity & Pentest</span>
+          <ul class="card-list">
+            <li><strong>Certificates:</strong> CEH (Ethical Hacker), CompTIA Pentest+</li>
+            <li><strong>Skills:</strong> Network Security, Wireshark, Linux Hardening</li>
+            <li><strong>Project:</strong> Automated Vulnerability Scanner</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>🎨</span> 3. เจนจิรา ดีไซเนอร์
+          </div>
+          <span class="card-badge badge-purple">UI/UX & Frontend Lead</span>
+          <ul class="card-list">
+            <li><strong>Skills:</strong> Figma UI Design, Tailwind CSS, Accessibility</li>
+            <li><strong>Project:</strong> SDU Mobile Learning Hub Redesign</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>📊</span> 4. กานต์พิชชา ดาต้าไซน์
+          </div>
+          <span class="card-badge badge-green">Data Science & AI</span>
+          <ul class="card-list">
+            <li><strong>Skills:</strong> Python, PyTorch, SQL Data Modeling</li>
+            <li><strong>Project:</strong> Student Dropout Prediction System</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>☁️</span> 5. ธีรเดช คลาวด์เดฟ
+          </div>
+          <span class="card-badge badge-blue">Cloud DevOps Engineer</span>
+          <ul class="card-list">
+            <li><strong>Certificates:</strong> AWS Solutions Architect, Kubernetes</li>
+            <li><strong>Skills:</strong> Docker, Kubernetes, CI/CD Pipeline</li>
+            <li><strong>Project:</strong> Cloud Infrastructure Automation</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>🧪</span> 6-7. ปิยวัฒน์ & บัญชีทดสอบ
+          </div>
+          <span class="card-badge badge-blue">QA & Student Test</span>
+          <ul class="card-list">
+            <li><strong>Piyawat:</strong> Cypress, Automated Testing, Jest</li>
+            <li><strong>Test Account:</strong> DevSecOps & SDU Diploma, CCNA</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: CLOUD DEPLOYMENT -->
+    <section class="slide" data-slide="5">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">TOPIC 4 • CLOUD DEPLOYMENT</div>
+          <div class="slide-heading">☁️ การขึ้นระบบบนโฮสต์และคลาวด์ (Deploy on Host, Cloud)</div>
+          <div class="slide-subheading">สถาปัตยกรรม Production Cloud: Vercel Serverless Hosting + Supabase/Neon PostgreSQL</div>
+        </div>
+        <span class="card-badge badge-green">Zero Downtime CI/CD</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span>🌐</span> สถาปัตยกรรม Cloud Production
+          </div>
+          <ul class="card-list">
+            <li><strong>Frontend & API:</strong> โฮสต์บน <strong>Vercel Edge Network</strong> เชื่อมต่อกับ GitHub Main Branch อัตโนมัติ</li>
+            <li><strong>Database:</strong> ใช้ <strong>Supabase / Neon Managed PostgreSQL</strong> พร้อม Connection Pooling</li>
+            <li><strong>SSL / HTTPS:</strong> เข้ารหัสช่องทางการสื่อสารทั้งหมดด้วย SSL/TLS Certificate มาตรฐาน</li>
+            <li><strong>Environment Isolation:</strong> แยก <code>.env.production</code> ไม่เปิดเผย Database Secrets สู่สาธารณะ</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>🚀</span> ขั้นตอนการ Deploy สู่ Cloud (Step-by-Step)
+          </div>
+          <ul class="card-list">
+            <li><strong>1. Cloud DB Provisioning:</strong> สร้างฐานข้อมูล PostgreSQL บน Supabase/Neon</li>
+            <li><strong>2. Prisma Migration:</strong> รัน <code>npx prisma db push</code> อัปเดต Schema ขึ้น Cloud DB</li>
+            <li><strong>3. Vercel Project Link:</strong> เชื่อมต่อ GitHub Repo <code>Taeaps561/student-portfolio</code></li>
+            <li><strong>4. Environment Injection:</strong> ใส่ <code>DATABASE_URL</code>, <code>NEXTAUTH_SECRET</code>, <code>NEXTAUTH_URL</code></li>
+            <li><strong>5. Automated Production Build:</strong> Next.js คอมไพล์ Static & Dynamic Routes สำเร็จ 100%</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: FOLLOW PROGRESS WEEK 11 -->
+    <section class="slide" data-slide="6">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">TOPIC 5 • PROGRESS EVOLUTION</div>
+          <div class="slide-heading">🔄 ติดตามความก้าวหน้าจากสัปดาห์ที่ 11 (Follow Progress)</div>
+          <div class="slide-subheading">ต่อยอดและแก้โจทย์ที่วางไว้ในสัปดาห์ที่ 11 ได้เสร็จสิ้นสมบูรณ์ ยกระดับโปรเจกต์สู่ 95%</div>
+        </div>
+        <span class="card-badge badge-green">Progress 85% → 95%</span>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-title">
+            <span>🛡️</span> 1. Automated SAST Pipeline
+          </div>
+          <span class="card-badge badge-green">เสร็จสมบูรณ์ 100%</span>
+          <ul class="card-list">
+            <li><strong>สัปดาห์ที่ 11:</strong> อยู่ระหว่างการดำเนินการ (In-Progress)</li>
+            <li><strong>สัปดาห์ที่ 12:</strong> ติดตั้ง GitHub Actions Workflow (<code>sast-security.yml</code>) พร้อมสแกน Semgrep, ESLint 9 และ npm audit ทุก Commit</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>🔒</span> 2. Session & Security Headers
+          </div>
+          <span class="card-badge badge-green">เสร็จสมบูรณ์ 100%</span>
+          <ul class="card-list">
+            <li><strong>สัปดาห์ที่ 11:</strong> อยู่ระหว่างการปรับแต่งความปลอดภัย</li>
+            <li><strong>สัปดาห์ที่ 12:</strong> ปรับปรุง Session Cookie <code>HttpOnly</code>, Server-Side Route Guarding และ Data Masking สำหรับ PDPA ครบถ้วน</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>☁️</span> 3. Real Dataset & Cloud Ready
+          </div>
+          <span class="card-badge badge-green">เสร็จสมบูรณ์ 95%</span>
+          <ul class="card-list">
+            <li><strong>สัปดาห์ที่ 11:</strong> ยังไม่ได้เริ่ม (Not Started)</li>
+            <li><strong>สัปดาห์ที่ 12:</strong> นำเข้าชุดข้อมูลนักศึกษา มสด. 7 บัญชี และคอนฟิก Prisma รองรับ Cloud PostgreSQL เรียบร้อย</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code-box">
+        📊 ความก้าวหน้าสะสมของโครงการ: [███████████████████░] 95% (พร้อมเข้าสู่รอบ Final Delivery & Presentation)
+      </div>
+    </section>
+
+    <!-- SLIDE 7: VIDEO DEMO SCRIPT -->
+    <section class="slide" data-slide="7">
+      <div class="slide-header">
+        <div>
+          <div class="slide-num-tag">TOPIC 6 • VIDEO DEMO WALKTHROUGH</div>
+          <div class="slide-heading">🎥 โครงสร้างคลิปวิดีโอสาธิตระบบ (Send Clip)</div>
+          <div class="slide-subheading">สคริปต์การอัดคลิปความยาว 3 - 5 นาที แสดงความสามารถครบถ้วนตามหลัก DevSecOps</div>
+        </div>
+        <span class="card-badge badge-blue">3-5 Mins Demo Script</span>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span>⏱️</span> ลำดับการนำเสนอในคลิปวิดีโอ (Demo Flow)
+          </div>
+          <ul class="card-list">
+            <li><strong>0:00 - 0:45:</strong> แนะนำตัวสมาชิกกลุ่ม 3 และภาพรวมระบบ Student Portfolio & Skill Passport</li>
+            <li><strong>0:45 - 1:30:</strong> อธิบายสถาปัตยกรรม DB (Prisma Schema) และ Tech Stack & DevSecOps Tools</li>
+            <li><strong>1:30 - 2:30:</strong> สาธิตชุดข้อมูลจริง 7 นักศึกษา และแสดงฟีเจอร์ Data Masking (PDPA)</li>
+            <li><strong>2:30 - 3:45:</strong> สาธิต Role อาจารย์ออกใบประกาศ และการสแกน QR Code ตรวจสอบ SHA-256 Hash</li>
+            <li><strong>3:45 - 4:30:</strong> แสดง GitHub Actions SAST Workflow และสรุปความพร้อมสู่ Cloud</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span>✅</span> จุดเด่นที่ต้องไฮไลท์ในคลิป (Key Highlights)
+          </div>
+          <ul class="card-list">
+            <li><strong>Multi-Role RBAC:</strong> เปลี่ยนหน้าและสิทธิ์ระหว่าง Student, Teacher, Employer ชัดเจน</li>
+            <li><strong>Tamper-Proof Diplomas:</strong> ค่า Hash ดิจิทัลที่ไม่สามารถแก้ไขได้ และลิงก์ Verify ตรง</li>
+            <li><strong>Real SDU Context:</strong> ข้อมูลสะท้อนภาควิชาวิทยาการคอมพิวเตอร์ มสด. 100%</li>
+            <li><strong>Automated SAST Quality Gate:</strong> การตรวจจับช่องโหว่โค้ดอัตโนมัติก่อนขึ้น Production</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM BAR & CONTROLS -->
+  <footer class="bottom-bar">
+    <div class="nav-controls">
+      <button id="prevBtn" onclick="prevSlide()" class="btn-nav" disabled>
+        <span>◀</span> ก่อนหน้า (Left)
+      </button>
+      <button id="nextBtn" onclick="nextSlide()" class="btn-nav">
+        ถัดไป (Right) <span>▶</span>
+      </button>
+    </div>
+
+    <div class="progress-track" id="progressTrack">
+      <!-- Generated by JS -->
+    </div>
+
+    <div class="slide-counter">
+      สไลด์ <span id="currentSlideNum">1</span> / <span id="totalSlidesNum">7</span>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const progressTrack = document.getElementById('progressTrack');
+    const currentSlideNum = document.getElementById('currentSlideNum');
+    const totalSlidesNum = document.getElementById('totalSlidesNum');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    totalSlidesNum.textContent = totalSlides;
+
+    // Generate dots
+    for (let i = 1; i <= totalSlides; i++) {
+      const dot = document.createElement('div');
+      dot.className = `step-dot ${i === 1 ? 'active' : ''}`;
+      dot.onclick = () => goToSlide(i);
+      progressTrack.appendChild(dot);
+    }
+
+    const dots = document.querySelectorAll('.step-dot');
+
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        const slideNum = index + 1;
+        slide.classList.remove('active', 'prev');
+        if (slideNum === currentSlide) {
+          slide.classList.add('active');
+        } else if (slideNum < currentSlide) {
+          slide.classList.add('prev');
+        }
+      });
+
+      dots.forEach((dot, index) => {
+        const dotNum = index + 1;
+        dot.className = 'step-dot';
+        if (dotNum === currentSlide) {
+          dot.classList.add('active');
+        } else if (dotNum < currentSlide) {
+          dot.classList.add('passed');
+        }
+      });
+
+      currentSlideNum.textContent = currentSlide;
+      prevBtn.disabled = currentSlide === 1;
+      nextBtn.disabled = currentSlide === totalSlides;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(num) {
+      if (num >= 1 && num <= totalSlides) {
+        currentSlide = num;
+        updateSlide();
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'Home') {
+        goToSlide(1);
+      } else if (e.key === 'End') {
+        goToSlide(totalSlides);
+      }
+    });
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.log(err.message);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
