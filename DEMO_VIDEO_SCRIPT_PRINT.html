@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>บทและลำดับการบันทึกคลิปวิดีโอสาธิต DevSecOps (Demo Video Script)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 10mm 12mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      background: #ffffff;
+      color: #1e293b;
+      font-family: 'Sarabun', 'Prompt', sans-serif;
+      font-size: 11.5px;
+      line-height: 1.45;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 186mm;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    .doc-header {
+      border-bottom: 2.5px solid #002d62;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .doc-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .doc-badge {
+      display: inline-block;
+      background: #002d62;
+      color: #ffffff;
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge-time {
+      background: #dc2626;
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+
+    .badge-score {
+      background: #059669;
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+
+    .doc-title {
+      font-family: 'Prompt', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      color: #002d62;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .doc-subtitle {
+      font-size: 11px;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .doc-meta {
+      margin-top: 4px;
+      font-size: 10.5px;
+      color: #334155;
+      line-height: 1.35;
+      background: #f8fafc;
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* SCENE CARDS */
+    .scene-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      overflow: hidden;
+    }
+
+    .scene-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 10px;
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      font-size: 11.5px;
+      color: #ffffff;
+    }
+
+    .scene-1-head { background: linear-gradient(135deg, #0284c7, #0369a1); }
+    .scene-2-head { background: linear-gradient(135deg, #d97706, #b45309); }
+    .scene-3-head { background: linear-gradient(135deg, #ea580c, #c2410c); }
+    .scene-4-head { background: linear-gradient(135deg, #16a34a, #15803d); }
+    .scene-5-head { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+
+    .scene-body {
+      padding: 8px 10px;
+    }
+
+    .screen-tag {
+      background: #f1f5f9;
+      border-left: 3px solid #002d62;
+      padding: 3px 6px;
+      margin-bottom: 5px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .speech-box {
+      background: #f8fafc;
+      border: 1px dashed #94a3b8;
+      border-radius: 4px;
+      padding: 6px 9px;
+      font-size: 11px;
+      line-height: 1.45;
+      color: #1e293b;
+      font-style: italic;
+    }
+
+    .speech-box strong {
+      color: #002d62;
+      font-style: normal;
+    }
+
+    /* CRITERIA BANNER */
+    .criteria-banner {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 5px;
+      padding: 6px 10px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      color: #1e40af;
+      text-align: center;
+      font-family: 'Prompt', sans-serif;
+      font-weight: 600;
+    }
+
+    /* TOOLS TABLE */
+    .tools-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 6px 0 8px 0;
+      font-size: 10px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .tools-table th, .tools-table td {
+      border: 1px solid #cbd5e1;
+      padding: 4.5px 6px;
+      text-align: left;
+      vertical-align: middle;
+      line-height: 1.35;
+    }
+    .tools-table th {
+      background: #002d62;
+      color: #ffffff;
+      font-family: 'Prompt', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+    }
+    .tools-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+    .badge-cat {
+      display: inline-block;
+      font-weight: 700;
+      font-size: 8.5px;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+    }
+    .cat-record { background: #fee2e2; color: #991b1b; }
+    .cat-detect { background: #fef9c3; color: #854d0e; }
+    .cat-fix { background: #dcfce7; color: #15803d; }
+    .cat-web { background: #e0e7ff; color: #3730a3; }
+
+    /* TIPS CALLOUT */
+    .tips-box {
+      background: #fffbeb;
+      border: 1.5px solid #fde68a;
+      border-radius: 5px;
+      padding: 7px 10px;
+      margin-top: 8px;
+      font-size: 10px;
+      color: #92400e;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .tips-title {
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      color: #b45309;
+      margin-bottom: 3px;
+    }
+
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+
+    <!-- PAGE 1: HEADER & TIMELINE 1-3 -->
+    <div class="doc-header">
+      <div class="doc-header-top">
+        <div>
+          <span class="doc-badge">DevSecOps Video Guide</span>
+          <span class="badge-time">ความยาว 5–8 นาที</span>
+          <span class="badge-score">สัดส่วนคะแนน Evidence & Demo: 30 คะแนน</span>
+        </div>
+        <div style="font-size: 10px; color: #64748b; font-weight: 600;">มหาวิทยาลัยสวนดุสิต | ภาคเรียนที่ 2/2568</div>
+      </div>
+      <div class="doc-title">บทและลำดับการบันทึกคลิปวิดีโอสาธิตระบบ DevSecOps (Demo Video Script)</div>
+      <div class="doc-subtitle">โครงงาน: Student Portfolio & Skill Passport (กลุ่มที่ 3) — ระบบแฟ้มสะสมผลงานดิจิทัล มสด.</div>
+      <div class="doc-meta">
+        <strong>👥 ผู้จัดทำและสาธิต (3 คน):</strong> 1. 010 นายอภิสิทธิ์ ศรีพัฒน์ | 2. 008 นายปภังกร ทองเจริญ | 3. 009 นายปวีณวัชร์ เหลืองอุทัย<br>
+        <strong>🌐 Live URL:</strong> student-portfolio-ten-phi.vercel.app | <strong>💻 Repository:</strong> github.com/Taeaps561/student-portfolio
+      </div>
+    </div>
+
+    <div class="criteria-banner">
+      🎯 ลำดับการนำเสนอตามเกณฑ์อาจารย์: ระบบจริง ➔ เครื่องมือ ➔ จุดอ่อนที่พบ ➔ การแก้ไข Source Code ➔ ผลลัพธ์หลังแก้ไข
+    </div>
+
+    <!-- SCENE 1 -->
+    <div class="scene-card">
+      <div class="scene-header scene-1-head">
+        <span>🟢 ช่วงที่ 1: แนะนำตัว โครงงาน และสถาปัตยกรรมระบบ</span>
+        <span>เวลา: 0:00 – 1:15 นาที</span>
+      </div>
+      <div class="scene-body">
+        <div class="screen-tag">🖥️ หน้าจอที่เปิดแสดง: หน้าแรกของระบบบน Live URL (student-portfolio-ten-phi.vercel.app) หรือ localhost:3000</div>
+        <div class="speech-box">
+          "สวัสดีครับอาจารย์และเพื่อนๆ ทุกคน วันนี้กลุ่มที่ 3 จะมานำเสนอความคืบหน้าด้าน DevSecOps สำหรับโครงงาน <strong>Student Portfolio & Skill Passport</strong> หรือระบบแฟ้มสะสมผลงานดิจิทัลและเครือข่ายวิชาชีพนักศึกษา มหาวิทยาลัยสวนดุสิตครับ<br><br>
+          ระบบของเราพัฒนาด้วย Next.js 16, React 19, Prisma ORM และเชื่อมต่อฐานข้อมูล มีการใช้งานจริงบน Vercel และรองรับผู้ใช้ 3 บทบาทคือ นักศึกษา, อาจารย์, และสถานประกอบการ<br><br>
+          ในสปรินต์นี้ เราได้นำแนวคิด <strong>DevSecOps Cycle</strong> เข้ามาประยุกต์ใช้ โดยไม่เพียงแค่สแกนหาช่องโหว่ แต่เราได้ทำการวิเคราะห์ความเสี่ยง ลงมือแก้ไข Source Code จริง และทดสอบซ้ำตามวงจร <strong>Tool ➔ Detect ➔ Analyze ➔ Fix</strong> ครับ"
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 2 -->
+    <div class="scene-card">
+      <div class="scene-header scene-2-head">
+        <span>🟡 ช่วงที่ 2: การใช้เครื่องมือตรวจจับจุดอ่อน (Detection Phase)</span>
+        <span>เวลา: 1:15 – 3:00 นาที</span>
+      </div>
+      <div class="scene-body">
+        <div class="screen-tag">🖥️ หน้าจอที่เปิดแสดง: โปรแกรม OWASP ZAP แสดง Alerts ➔ Terminal รันคำสั่ง npm audit ➔ Burp Suite Repeater</div>
+        <div class="speech-box">
+          "ในขั้นตอนการตรวจจับ (Detection) เราใช้เครื่องมือจริง 4 ชนิดกับระบบจริงของเราครับ:<br>
+          <strong>1. OWASP ZAP:</strong> เมื่อรัน DAST Baseline Scan บนระบบ เราพบ Alert ระดับ Medium และ Low ถึง 5 รายการ โดยเฉพาะ <strong>Missing Security Headers</strong> ไม่มีทั้ง Content-Security-Policy และ Anti-Clickjacking (X-Frame-Options)<br>
+          <strong>2. npm audit (SCA):</strong> ตรวจพบช่องโหว่ Dependencies 10 รายการ โดยมี Critical ในแพ็กเกจ <code>next-auth</code> และ High ใน <code>next.js</code><br>
+          <strong>3. Burp Suite:</strong> เราทดสอบส่งคำขอไปที่ <code>GET /api/portfolio</code> และ <code>POST /api/employer/matching</code> โดยไม่ล็อกอิน สิ่งที่พบคือ ระบบส่งข้อมูลส่วนตัวนักศึกษาออกมาหมดเลย ทั้งเบอร์โทรศัพท์ และเกรดเฉลี่ย GPA แถมโปรไฟล์ Private ก็หลุดออกมาด้วย ถือเป็นช่องโหว่ร้ายแรงด้าน <strong>Broken Access Control</strong> และละเมิด พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA) ครับ"
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 3 -->
+    <div class="scene-card">
+      <div class="scene-header scene-3-head">
+        <span>🟠 ช่วงที่ 3: การวิเคราะห์และลงมือแก้ไข Source Code จริง (Remediation Phase)</span>
+        <span>เวลา: 3:00 – 5:00 นาที</span>
+      </div>
+      <div class="scene-body">
+        <div class="screen-tag">🖥️ หน้าจอที่เปิดแสดง: โปรแกรม VS Code เปิดไฟล์: next.config.ts, portfolio/route.ts, matching/route.ts, [...nextauth]/route.ts</div>
+        <div class="speech-box">
+          "เมื่อเราทราบปัญหาแล้ว เราจึงทำการแก้ไขที่ตัวโค้ดจริง 3 จุดหลัก ไม่ใช่เพียงแค่นำภาพมารายงานครับ:<br>
+          <strong>• จุดที่ 1:</strong> ในไฟล์ <code>next.config.ts</code> เราเขียนฟังก์ชัน <code>headers()</code> เพิ่มเติม เพื่อฉีด Security Headers 7 ตัว ครอบคลุมทั้ง CSP, X-Frame-Options เป็น <code>SAMEORIGIN</code> ป้องกัน Clickjacking, nosniff และ HSTS<br>
+          <strong>• จุดที่ 2:</strong> ใน <code>src/app/api/portfolio/route.ts</code> เราแก้ปัญหา Access Control โดยเพิ่มการตรวจสอบ Session หากเป็นผู้ใช้ทั่วไป จะบังคับกรองเฉพาะโปรไฟล์สาธารณะ (<code>isPublic: true</code>) และเขียนฟังก์ชันทำ <strong>Data Masking</strong> ซ่อน GPA และแปลงเบอร์โทรเป็น <code>081-XXX-XXXX</code><br>
+          <strong>• จุดที่ 3:</strong> ใน <code>src/app/api/employer/matching/route.ts</code> เราเพิ่มการตรวจสอบสิทธิ์ Server-side RBAC ให้เฉพาะ Role <code>EMPLOYER</code> หรือ <code>TEACHER</code> เท่านั้นที่เข้าถึงข้อมูลผู้สมัครได้ หากไม่มีสิทธิ์จะถูกตอบกลับด้วย HTTP 401 Unauthorized ทันทีครับ"
+        </div>
+      </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- PAGE 2: TIMELINE 4-5, TOOLS TABLE & CHECKLIST -->
+    <!-- SCENE 4 -->
+    <div class="scene-card" style="margin-top: 5px;">
+      <div class="scene-header scene-4-head">
+        <span>🔵 ช่วงที่ 4: การทดสอบซ้ำและแสดงผลลัพธ์หลังแก้ไข (Before vs After)</span>
+        <span>เวลา: 5:00 – 6:45 นาที</span>
+      </div>
+      <div class="scene-body">
+        <div class="screen-tag">🖥️ หน้าจอที่เปิดแสดง: Terminal/cURL ตรวจสอบ Header ➔ Burp Suite Repeater ยิงคำขอซ้ำ ➔ ไฟล์ใน evidence/before-after/</div>
+        <div class="speech-box">
+          "มาดูผลลัพธ์หลังแก้ไข (After) กันครับ:<br>
+          <strong>• เมื่อยิงคำขอ curl -I ตรวจสอบ Header:</strong> ตอนนี้ Server ส่งค่า <code>Content-Security-Policy</code>, <code>X-Frame-Options: SAMEORIGIN</code> และ <code>X-Content-Type-Options: nosniff</code> ครบถ้วนแล้ว และผลการสแกนซ้ำใน OWASP ZAP Alert ลดลงเหลือ <strong>0 รายการ</strong> ในหมวด Headers!<br>
+          <strong>• เมื่อทดสอบผ่าน Burp Suite อีกครั้ง:</strong> จะเห็นว่าเบอร์โทรศัพท์ถูก Mask เรียบร้อยแล้ว เกรดเฉลี่ยถูกปิดซ่อน (<code>null</code>) และหากพยายามเรียก API ของนายจ้างโดยไม่ล็อกอิน ระบบจะบล็อกทันทีด้วย HTTP 401 Unauthorized<br>
+          และในส่วนฐานข้อมูล เราใช้ <strong>Prisma ORM</strong> ซึ่งสร้าง Parameterized Queries 100% ทำให้ป้องกันการโจมตี SQL Injection ได้อย่างสมบูรณ์แบบครับ"
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE 5 -->
+    <div class="scene-card">
+      <div class="scene-header scene-5-head">
+        <span>🟣 ช่วงที่ 5: สรุปงานและส่งมอบตามเกณฑ์ (Deliverables & CI/CD)</span>
+        <span>เวลา: 6:45 – 7:30 นาที</span>
+      </div>
+      <div class="scene-body">
+        <div class="screen-tag">🖥️ หน้าจอที่เปิดแสดง: หน้า GitHub Repository แสดงไฟล์ SECURITY_PROGRESS.md, โฟลเดอร์ evidence/ และ Git Commit History</div>
+        <div class="speech-box">
+          "สรุปผลการดำเนินงาน กลุ่มเราได้จัดทำเอกสารและหลักฐานครบทั้ง 4 ส่วนตามที่อาจารย์กำหนด:<br>
+          <strong>1. ไฟล์ SECURITY_PROGRESS.md:</strong> สรุปรายงานความมั่นคงปลอดภัยทั้งหมดใน GitHub<br>
+          <strong>2. โฟลเดอร์ evidence/:</strong> ที่มีหลักฐานของ ZAP, Burp Suite, SAST, Database และ Before/After ครบถ้วน<br>
+          <strong>3. คลิปวิดีโอสาธิตนี้</strong><br>
+          <strong>4. ประวัติ Git Commit บน GitHub:</strong> ที่ยืนยันว่ามีการแก้ไขโค้ดจริง<br><br>
+          ในสปรินต์ถัดไป เราพร้อมที่จะนำ GitHub Actions ของเราต่อยอดเป็น CI/CD Security Pipeline เต็มรูปแบบครับ กลุ่มที่ 3 ขอจบการนำเสนอเพียงเท่านี้ ขอบคุณครับ"
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: REQUIRED TOOLS SUMMARY TABLE -->
+    <div style="margin-top: 8px; page-break-inside: avoid; break-inside: avoid;">
+      <div style="font-family: 'Prompt', sans-serif; font-size: 11.5px; font-weight: 700; color: #002d62; border-bottom: 2px solid #002d62; padding-bottom: 2px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+        <span>🧰 สรุปเครื่องมือ (Tools) และคำสั่งที่ต้องใช้ในการบันทึกคลิปสาธิต</span>
+        <span style="font-size: 9.5px; font-weight: 600; color: #64748b;">ตรงตามเกณฑ์ DevSecOps Cycle (50 คะแนน)</span>
+      </div>
+
+      <table class="tools-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">เครื่องมือ (Tool)</th>
+            <th style="width: 21%;">ประเภท / หมวดหมู่</th>
+            <th style="width: 42%;">หน้าที่และสิ่งที่ต้องแสดงบนหน้าจอ</th>
+            <th style="width: 17%;">ช่วงในคลิป</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. OBS Studio</strong></td>
+            <td><span class="badge-cat cat-record">Screen Recording</span></td>
+            <td>บันทึกหน้าจอ Full HD 1080p, อัดเสียงไมค์, เปิดกล้องหน้าเว็บแคมมุมจอ (PIP)</td>
+            <td>ตลอดคลิป (5–8 นาที)</td>
+          </tr>
+          <tr>
+            <td><strong>2. OWASP ZAP (v2.14+)</strong></td>
+            <td><span class="badge-cat cat-detect">DAST / Detection</span></td>
+            <td>โชว์หน้าต่าง Alerts พบ Missing Security Headers 5 ตัว ➔ สแกนซ้ำเหลือ 0 Alerts</td>
+            <td>ช่วงที่ 2 & 4</td>
+          </tr>
+          <tr>
+            <td><strong>3. Burp Suite (Community)</strong></td>
+            <td><span class="badge-cat cat-detect">Web Testing / Intercept</span></td>
+            <td>โชว์ Repeater: <code>/api/portfolio</code> ข้อมูลหลุด ➔ หลังแก้ Mask เบอร์โทรและบล็อก 401</td>
+            <td>ช่วงที่ 2 & 4</td>
+          </tr>
+          <tr>
+            <td><strong>4. npm audit</strong></td>
+            <td><span class="badge-cat cat-detect">SCA / Dependency Scan</span></td>
+            <td>รันคำสั่ง <code>npm audit</code> ใน Terminal โชว์ 10 ช่องโหว่ (Critical ใน next-auth)</td>
+            <td>ช่วงที่ 2</td>
+          </tr>
+          <tr>
+            <td><strong>5. VS Code</strong></td>
+            <td><span class="badge-cat cat-fix">IDE / Remediation</span></td>
+            <td>เปิดไฟล์แก้จริง: <code>next.config.ts</code>, <code>portfolio/route.ts</code>, <code>matching/route.ts</code></td>
+            <td>ช่วงที่ 3 (แก้โค้ด)</td>
+          </tr>
+          <tr>
+            <td><strong>6. Terminal (cURL)</strong></td>
+            <td><span class="badge-cat cat-fix">CLI Verification</span></td>
+            <td>รันคำสั่ง <code>curl -I https://student-portfolio-ten-phi.vercel.app</code> ยืนยัน Header 7 ตัว</td>
+            <td>ช่วงที่ 4 (After)</td>
+          </tr>
+          <tr>
+            <td><strong>7. Web Browser (Chrome)</strong></td>
+            <td><span class="badge-cat cat-web">Live Web & GitHub</span></td>
+            <td>เปิดเว็บจริงบน Vercel, หน้า GitHub Repo, โฟลเดอร์ <code>evidence/</code> และ Git Commits</td>
+            <td>ช่วงที่ 1 & 5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TIPS & CHECKLIST BOX -->
+    <div class="tips-box">
+      <div class="tips-title">💡 Checklist สิ่งที่ต้องเปิดรอบนหน้าจอคอมพิวเตอร์ก่อนกด Record (อัดคลิป)</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3px 10px; margin-top: 3px; font-size: 9.5px; line-height: 1.35;">
+        <div>☑️ <strong>1. เบราว์เซอร์แท็บ 1:</strong> หน้าแรกเว็บจริง (student-portfolio-ten-phi.vercel.app)</div>
+        <div>☑️ <strong>2. เบราว์เซอร์แท็บ 2:</strong> GitHub Repo แสดงโฟลเดอร์ evidence/ และ Commit History</div>
+        <div>☑️ <strong>3. หน้าต่าง VS Code:</strong> เปิดไฟล์ <code>next.config.ts</code> และ <code>route.ts</code> รอไว้ในแท็บ</div>
+        <div>☑️ <strong>4. โปรแกรม Burp Suite:</strong> เปิดแท็บ Repeater ยิงคำขอ <code>/api/portfolio</code> ค้างไว้</div>
+        <div>☑️ <strong>5. โปรแกรม OWASP ZAP:</strong> เปิดหน้าจอ Alerts (หรือเปิดไฟล์ <code>zap-scan-report.md</code>)</div>
+        <div>☑️ <strong>6. หน้าต่าง Terminal:</strong> เตรียมคำสั่ง <code>npm audit</code> และ <code>curl -I &lt;URL&gt;</code></div>
+      </div>
+      <div style="margin-top: 5px; padding-top: 3px; border-top: 1px dashed #fcd34d; font-size: 9px; color: #78350f;">
+        📌 <em>การส่งงาน: อัปโหลดคลิปขึ้น YouTube (ตั้งค่า Unlisted) หรือ Google Drive แล้วนำลิงก์มาแนบส่งในระบบส่งงานของรายวิชา</em>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

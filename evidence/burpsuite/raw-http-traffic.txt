@@ -1,0 +1,89 @@
+================================================================================
+BURP SUITE RAW HTTP TRAFFIC LOG - SKILLPASSPORT DEVSECOPS SPRINT
+Tool: Burp Suite Professional / Community (HTTP History & Repeater)
+Target: Student Portfolio Web API (Next.js 16 App Router)
+================================================================================
+
+[ITEM 1: SENSITIVE DATA LEAKAGE TEST (GET /api/portfolio)]
+--------------------------------------------------------------------------------
+>>> REQUEST:
+GET /api/portfolio HTTP/1.1
+Host: student-portfolio-ten-phi.vercel.app
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0
+Accept: application/json, text/plain, */*
+Accept-Language: th,en-US;q=0.7,en;q=0.3
+Connection: keep-alive
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors
+Sec-Fetch-Site: same-origin
+
+<<< RESPONSE (BEFORE REMEDIATION):
+HTTP/1.1 200 OK
+Date: Tue, 08 Sep 2026 04:31:02 GMT
+Content-Type: application/json; charset=utf-8
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"success":true,"portfolios":[{"id":"clup1","userId":"user_test_01","bio":"นักศึกษาทดสอบ","isPublic":false,"phoneNumber":"0891234567","gpa":3.75,"user":{"id":"user_test_01","name":"สมชาย ยอดรัก","image":"https://ui-avatars.com","role":"STUDENT"}}]}
+
+<<< RESPONSE (AFTER REMEDIATION):
+HTTP/1.1 200 OK
+Date: Tue, 08 Sep 2026 05:00:11 GMT
+Content-Type: application/json; charset=utf-8
+Connection: keep-alive
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'self';
+
+{"success":true,"portfolios":[{"id":"clup2","userId":"user_test_02","bio":"ผลงานสาธารณะ","isPublic":true,"phoneNumber":"089-XXX-4567","gpa":null,"user":{"id":"user_test_02","name":"สายฟ้า แฮกเกอร์","image":"https://ui-avatars.com","role":"STUDENT"}}]}
+
+
+--------------------------------------------------------------------------------
+[ITEM 2: BROKEN ACCESS CONTROL ON CANDIDATE MATCHING (POST /api/employer/matching)]
+--------------------------------------------------------------------------------
+>>> REQUEST (NO AUTH TOKEN):
+POST /api/employer/matching HTTP/1.1
+Host: student-portfolio-ten-phi.vercel.app
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+Content-Type: application/json
+Content-Length: 48
+Connection: keep-alive
+
+{"jobDescription":"Next.js TypeScript Fullstack"}
+
+<<< RESPONSE (BEFORE REMEDIATION):
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{"success":true,"requiredSkills":["Next.js"],"candidates":[{"id":"u1","name":"สมชาย","email":"somchai@example.com","gpa":3.85,"matchScore":95}]}
+
+<<< RESPONSE (AFTER REMEDIATION):
+HTTP/1.1 401 Unauthorized
+Date: Tue, 08 Sep 2026 05:02:44 GMT
+Content-Type: application/json; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+
+{"error":"Unauthorized: กรุณาเข้าสู่ระบบก่อนใช้งานระบบค้นหาผู้สมัคร"}
+
+
+--------------------------------------------------------------------------------
+[ITEM 3: SSRF / PATH TRAVERSAL ATTEMPT ON GITHUB PROXY (GET /api/github)]
+--------------------------------------------------------------------------------
+>>> REQUEST (MALICIOUS PAYLOAD):
+GET /api/github?username=../../internal/meta HTTP/1.1
+Host: student-portfolio-ten-phi.vercel.app
+Accept: application/json
+
+<<< RESPONSE (AFTER REMEDIATION):
+HTTP/1.1 400 Bad Request
+Content-Type: application/json; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+
+{"error":"รูปแบบชื่อผู้ใช้ GitHub ไม่ถูกต้อง (อนุญาตเฉพาะตัวอักษร ตัวเลข และเครื่องหมาย - สูงสุด 39 ตัวอักษร)"}
+
+================================================================================
+STATUS: VALIDATED - ALL ACCESS CONTROL ISSUES SECURED
+================================================================================

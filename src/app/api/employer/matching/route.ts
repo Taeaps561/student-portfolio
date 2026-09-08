@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 
 const SKILL_KEYWORDS: { name: string; patterns: string[] }[] = [
@@ -13,6 +15,22 @@ const SKILL_KEYWORDS: { name: string; patterns: string[] }[] = [
 
 export async function POST(req: NextRequest) {
   try {
+    // DevSecOps / RBAC Security Check: Must be authenticated and have EMPLOYER or TEACHER role
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user) {
+      return NextResponse.json(
+        { error: "Unauthorized: กรุณาเข้าสู่ระบบก่อนใช้งานระบบค้นหาผู้สมัคร" },
+        { status: 401 }
+      );
+    }
+
+    if (session.user.role !== "EMPLOYER" && session.user.role !== "TEACHER") {
+      return NextResponse.json(
+        { error: "Forbidden: สิทธิ์การเข้าถึงสงวนเฉพาะบัญชีสถานประกอบการ (EMPLOYER) หรืออาจารย์ (TEACHER)" },
+        { status: 403 }
+      );
+    }
+
     const { jobDescription, selectedSkill, minLevel, minScore } = await req.json();
 
     // 1. Keyword extraction from Job Description
@@ -32,10 +50,13 @@ export async function POST(req: NextRequest) {
       requiredSkills.push(selectedSkill);
     }
 
-    // 2. Fetch all student portfolios with verified skills
+    // 2. Fetch all student portfolios with verified skills (Only public portfolios for privacy)
     const students = await prisma.user.findMany({
       where: {
-        role: "STUDENT"
+        role: "STUDENT",
+        portfolio: {
+          isPublic: true
+        }
       },
       include: {
         portfolio: {

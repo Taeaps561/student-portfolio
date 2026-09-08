@@ -51,6 +51,16 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    // DevSecOps / SSRF & Input Validation (OWASP A10:2021 Server-Side Request Forgery)
+    // GitHub usernames may only contain alphanumeric characters or single hyphens (Max 39 chars)
+    const GITHUB_USERNAME_REGEX = /^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/;
+    if (username && !GITHUB_USERNAME_REGEX.test(username)) {
+      return NextResponse.json(
+        { error: "รูปแบบชื่อผู้ใช้ GitHub ไม่ถูกต้อง (อนุญาตเฉพาะตัวอักษร ตัวเลข และเครื่องหมาย - สูงสุด 39 ตัวอักษร)" },
+        { status: 400 }
+      );
+    }
+
     // Default fallback username for demonstration if neither is available
     const targetUsername = username || (session?.user?.name ? session.user.name.replace(/\s+/g, "").toLowerCase() : "torvalds");
 

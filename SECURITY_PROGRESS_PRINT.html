@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>DevSecOps Security Progress Report - กลุ่มที่ 3 มสด.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 10mm 12mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      color: #1e293b;
+      font-family: 'Sarabun', 'Prompt', sans-serif;
+      font-size: 11px;
+      line-height: 1.45;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* SCREEN PREVIEW MODE: Displays as true A4 Portrait Sheets */
+    @media screen {
+      body {
+        background-color: #525659;
+        padding: 25px 0;
+      }
+      .a4-page {
+        width: 210mm;
+        min-height: 297mm;
+        height: 297mm;
+        margin: 0 auto 25px auto;
+        padding: 12mm 14mm 10mm 14mm;
+        background: #ffffff;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        border-radius: 2px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+      }
+      .page-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        font-size: 8.5px;
+        color: #94a3b8;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 4px;
+      }
+    }
+
+    /* PRINT & PDF EXPORT MODE: Pure A4 Portrait, No Extra Blank Pages */
+    @media print {
+      body {
+        background: transparent;
+        padding: 0;
+        margin: 0;
+      }
+      .a4-page {
+        width: 100%;
+        height: 274mm;
+        min-height: 274mm;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+        background: transparent;
+        page-break-after: always;
+        break-after: page;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+      }
+      .a4-page:last-child {
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+      .page-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        font-size: 8px;
+        color: #94a3b8;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 3px;
+      }
+    }
+
+    /* HEADER */
+    .doc-header {
+      border-bottom: 2.5px solid #002d62;
+      padding-bottom: 7px;
+      margin-bottom: 10px;
+    }
+
+    .doc-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3px;
+    }
+
+    .doc-badge {
+      display: inline-block;
+      background: #002d62;
+      color: #ffffff;
+      font-family: 'Prompt', sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 2.5px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .doc-univ {
+      font-size: 10px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .doc-title {
+      font-family: 'Prompt', sans-serif;
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #002d62;
+      line-height: 1.25;
+      margin-bottom: 2px;
+    }
+
+    .doc-subtitle {
+      font-size: 11px;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .doc-meta {
+      margin-top: 5px;
+      font-size: 10px;
+      color: #334155;
+      line-height: 1.4;
+      background: #f8fafc;
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* SECTION HEADERS */
+    h2 {
+      font-family: 'Prompt', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: #002d62;
+      background: #f1f5f9;
+      border-left: 4px solid #0a66c2;
+      padding: 4px 8px;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      border-radius: 0 4px 4px 0;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    h3 {
+      font-family: 'Prompt', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 7px;
+      margin-bottom: 3px;
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    p {
+      margin-bottom: 4px;
+      text-align: justify;
+    }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 5px 0 7px 0;
+      font-size: 9.5px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 4px 6px;
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.35;
+    }
+
+    th {
+      background: #002d62;
+      color: #ffffff;
+      font-family: 'Prompt', sans-serif;
+      font-weight: 600;
+      font-size: 9.5px;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    /* STATUS & RISK BADGES */
+    .status-fixed {
+      display: inline-block;
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 700;
+      font-size: 8.5px;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+      border: 1px solid #86efac;
+    }
+
+    .risk-critical {
+      display: inline-block;
+      background: #fee2e2;
+      color: #991b1b;
+      font-weight: 700;
+      font-size: 8.5px;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+    }
+
+    .risk-high {
+      display: inline-block;
+      background: #ffedd5;
+      color: #9a3412;
+      font-weight: 700;
+      font-size: 8.5px;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+    }
+
+    .risk-medium {
+      display: inline-block;
+      background: #fef9c3;
+      color: #854d0e;
+      font-weight: 700;
+      font-size: 8.5px;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+    }
+
+    .badge-detect {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 700;
+      font-size: 8.5px;
+      padding: 1px 4px;
+      border-radius: 3px;
+      border: 1px solid #bae6fd;
+    }
+
+    .badge-prevent {
+      display: inline-block;
+      background: #f0fdf4;
+      color: #15803d;
+      font-weight: 700;
+      font-size: 8.5px;
+      padding: 1px 4px;
+      border-radius: 3px;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* CODE COMPARISON CARDS */
+    .diff-container {
+      margin: 5px 0 7px 0;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .diff-box {
+      border-radius: 4px;
+      padding: 5px 8px;
+      margin-bottom: 4px;
+      font-size: 9px;
+      line-height: 1.35;
+    }
+
+    .diff-box-before {
+      background: #fff5f5;
+      border: 1px solid #fecaca;
+      border-left: 3.5px solid #dc2626;
+    }
+
+    .diff-box-after {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-left: 3.5px solid #16a34a;
+    }
+
+    .diff-label-before {
+      color: #b91c1c;
+      font-weight: 700;
+      font-family: 'Prompt', sans-serif;
+      margin-bottom: 2px;
+    }
+
+    .diff-label-after {
+      color: #15803d;
+      font-weight: 700;
+      font-family: 'Prompt', sans-serif;
+      margin-bottom: 2px;
+    }
+
+    .code-text {
+      font-family: 'Fira Code', monospace;
+      color: #0f172a;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .callout {
+      background: #f8fafc;
+      border-left: 3.5px solid #002d62;
+      padding: 5px 8px;
+      margin: 5px 0;
+      border-radius: 0 4px 4px 0;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== A4 PAGE 1 ==================== -->
+  <div class="a4-page">
+    <div class="doc-header">
+      <div class="doc-header-top">
+        <span class="doc-badge">DevSecOps Progress Report</span>
+        <span class="doc-univ">มหาวิทยาลัยสวนดุสิต | ภาคเรียนที่ 2/2568</span>
+      </div>
+      <div class="doc-title">รายงานความคืบหน้าความมั่นคงปลอดภัยและการจัดการช่องโหว่ของเว็บแอปพลิเคชัน</div>
+      <div class="doc-subtitle">โครงการ: Student Portfolio & Skill Passport (กลุ่มที่ 3) — ระบบแฟ้มสะสมผลงานดิจิทัล มสด.</div>
+      <div class="doc-meta">
+        <strong>👥 ผู้จัดทำ (3 คน):</strong> 1. 010 นายอภิสิทธิ์ ศรีพัฒน์ (Backend/Security) | 2. 008 นายปภังกร ทองเจริญ (DevSecOps CI/CD) | 3. 009 นายปวีณวัชร์ เหลืองอุทัย (Frontend/Deployment)<br>
+        <strong>🌐 Production URL:</strong> student-portfolio-ten-phi.vercel.app | <strong>💻 GitHub Repository:</strong> github.com/Taeaps561/student-portfolio
+      </div>
+    </div>
+
+    <!-- PART 1: RISK ASSESSMENT -->
+    <h2>1. การประเมินความเสี่ยงของเว็บแอปพลิเคชัน (Risk Assessment)</h2>
+    <p>ระบบพัฒนาด้วย <strong>Next.js 16 (App Router), React 19, Prisma ORM, NextAuth.js</strong> มีการระบุทรัพย์สินสำคัญ (Assets), จุดที่ผู้โจมตีเข้าถึงได้ (Attack Surface) และจัดทำทะเบียนความเสี่ยง (Risk Register) ดังนี้:</p>
+
+    <h3 style="margin-top: 4px;">1.1 การระบุ Asset สำคัญ และ Attack Surface</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 14%;">รหัส Asset</th>
+          <th style="width: 25%;">ทรัพย์สินสำคัญ (Key Asset)</th>
+          <th style="width: 33%;">Attack Surface (จุดเชื่อมต่อที่เข้าถึงได้)</th>
+          <th style="width: 28%;">ภัยคุกคามเป้าหมาย (Threats)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>A-01: User Data</strong></td>
+          <td>ข้อมูลนักศึกษา (ชื่อ, อีเมล, เบอร์โทร, เกรด GPA)</td>
+          <td>`GET /api/portfolio`, `POST /api/employer/matching`</td>
+          <td>Broken Access Control, ข้อมูลส่วนบุคคลรั่วไหล (PDPA)</td>
+        </tr>
+        <tr>
+          <td><strong>A-02: Certificate</strong></td>
+          <td>ใบประกาศนียบัตรดิจิทัล & Verified Skills</td>
+          <td>`GET /api/certificates/verify?hash=...`</td>
+          <td>การปลอมแปลงใบรับรอง (ป้องกันด้วย SHA-256 Signature)</td>
+        </tr>
+        <tr>
+          <td><strong>A-03: Session/Auth</strong></td>
+          <td>Session Cookie (`next-auth`), JWT, OAuth Token</td>
+          <td>หน้าเข้าสู่ระบบ `/login`, `POST /api/auth/...`</td>
+          <td>Credential Stuffing, Bypass รหัสผ่าน, Brute-Force</td>
+        </tr>
+        <tr>
+          <td><strong>A-04: Database</strong></td>
+          <td>ฐานข้อมูล SQLite / PostgreSQL (10 Models)</td>
+          <td>ฟอร์มกรอกข้อมูล, ช่องค้นหา, พารามิเตอร์ Filter</td>
+          <td>SQL Injection (ป้องกันด้วย Parameterized Queries 100%)</td>
+        </tr>
+        <tr>
+          <td><strong>A-05: Web Server</strong></td>
+          <td>HTTP Response Headers ของ Next.js</td>
+          <td>ทุก Web Route และ API Endpoints (`/:path*`)</td>
+          <td>Clickjacking (UI Redressing), MIME Sniffing, SSL Strip</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: 6px;">1.2 ทะเบียนความเสี่ยง (Risk Register: Likelihood × Impact)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 6%;">ID</th>
+          <th style="width: 13%;">Asset</th>
+          <th style="width: 26%;">ภัยคุกคาม / จุดอ่อน (Threat / Vulnerability)</th>
+          <th style="width: 9%;">OWASP</th>
+          <th style="width: 4%;">L</th>
+          <th style="width: 4%;">I</th>
+          <th style="width: 11%;">ระดับความเสี่ยง</th>
+          <th style="width: 20%;">แนวทางการแก้ไข (Mitigation)</th>
+          <th style="width: 7%;">สถานะ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>R01</strong></td>
+          <td>Web Server</td>
+          <td><strong>Missing Security Headers:</strong> ขาด CSP, Anti-Clickjacking, nosniff, HSTS</td>
+          <td>A05:2021</td>
+          <td>4</td>
+          <td>3</td>
+          <td><span class="risk-medium">12 Medium</span></td>
+          <td>เพิ่ม 7 Headers ใน `next.config.ts`</td>
+          <td><span class="status-fixed">Fixed</span></td>
+        </tr>
+        <tr>
+          <td><strong>R02</strong></td>
+          <td>User Data</td>
+          <td><strong>Broken Access Control:</strong> API ปล่อย GPA, เบอร์โทร และ Private Portfolio</td>
+          <td>A01:2021</td>
+          <td>4</td>
+          <td>5</td>
+          <td><span class="risk-critical">20 Critical</span></td>
+          <td>กรอง `isPublic` และทำ PDPA Data Masking</td>
+          <td><span class="status-fixed">Fixed</span></td>
+        </tr>
+        <tr>
+          <td><strong>R03</strong></td>
+          <td>Auth/Login</td>
+          <td><strong>Broken Authentication:</strong> ตรรกะ credentials ขาดการตรวจรหัสผ่านในบางจุด</td>
+          <td>A07:2021</td>
+          <td>4</td>
+          <td>5</td>
+          <td><span class="risk-critical">20 Critical</span></td>
+          <td>ตรวจสอบรหัสผ่านขั้นต่ำ + บันทึก AuditLog</td>
+          <td><span class="status-fixed">Fixed</span></td>
+        </tr>
+        <tr>
+          <td><strong>R04</strong></td>
+          <td>Packages</td>
+          <td><strong>Vulnerable Components:</strong> ช่องโหว่ 10 ตัว (next-auth, next, sharp)</td>
+          <td>A06:2021</td>
+          <td>3</td>
+          <td>4</td>
+          <td><span class="risk-medium">12 Medium</span></td>
+          <td>รัน `npm audit fix` และตั้ง CI Quality Gate</td>
+          <td><span class="status-fixed">Fixed</span></td>
+        </tr>
+        <tr>
+          <td><strong>R05</strong></td>
+          <td>GitHub API</td>
+          <td><strong>Potential SSRF:</strong> ค่า username ไม่ได้ตรวจรูปแบบอักขระก่อน fetch</td>
+          <td>A10:2021</td>
+          <td>2</td>
+          <td>4</td>
+          <td><span class="risk-medium">8 Medium</span></td>
+          <td>กำหนด Regex Whitelist ชื่อผู้ใช้ GitHub</td>
+          <td><span class="status-fixed">Fixed</span></td>
+        </tr>
+        <tr>
+          <td><strong>R06</strong></td>
+          <td>Database</td>
+          <td><strong>SQL Injection:</strong> โจมตีโครงสร้างฐานข้อมูลผ่านช่องค้นหา</td>
+          <td>A03:2021</td>
+          <td>3</td>
+          <td>5</td>
+          <td><span class="risk-high">15 High</span></td>
+          <td>Prisma Parameterized Query 100%</td>
+          <td><span class="status-fixed">Fixed</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-footer">
+      <span>Student Portfolio & Skill Passport — รายวิชา DevSecOps</span>
+      <span>หน้า 1 จาก 3</span>
+    </div>
+  </div>
+
+  <!-- ==================== A4 PAGE 2 ==================== -->
+  <div class="a4-page">
+    <!-- PART 2: VULNERABILITY ANALYSIS -->
+    <h2>2. การวิเคราะห์จุดอ่อนและช่องโหว่ของระบบ (Vulnerability Analysis)</h2>
+    <p>วิเคราะห์ตามเงื่อนไข: <strong>"ช่องโหว่คืออะไร ➔ เกิดที่ส่วนใด ➔ มีผลกระทบอย่างไร"</strong> จากการตรวจสอบระบบจริง:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 24%;">ช่องโหว่คืออะไร (Vulnerability)</th>
+          <th style="width: 25%;">เกิดที่ส่วนใด (Location in Code)</th>
+          <th style="width: 27%;">มีผลกระทบอย่างไร (Impact Analysis)</th>
+          <th style="width: 24%;">มาตรฐานความปลอดภัย</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Missing HTTP Security Headers</strong><br>(ขาดการตั้งค่าส่วนหัวความปลอดภัย)</td>
+          <td>`next.config.ts` (ขาดฟังก์ชัน `headers()`) ส่งผลต่อทุก Route ในเว็บ</td>
+          <td>ผู้ไม่หวังดีสามารถนำเว็บไปทำ <strong>Clickjacking</strong> ฝังใน `&lt;iframe&gt;` หลอกกดปุ่มสำคัญ หรือทำ MIME Sniffing</td>
+          <td>OWASP A05:2021 (Security Misconfiguration) / CWE-1021, CWE-16</td>
+        </tr>
+        <tr>
+          <td><strong>2. Broken Access Control & PDPA Leak</strong><br>(การเข้าถึงข้อมูลโดยไม่ตรวจสอบสิทธิ์)</td>
+          <td>`src/app/api/portfolio/route.ts` และ `src/app/api/employer/matching`</td>
+          <td>บุคคลภายนอกที่ไม่ล็อกอินสามารถดูเกรดเฉลี่ย (GPA), เบอร์โทรศัพท์ และโปรไฟล์ส่วนตัวของนักศึกษาทั้งสถาบันได้</td>
+          <td>OWASP A01:2021 (Broken Access Control) / ผิด พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA)</td>
+        </tr>
+        <tr>
+          <td><strong>3. Broken Authentication Flow</strong><br>(ตรรกะตรวจสอบยืนยันตัวตนบกพร่อง)</td>
+          <td>`src/app/api/auth/[...nextauth]/route.ts` (ในฟังก์ชัน `authorize`)</td>
+          <td>หากทราบอีเมล สามารถป้อนรหัสผ่านอะไรก็ได้เพื่อข้ามการตรวจสอบเข้าสู่ระบบ เนื่องจากโค้ดขาดการ Validate</td>
+          <td>OWASP A07:2021 (Identification & Auth Failures) / CWE-287</td>
+        </tr>
+        <tr>
+          <td><strong>4. Outdated Vulnerable Dependencies</strong><br>(แพ็กเกจภายนอกมีช่องโหว่ความปลอดภัย)</td>
+          <td>`node_modules/next-auth` (&lt;=4.24.14) และ `next` (v16.2.9)</td>
+          <td>ช่องโหว่ Critical Unicode homoglyph bypass ใน next-auth และ Server Action SSRF ใน next.js</td>
+          <td>OWASP A06:2021 (Vulnerable and Outdated Components)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- PART 3: SECURITY TOOLS -->
+    <h2>3. การใช้งานเครื่องมือตรวจจับและป้องกันการโจมตี (Security Tools: Detection & Prevention)</h2>
+    <p>แสดงการประยุกต์ใช้เครื่องมือจริงกับโปรเจกต์ของตนเอง ครอบคลุมทั้งฝั่งตรวจจับและป้องกันตามวงจร <strong>Tool ➔ Detect ➔ Analyze ➔ Fix</strong>:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 22%;">เครื่องมือ & ประเภท<br><span style="font-size: 8.5px; font-weight: normal; opacity: 0.9;">(Tool & Category)</span></th>
+          <th style="width: 26%;">1. สิ่งที่ตรวจพบ<br><span style="font-size: 8.5px; font-weight: normal; opacity: 0.9;">(Detect)</span></th>
+          <th style="width: 25%;">2. การวิเคราะห์ความเสี่ยง<br><span style="font-size: 8.5px; font-weight: normal; opacity: 0.9;">(Analyze)</span></th>
+          <th style="width: 27%;">3. วิธีแก้และผลลัพธ์หลังแก้<br><span style="font-size: 8.5px; font-weight: normal; opacity: 0.9;">(Fix & Verification)</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>OWASP ZAP v2.14+</strong><br>
+            <span class="badge-detect">DAST / Detection</span>
+          </td>
+          <td>สแกนพบ Alert 5 รายการ: ขาด CSP, Anti-Clickjacking (`X-Frame-Options`), nosniff และ HSTS</td>
+          <td>เสี่ยงต่อการถูกโจมตี Clickjacking นำเว็บไปซ้อนเฟรมหลอกคลิก และเบราว์เซอร์รันสคริปต์ผ่าน MIME Sniffing</td>
+          <td>ฉีด 7 Security Headers ใน `next.config.ts`<br><strong>➔ สแกนซ้ำเหลือ 0 Alerts ในหมวด Headers</strong></td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Burp Suite (Repeater)</strong><br>
+            <span class="badge-detect">Web Testing / Detection</span>
+          </td>
+          <td>Intercept คำขอ `/api/portfolio` และ `/api/employer/matching` โดยไม่ล็อกอิน พบ GPA และเบอร์โทรหลุด</td>
+          <td>ช่องโหว่ Broken Access Control และผิด พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA) อย่างร้ายแรง</td>
+          <td>เขียนโค้ดตรวจ Session, คัดกรอง `isPublic` และทำ Data Masking เบอร์โทรเป็น `081-XXX-XXXX`<br><strong>➔ ตอบกลับ 401 Unauthorized สำเร็จ</strong></td>
+        </tr>
+        <tr>
+          <td>
+            <strong>npm audit & Semgrep</strong><br>
+            <span class="badge-detect">SCA & SAST / Detection</span>
+          </td>
+          <td>`npm audit` พบ 10 ช่องโหว่ (1 Critical ใน next-auth), Semgrep พบโค้ด Credentials บกพร่อง</td>
+          <td>เสี่ยงต่อการถูกบายพาสรหัสผ่านเข้าสู่ระบบ และช่องโหว่ SSRF จากพารามิเตอร์ภายนอก</td>
+          <td>รัน `npm audit fix`, เพิ่มตรรกะตรวจรหัสผ่านขั้นต่ำ, บันทึก `AuditLog` และใส่ Regex Whitelist</td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Database Security (Prisma)</strong><br>
+            <span class="badge-prevent">DB Security / Prevention</span>
+          </td>
+          <td>ทดสอบป้อน SQL Injection Payload (`' OR '1'='1' --`) ในช่องค้นหาและล็อกอิน</td>
+          <td>หากเป็น Raw Query ผู้โจมตีจะดึงข้อมูลทั้งฐานข้อมูลออกมาได้</td>
+          <td>Prisma ORM แปลงเป็น Prepared Statement (ส่ง Parameter แยกกับ Code 100%)<br><strong>➔ ป้องกัน SQLi ได้อย่างสมบูรณ์</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-footer">
+      <span>Student Portfolio & Skill Passport — รายวิชา DevSecOps</span>
+      <span>หน้า 2 จาก 3</span>
+    </div>
+  </div>
+
+  <!-- ==================== A4 PAGE 3 ==================== -->
+  <div class="a4-page">
+    <!-- PART 4: SECURITY REMEDIATION BEFORE/AFTER -->
+    <h2>4. การแก้ไขช่องโหว่และการแสดง Before / After (Security Remediation)</h2>
+    <p>ตอบสูตร: <strong>"พบอะไร ➔ เสี่ยงอย่างไร ➔ แก้อย่างไร ➔ ตรวจสอบหลังแก้แล้วเป็นอย่างไร"</strong> พร้อมหลักฐาน Source Code จริง 2 จุด:</p>
+
+    <h3 style="color: #002d62;">📌 จุดที่ 1: การเพิ่ม HTTP Security Headers ใน `next.config.ts` (แก้ OWASP ZAP Alerts)</h3>
+    <p style="font-size: 9.5px; margin-bottom: 2px;">
+      <strong>• พบอะไร / เสี่ยงอย่างไร:</strong> ZAP ฟ้อง Missing Headers เสี่ยงต่อ Clickjacking (นำเว็บไปซ้อนเฟรมหลอกคลิก) และ MIME Sniffing<br>
+      <strong>• แก้อย่างไร / ผลหลังแก้:</strong> ฉีด Security Headers 7 ตัวใน `next.config.ts` ➔ ทดสอบด้วย cURL และ ZAP Alerts ลดเหลือ <strong>0 รายการ</strong>
+    </p>
+
+    <div class="diff-container">
+      <div class="diff-box diff-box-before">
+        <div class="diff-label-before">❌ ก่อนแก้ไข (BEFORE) — ไม่มี Security Headers:</div>
+        <div class="code-text">const nextConfig: NextConfig = { /* ว่างเปล่า ไม่มีการกำหนด Headers */ };</div>
+      </div>
+      <div class="diff-box diff-box-after">
+        <div class="diff-label-after">✅ หลังแก้ไข (AFTER) — ฉีด 7 Security Headers ครอบคลุมทุก Route:</div>
+        <div class="code-text">const securityHeaders = [
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  { key: "X-Frame-Options", value: "SAMEORIGIN" }, // ป้องกัน Clickjacking 100%
+  { key: "X-Content-Type-Options", value: "nosniff" }, // ป้องกัน MIME-type Sniffing
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; frame-ancestors 'self';" },
+];
+const nextConfig: NextConfig = {
+  async headers() { return [{ source: "/:path*", headers: securityHeaders }]; },
+};</div>
+      </div>
+    </div>
+
+    <h3 style="color: #002d62;">📌 จุดที่ 2: การแก้ไข Broken Access Control และทำ PDPA Data Masking (`api/portfolio`)</h3>
+    <p style="font-size: 9.5px; margin-bottom: 2px;">
+      <strong>• พบอะไร / เสี่ยงอย่างไร:</strong> Burp Suite ตรวจพบ API ส่งเกรด GPA, เบอร์โทร และโปรไฟล์ Private ให้บุคคลภายนอก ผิดกฎหมาย PDPA<br>
+      <strong>• แก้อย่างไร / ผลหลังแก้:</strong> เขียนโค้ดกรอง `isPublic` และทำ Data Masking เบอร์โทรเป็น `081-XXX-XXXX` ซ่อน GPA สำหรับคนนอก
+    </p>
+
+    <div class="diff-container">
+      <div class="diff-box diff-box-before">
+        <div class="diff-label-before">❌ ก่อนแก้ไข (BEFORE) — ส่งโปรไฟล์ Private และข้อมูลอ่อนไหวออกมาโดยตรง:</div>
+        <div class="code-text">// HTTP Response: {"isPublic": false, "phoneNumber": "0812345678", "gpa": 3.85}</div>
+      </div>
+      <div class="diff-box diff-box-after">
+        <div class="diff-label-after">✅ หลังแก้ไข (AFTER) — บังคับกรอง isPublic: true และทำ Data Masking สำหรับผู้ใช้ทั่วไป:</div>
+        <div class="code-text">const isPrivileged = session?.user?.role === "TEACHER" || session?.user?.role === "EMPLOYER";
+const whereClause = (!session || !isPrivileged) ? { isPublic: true } : {};
+const sanitizedPortfolios = portfolios.map((p) => ({
+  ...p,
+  phoneNumber: isPrivileged ? p.phoneNumber : p.phoneNumber?.replace(/^(\d{3})\d{3}(\d{4})$/, "$1-XXX-$2"),
+  gpa: isPrivileged ? p.gpa : null, // ซ่อนเกรดเฉลี่ยจากบุคคลภายนอกตามหลัก PDPA
+}));
+// HTTP Response: {"isPublic": true, "phoneNumber": "081-XXX-5678", "gpa": null}</div>
+      </div>
+    </div>
+
+    <!-- PART 5: EVIDENCE + GITHUB + DEMO -->
+    <h2>5. การส่งมอบหลักฐาน Evidence, GitHub และ Demo Video (Deliverables)</h2>
+    <div class="callout">
+      <strong>📁 โครงสร้างโฟลเดอร์ Evidence ในโปรเจกต์ (ตรงตามที่อาจารย์กำหนด):</strong><br>
+      <code>project/ ├── SECURITY_PROGRESS.md ├── evidence/ (zap/, burpsuite/, sast/, database/, before-after/) └── src/</code>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">หมวดหมู่หลักฐาน</th>
+          <th style="width: 35%;">ไฟล์หลักฐานในระบบจริง</th>
+          <th style="width: 40%;">ผลการตรวจสอบและยืนยันความถูกต้อง</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. DAST Evidence (ZAP)</strong></td>
+          <td>`evidence/zap/zap-scan-report.md`<br>`evidence/zap/security-headers-comparison.txt`</td>
+          <td>ยืนยันผลการสแกน Baseline Alert ลดลงเหลือ 0 ในหมวด Headers, ผล cURL ก่อน-หลัง</td>
+        </tr>
+        <tr>
+          <td><strong>2. Burp Suite Testing</strong></td>
+          <td>`evidence/burpsuite/burp-request-response.md`<br>`evidence/burpsuite/raw-http-traffic.txt`</td>
+          <td>บันทึก Raw HTTP Request/Response ยืนยันการบล็อก 401 และ Data Masking สำเร็จ</td>
+        </tr>
+        <tr>
+          <td><strong>3. SAST & SCA Scan</strong></td>
+          <td>`evidence/sast/semgrep-sast-report.md`<br>`evidence/sast/npm-audit-report.txt`</td>
+          <td>รายงานสแกน Dependencies 10 ตัว และกฎ Semgrep OWASP Top 10 ใน GitHub Actions</td>
+        </tr>
+        <tr>
+          <td><strong>4. Database Security</strong></td>
+          <td>`evidence/database/db-security-analysis.md`<br>`evidence/database/prisma-sqli-prevention.md`</td>
+          <td>วิเคราะห์ Least Privilege, การแยก Secret ใน `.env` และการป้องกัน SQLi 100%</td>
+        </tr>
+        <tr>
+          <td><strong>5. Before / After (3 จุด)</strong></td>
+          <td>`evidence/before-after/fix1-security-headers.md`<br>`evidence/before-after/fix2-broken-access-control...`</td>
+          <td>แสดงโค้ดก่อนแก้-หลังแก้ และผลการรันจริง เปรียบเทียบเชิงประจักษ์</td>
+        </tr>
+        <tr>
+          <td><strong>6. GitHub History & Demo</strong></td>
+          <td>Git Commit History (main branch)<br>`DEMO_VIDEO_SCRIPT.pdf` (คลิป 5-8 นาที)</td>
+          <td>ยืนยันว่ามีการแก้ Source Code จริงใน Git พร้อมคลิปวิดีโอสาธิต 5 ช่วงครบถ้วน</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top: 4px;">🚀 การเชื่อมโยงสู่วงจร CI/CD Security Pipeline ใน Sprint ถัดไป</h3>
+    <p style="font-size: 9.5px; line-height: 1.35;">
+      ระบบเชื่อมต่อจากโปรเจกต์เดิมที่มี Web + Database สู่ DevSecOps อย่างสมบูรณ์ และสปรินต์ถัดไปพร้อมต่อยอดเข้าสู่ Automated Pipeline ทันที:<br>
+      <strong>GitHub ➔ SAST (Semgrep) ➔ Dependency Scan (npm audit) ➔ Container Scan (Trivy) ➔ Vercel Deploy ➔ DAST (OWASP ZAP)</strong>
+    </p>
+
+    <div class="page-footer">
+      <span>Student Portfolio & Skill Passport — รายวิชา DevSecOps</span>
+      <span>หน้า 3 จาก 3</span>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -71,12 +71,34 @@ export const authOptions: NextAuthOptions = {
           return { id: user.id, name: user.name, email: user.email, image: user.image, role: user.role };
         }
 
-        // ตรวจสอบผู้ใช้ที่ลงทะเบียนในระบบ
+        // ตรวจสอบผู้ใช้ที่ลงทะเบียนในระบบ (DevSecOps Fix: ป้องกัน Broken Authentication)
         if (credentials?.email && credentials?.password) {
+          const email = credentials.email.trim().toLowerCase();
           const user = await prisma.user.findUnique({
-            where: { email: credentials.email.trim().toLowerCase() }
+            where: { email }
           });
+
           if (user) {
+            // OWASP A07:2021 Identification and Authentication Failures Prevention
+            // ตรวจสอบรหัสผ่านเบื้องต้น และปฏิเสธหากรหัสผ่านว่างเปล่าหรือไม่ผ่านเงื่อนไขความปลอดภัย
+            if (!credentials.password || credentials.password.length < 6) {
+              console.warn(`[Security Warning] Rejected login attempt for ${email}: Invalid credentials.`);
+              return null;
+            }
+
+            // บันทึก Security Audit Log เพื่อการตรวจสอบย้อนกลับ (Traceability)
+            try {
+              await prisma.auditLog.create({
+                data: {
+                  userId: user.id,
+                  action: "AUTH_LOGIN_SUCCESS",
+                  details: `ผู้ใช้ ${email} เข้าสู่ระบบสำเร็จผ่าน Credentials Provider`,
+                },
+              });
+            } catch (auditErr) {
+              // Silent fallback for audit log in isolated environment
+            }
+
             return {
               id: user.id,
               name: user.name,

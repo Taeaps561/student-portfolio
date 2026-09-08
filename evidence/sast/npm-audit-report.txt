@@ -1,0 +1,75 @@
+================================================================================
+NPM AUDIT SECURITY SCAN REPORT (DEPENDENCY VULNERABILITY SCAN)
+Project: student-portfolio (Student Portfolio & Skill Passport)
+Date: September 2026
+Tool: npm audit (Node Package Manager Security Scanner)
+================================================================================
+
+Total Vulnerabilities Found: 10 vulnerabilities (2 moderate, 7 high, 1 critical)
+
+--------------------------------------------------------------------------------
+1. CRITICAL VULNERABILITIES:
+--------------------------------------------------------------------------------
+Package: next-auth
+Patched in: >=4.24.15
+Affected Range: <=4.24.14
+Severity: CRITICAL
+Advisories:
+- GHSA-7rqj-j65f-68wh: Auth.js: Email normalizer validates address before Unicode normalization, allowing homoglyph @ bypass.
+- GHSA-xmf8-cvqr-rfgj: Auth.js: getToken() throws an uncaught exception on malformed Bearer authorization headers.
+- GHSA-x445-f3h2-j279: Auth.js: OAuth state, nonce, and PKCE check cookies are not bound to provider.
+Location: node_modules/next-auth
+Risk Analysis: Attackers could potentially bypass email authentication restrictions via Unicode homoglyphs or crash the application via malformed Bearer token.
+Mitigation/Fix: Pin next-auth or upgrade to patched version, implement email domain regex verification at application layer.
+
+--------------------------------------------------------------------------------
+2. HIGH VULNERABILITIES:
+--------------------------------------------------------------------------------
+Package: next
+Severity: HIGH
+Advisories:
+- GHSA-6gpp-xcg3-4w24: Next.js: Middleware / Proxy bypass in App Router using Turbopack
+- GHSA-m99w-x7hq-7vfj: Next.js: Denial of Service in App Router using Server Actions
+- GHSA-89xv-2m56-2m9x: Next.js: Server-Side Request Forgery in Server Actions
+- GHSA-68g3-v927-f742: Next.js: Cache confusion of response bodies
+- GHSA-q8wf-6r8g-63ch: Next.js: Denial of Service in Image Optimization API using SVGs
+- GHSA-955p-x3mx-jcvp: Next.js: Unauthenticated disclosure of internal Server Function endpoints
+Location: node_modules/next
+Mitigation/Fix: Ensure SVG image optimization restricts remote unverified domains, apply custom middleware validation.
+
+Package: sharp
+Severity: HIGH
+Advisory: GHSA-f88m-g3jw-g9cj: CVE-2026-33327, CVE-2026-33328 (libvips buffer vulnerabilities)
+Location: node_modules/sharp
+Mitigation/Fix: Update sharp via npm dependency update.
+
+Package: postcss
+Severity: HIGH
+Advisory: GHSA-qx2v-qp2m-jg93: PostCSS XSS via Unescaped </style> in CSS Stringify Output
+Advisory: GHSA-6g55-p6wh-862q: Source map arbitrary file read
+Location: node_modules/postcss, node_modules/@tailwindcss/postcss
+
+Package: brace-expansion
+Severity: HIGH
+Advisory: GHSA-3jxr-9vmj-r5cp: DoS via exponential-time expansion
+Location: node_modules/brace-expansion
+
+Package: browserslist
+Severity: HIGH
+Advisory: GHSA-c83g-rgw3-j3cx: Unbounded memory growth leading to OOM
+Location: node_modules/browserslist
+
+--------------------------------------------------------------------------------
+3. MODERATE VULNERABILITIES:
+--------------------------------------------------------------------------------
+Package: uuid
+Severity: MODERATE
+Advisory: GHSA-w5hq-g745-h8pq: Missing buffer bounds check in v3/v5/v6 when buf is provided
+Location: node_modules/uuid
+
+--------------------------------------------------------------------------------
+DEVSECOPS REMEDIATION STRATEGY:
+1. Automated CI Security Gate: Enforce 'npm audit --audit-level=high' in GitHub Actions
+2. Package Upgrades: Run 'npm audit fix' for backwards-compatible fixes
+3. Layered Defense: Apply input validation at Next.js Route Handlers to prevent exploitation of unpatched transitive dependencies
+================================================================================
