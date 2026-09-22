@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QA Report — Group 3 Student Portfolio & Skill Passport</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #1e40af;
+      --blue-light: #dbeafe;
+      --cyan: #0891b2;
+      --green: #15803d;
+      --green-light: #dcfce7;
+      --red: #b91c1c;
+      --red-light: #fee2e2;
+      --gray: #475569;
+      --gray-light: #f8fafc;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      font-size: 13pt;
+      line-height: 1.7;
+      color: #1e293b;
+      background: #fff;
+      padding: 0;
+    }
+
+    /* ======== PRINT SETUP ======== */
+    @page {
+      size: A4;
+      margin: 18mm 20mm 18mm 20mm;
+    }
+
+    @media print {
+      body { font-size: 11pt; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      section { page-break-inside: avoid; }
+      h2 { page-break-after: avoid; }
+      table { page-break-inside: avoid; }
+    }
+
+    /* ======== SCREEN LAYOUT ======== */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 40px 40px 60px;
+    }
+
+    /* ======== COVER ======== */
+    .cover {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0c4a6e 60%, #164e63 100%);
+      color: white;
+      padding: 48px 44px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .cover-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 11pt;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+    .cover h1 {
+      font-size: 24pt;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .cover-sub {
+      font-size: 14pt;
+      opacity: 0.85;
+      margin-bottom: 24px;
+    }
+    .cover-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .cover-meta-item {
+      background: rgba(255,255,255,0.1);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 11pt;
+    }
+    .cover-meta-item span { opacity: 0.7; font-size: 10pt; display: block; }
+
+    /* ======== PRINT BUTTON ======== */
+    .print-btn {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 24px;
+    }
+    .print-btn button {
+      background: #1e40af;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: 13pt;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .print-btn button:hover { background: #1d4ed8; }
+
+    /* ======== SECTION HEADINGS ======== */
+    .section-label {
+      font-size: 10pt;
+      font-weight: 700;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 4px;
+    }
+    h2 {
+      font-size: 17pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 2.5px solid var(--blue-light);
+    }
+    h3 {
+      font-size: 13.5pt;
+      font-weight: 700;
+      color: #1e40af;
+      margin: 28px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h4 {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #334155;
+      margin: 20px 0 8px;
+    }
+
+    section { margin-bottom: 40px; }
+
+    /* ======== QUESTION CARD ======== */
+    .q-card {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .q-header {
+      background: linear-gradient(135deg, #1e40af, #0891b2);
+      color: white;
+      padding: 14px 20px;
+      font-weight: 700;
+      font-size: 12pt;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .q-num {
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12pt; font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .q-body { padding: 20px; }
+
+    /* ======== ANSWER BOX ======== */
+    .answer-intro {
+      background: var(--green-light);
+      border-left: 4px solid var(--green);
+      padding: 10px 16px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: #166534;
+      font-size: 11.5pt;
+    }
+
+    /* ======== TABLES ======== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11pt;
+      margin: 14px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th {
+      background: #1e40af;
+      color: white;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+    }
+    td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #f8fafc; }
+    td.center, th.center { text-align: center; }
+    .check { color: var(--green); font-size: 14pt; }
+    .cross { color: var(--red); font-size: 14pt; }
+
+    /* ======== CODE BLOCKS ======== */
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 16px 18px;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      font-size: 10pt;
+      line-height: 1.65;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+    code {
+      font-family: 'Fira Code', monospace;
+      background: #f1f5f9;
+      color: #dc2626;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10.5pt;
+    }
+    pre code { background: transparent; color: inherit; padding: 0; font-size: 10pt; }
+
+    .comment { color: #94a3b8; }
+    .kw { color: #818cf8; }
+    .str { color: #86efac; }
+    .fn { color: #67e8f9; }
+    .num { color: #fca5a5; }
+
+    /* ======== FLOW DIAGRAM ======== */
+    .flow {
+      background: #f0f9ff;
+      border: 1.5px solid #bae6fd;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 10.5pt;
+      line-height: 1.9;
+      color: #0c4a6e;
+      margin: 14px 0;
+    }
+    .flow .arrow { color: #0891b2; font-weight: 700; }
+    .flow .step { color: #1e40af; font-weight: 600; }
+    .flow .note { color: #64748b; font-size: 10pt; }
+
+    /* ======== SECURITY LAYERS ======== */
+    .layers { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
+    .layer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-left: 4px solid #1e40af;
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+    }
+    .layer-num {
+      background: #1e40af;
+      color: white;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10pt; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .layer-title { font-weight: 700; color: #1e3a8a; min-width: 200px; font-size: 11pt; }
+    .layer-desc { color: var(--gray); font-size: 11pt; }
+
+    /* ======== TEST CASES ======== */
+    .test-pass td:first-child { border-left: 4px solid var(--green); }
+    .test-fail td:first-child { border-left: 4px solid var(--red); }
+
+    /* ======== OWASP BADGES ======== */
+    .owasp-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .owasp-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+    .owasp-badge {
+      background: #dc2626;
+      color: white;
+      font-size: 9pt;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .owasp-desc { font-size: 11pt; color: #1e293b; line-height: 1.4; }
+
+    /* ======== FOOTER ======== */
+    .footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 2px solid var(--border);
+      text-align: center;
+      color: #94a3b8;
+      font-size: 10pt;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Print Button -->
+  <div class="print-btn no-print">
+    <button onclick="window.print()">🖨️ พิมพ์ / บันทึกเป็น PDF</button>
+  </div>
+
+  <!-- Cover -->
+  <div class="cover">
+    <div class="cover-badge">กลุ่ม 3 · สมาชิก 008 · 009 · 010</div>
+    <h1>Student Portfolio &amp; Skill Passport</h1>
+    <div class="cover-sub">"Digital Passport ของนักศึกษา" — รายงาน Q&amp;A และการออกแบบ Security</div>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><span>หัวข้อ</span>DevSecOps Security Design</div>
+      <div class="cover-meta-item"><span>Feature</span>Portfolio · Skills · Certificates · GitHub</div>
+      <div class="cover-meta-item"><span>วันที่</span>22 กันยายน 2569</div>
+    </div>
+  </div>
+
+  <!-- ===== PART 1: Q&A ===== -->
+  <section>
+    <div class="section-label">ส่วนที่ 1</div>
+    <h2>ตอบคำถาม 5 ข้อ</h2>
+
+    <!-- Q1 -->
+    <div class="q-card">
+      <div class="q-header">
+        <div class="q-num">1</div>
+        <div>ระบบตรวจสอบอย่างไรว่าผลงานหรือทักษะที่นักศึกษาเพิ่มเป็นข้อมูลจริง ไม่ใช่ข้อมูลที่สร้างขึ้นเอง</div>
+      </div>
+      <div class="q-body">
+        <div class="answer-intro">✅ ใช้กลไกตรวจสอบหลายชั้น (Multi-Layer Verification)</div>
+
+        <table>
+          <tr><th>ชั้น</th><th>กลไก</th><th>รายละเอียด</th></tr>
+          <tr>
+            <td><b>1. Teacher Verification</b></td>
+            <td>อาจารย์อนุมัติ</td>
+            <td>ทักษะที่นักศึกษาเพิ่มเองมีสถานะ <code>PENDING_TEACHER_REVIEW</code> จนกว่าอาจารย์จะ Approve</td>
+          </tr>
+          <tr>
+            <td><b>2. Proof Submission</b></td>
+            <td>หลักฐานแนบ</td>
+            <td>นักศึกษาต้องแนบ <code>proofUrl</code> (ลิงก์วิดีโอ/ผลงาน) และ <code>proofDesc</code> (คำอธิบายบทบาท)</td>
+          </tr>
+          <tr>
+            <td><b>3. Rubric Scoring</b></td>
+            <td>คะแนนรูบริค</td>
+            <td>อาจารย์ให้คะแนนแยกตามเกณฑ์ใน <code>rubricScores</code> (JSON) ก่อน mark <code>isVerified = true</code></td>
+          </tr>
+          <tr>
+            <td><b>4. Certificate Hash</b></td>
+            <td>SHA-256</td>
+            <td>ใบรับรองทุกใบถูก hash ด้วย SHA-256 เก็บ <code>hashValue</code> ที่ unique — ปลอมไม่ได้</td>
+          </tr>
+          <tr>
+            <td><b>5. Audit Trail</b></td>
+            <td>บันทึกทุกการกระทำ</td>
+            <td>ทุกการเพิ่ม/แก้ไข/อนุมัติถูก log ใน <code>AuditLog</code> พร้อม userId, IP, timestamp</td>
+          </tr>
+        </table>
+
+        <div class="flow">
+<span class="step">[นักศึกษาเพิ่มทักษะ]</span>
+<span class="arrow">  ↓</span>
+<span class="step">  status = "PENDING_TEACHER_REVIEW"</span>  <span class="note">← isVerified = false</span>
+<span class="arrow">  ↓</span>
+<span class="step">[อาจารย์ตรวจสอบหลักฐาน + ให้คะแนน Rubric]</span>
+<span class="arrow">  ↓</span>
+<span class="step">  status = "PASSED" / "FAILED"</span>         <span class="note">← isVerified = true/false</span>
+<span class="arrow">  ↓</span>
+<span class="step">[Audit Log บันทึกทุกขั้นตอน]</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-card">
+      <div class="q-header">
+        <div class="q-num">2</div>
+        <div>นักศึกษา เจ้าหน้าที่ และผู้ดูแลระบบมีสิทธิ์แตกต่างกันอย่างไร ใครสามารถอนุมัติหรือแก้ไข Skill Passport ได้บ้าง</div>
+      </div>
+      <div class="q-body">
+        <div class="answer-intro">✅ ใช้ Role-Based Access Control (RBAC) — 4 Role</div>
+
+        <table>
+          <tr>
+            <th>สิทธิ์</th>
+            <th class="center">STUDENT 🎓</th>
+            <th class="center">TEACHER 🏛️</th>
+            <th class="center">EMPLOYER 💼</th>
+            <th class="center">ADMIN 🔑</th>
+          </tr>
+          <tr>
+            <td>ดู/แก้ไข Portfolio ตัวเอง</td>
+            <td class="center"><span class="check">✅</span></td>
+            <td class="center">—</td>
+            <td class="center">—</td>
+            <td class="center"><span class="check">✅</span></td>
+          </tr>
+          <tr>
+            <td>อัปโหลด Certificate</td>
+            <td class="center"><span class="check">✅</span></td>
+            <td class="center">—</td>
+            <td class="center">—</td>
+            <td class="center"><span class="check">✅</span></td>
+          </tr>
+          <tr>
+            <td><b>อนุมัติ / ปฏิเสธทักษะ</b></td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="check">✅</span></td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="check">✅</span></td>
+          </tr>
+          <tr>
+            <td>ให้คะแนน Rubric</td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="check">✅</span></td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="check">✅</span></td>
+          </tr>
+          <tr>
+            <td>ค้นหานักศึกษา</td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="check">✅</span></td>
+            <td class="center"><span class="check">✅</span></td>
+            <td class="center"><span class="check">✅</span></td>
+          </tr>
+          <tr>
+            <td>เข้าถึง Audit Log</td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="check">✅</span></td>
+          </tr>
+          <tr>
+            <td>จัดการผู้ใช้ทุกคน</td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="cross">❌</span></td>
+            <td class="center"><span class="check">✅</span></td>
+          </tr>
+        </table>
+
+        <h4>กฎสำคัญ:</h4>
+        <ul style="padding-left:20px; line-height:2">
+          <li><b>STUDENT</b> แก้ไขได้เฉพาะ Portfolio ของตัวเองเท่านั้น (ตรวจสอบ <code>portfolioId</code> vs <code>session.user.id</code>)</li>
+          <li><b>TEACHER</b> อนุมัติได้เฉพาะนักศึกษาที่ลงทะเบียนในรายวิชาของตน</li>
+          <li><b>EMPLOYER</b> เห็นได้เฉพาะข้อมูลสาธารณะ (<code>isPublic = true</code>) ที่ผ่าน Data Masking แล้ว</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-card">
+      <div class="q-header">
+        <div class="q-num">3</div>
+        <div>หากมี Public Portfolio ระบบป้องกันการเปิดเผยข้อมูลส่วนบุคคลเกินความจำเป็นอย่างไร</div>
+      </div>
+      <div class="q-body">
+        <div class="answer-intro">✅ ใช้ Data Masking + Privacy Toggle ตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA)</div>
+
+        <h4>1. Privacy Toggle — นักศึกษาเลือกเองว่าจะ Public หรือ Private</h4>
+        <pre><code><span class="kw">model</span> <span class="fn">Portfolio</span> {
+  isPublic    Boolean  <span class="fn">@default</span>(<span class="kw">false</span>)  <span class="comment">// ← นักศึกษาต้องเปิดเองเสมอ</span>
+  phoneNumber String?  <span class="comment">// ซ่อนจากสาธารณะ</span>
+  gpa         Float?   <span class="comment">// ซ่อนจากสาธารณะ</span>
+}</code></pre>
+
+        <h4>2. Data Masking — Field ที่อ่อนไหวถูกซ่อนอัตโนมัติ</h4>
+        <table>
+          <tr><th>ข้อมูล</th><th>เจ้าของ (STUDENT)</th><th>EMPLOYER</th><th>ผู้เยี่ยมชม</th></tr>
+          <tr><td>ชื่อ-นามสกุล</td><td>เต็ม</td><td>เต็ม</td><td>เต็ม</td></tr>
+          <tr><td>เบอร์โทรศัพท์</td><td>เต็ม</td><td><b>ซ่อน</b> <code>***-***-6789</code></td><td><b>ซ่อน</b></td></tr>
+          <tr><td>GPA</td><td>เต็ม</td><td><b>ซ่อน</b></td><td><b>ซ่อน</b></td></tr>
+          <tr><td>Certificate</td><td>เต็ม</td><td>Hash เท่านั้น</td><td>Hash เท่านั้น</td></tr>
+          <tr><td>อีเมล</td><td>เต็ม</td><td>เต็ม (ถ้า opt-in)</td><td><b>ซ่อน</b></td></tr>
+        </table>
+
+        <h4>3. Principle of Data Minimization</h4>
+        <pre><code><span class="comment">// ❌ ไม่ส่ง: password, mfaSecret, phoneNumber, gpa</span>
+<span class="comment">// ✅ ส่งเฉพาะ: name, bio, skills (verified เท่านั้น), projects, certificates (hash)</span></code></pre>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-card">
+      <div class="q-header">
+        <div class="q-num">4</div>
+        <div>การอัปโหลด Resume, Certificate หรือรูปภาพ มีความเสี่ยงอะไร และตรวจสอบไฟล์ก่อนจัดเก็บอย่างไร</div>
+      </div>
+      <div class="q-body">
+        <div class="answer-intro">✅ ระบบใช้ 7-Layer File Security ตาม OWASP</div>
+
+        <h4>ความเสี่ยงหลักจาก File Upload:</h4>
+        <table>
+          <tr><th>ความเสี่ยง</th><th>อธิบาย</th><th>ตัวอย่าง</th></tr>
+          <tr><td><b>Malware/Virus</b></td><td>ไฟล์อันตรายแฝงมา</td><td><code>shell.exe</code> เปลี่ยนนามสกุลเป็น <code>.pdf</code></td></tr>
+          <tr><td><b>Path Traversal</b></td><td>ชื่อไฟล์มี <code>../</code></td><td><code>../../etc/passwd.pdf</code></td></tr>
+          <tr><td><b>DoS Attack</b></td><td>ไฟล์ขนาดใหญ่ทำ server crash</td><td>ไฟล์ 10GB</td></tr>
+          <tr><td><b>MIME Spoofing</b></td><td>ปลอม Content-Type</td><td><code>virus.php</code> claim เป็น <code>image/jpeg</code></td></tr>
+          <tr><td><b>Stored XSS</b></td><td>SVG ฝัง script</td><td><code>&lt;svg onload="alert(1)"&gt;</code></td></tr>
+        </table>
+
+        <h4>วิธีป้องกันที่ระบบทำ (7-Layer Security):</h4>
+        <div class="layers">
+          <div class="layer"><div class="layer-num">1</div><div class="layer-title">MIME Type Whitelist</div><div class="layer-desc">เฉพาะ PDF, JPG, PNG เท่านั้น</div></div>
+          <div class="layer"><div class="layer-num">2</div><div class="layer-title">Magic Bytes Check</div><div class="layer-desc">ตรวจ Binary Signature จริง (ป้องกัน MIME Spoofing)</div></div>
+          <div class="layer"><div class="layer-num">3</div><div class="layer-title">File Size Limit</div><div class="layer-desc">จำกัด ≤ 5MB (ป้องกัน DoS)</div></div>
+          <div class="layer"><div class="layer-num">4</div><div class="layer-title">Filename Sanitization</div><div class="layer-desc">ตัด <code>../</code> null bytes อักขระอันตราย</div></div>
+          <div class="layer"><div class="layer-num">5</div><div class="layer-title">File Rename</div><div class="layer-desc">ไม่ใช้ชื่อจากผู้ใช้ — ตั้งชื่อใหม่ด้วย UUID</div></div>
+          <div class="layer"><div class="layer-num">6</div><div class="layer-title">SHA-256 Hash</div><div class="layer-desc">hash ไฟล์เพื่อ integrity และป้องกัน duplicate</div></div>
+          <div class="layer"><div class="layer-num">7</div><div class="layer-title">Audit Log</div><div class="layer-desc">บันทึก IP, hash, ชื่อไฟล์ ทุกครั้งที่อัปโหลด</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-card">
+      <div class="q-header">
+        <div class="q-num">5</div>
+        <div>หากนายจ้างได้รับ Link สำหรับตรวจสอบ Portfolio ระบบจะทำให้มั่นใจได้อย่างไรว่าข้อมูลไม่ถูกแก้ไขหรือปลอมแปลง</div>
+      </div>
+      <div class="q-body">
+        <div class="answer-intro">✅ ใช้ Digital Certificate Verification ด้วย SHA-256</div>
+
+        <div class="flow">
+<span class="step">[นักศึกษาอัปโหลดใบรับรอง]</span>
+<span class="arrow">        ↓</span>
+<span class="step">[ระบบ Hash ไฟล์ด้วย SHA-256]</span>
+  hash = SHA256(file_bytes) → <span class="str">"a3f5c2d1..."</span>
+<span class="arrow">        ↓</span>
+<span class="step">[เก็บ hash ไว้ใน Database (hashValue — UNIQUE)]</span>
+<span class="arrow">        ↓</span>
+<span class="step">[สร้าง Verification URL]</span>
+  https://skillpassport.sdu.ac.th/verify?h=<span class="str">a3f5c2d1...</span>
+<span class="arrow">        ↓</span>
+<span class="step">[นายจ้างเปิด Link → ระบบดึง Certificate จาก DB ตาม hash]</span>
+<span class="arrow">        ↓</span>
+  ✅ Certificate ถูกต้อง  <b>หรือ</b>  ❌ ไม่พบหรือถูกแก้ไข
+        </div>
+
+        <h4>ทำไม Hash จึงปลอมไม่ได้:</h4>
+        <ul style="padding-left:20px; line-height:2">
+          <li>SHA-256 เป็น One-way function — เปลี่ยนแม้ 1 ตัวอักษร hash จะเปลี่ยนทั้งหมด</li>
+          <li><code>hashValue</code> ถูก mark เป็น <code>@unique</code> ใน Database — ใส่ซ้ำไม่ได้</li>
+          <li>Verification Link ไม่มีข้อมูล Certificate ใน URL — ดึงจาก DB ตาม hash เท่านั้น</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PART 2: CODE ===== -->
+  <section class="page-break">
+    <div class="section-label">ส่วนที่ 2</div>
+    <h2>อธิบาย Code ระบบอัปโหลด Certificate ที่ปลอดภัย</h2>
+
+    <h3>📄 ไฟล์: <code>src/app/api/certificates/upload/route.ts</code></h3>
+
+    <h4>Security Constants — กำหนดค่าความปลอดภัยส่วนกลาง</h4>
+    <pre><code><span class="comment">// จำกัดขนาดไฟล์ 5MB</span>
+<span class="kw">const</span> MAX_FILE_SIZE_BYTES = <span class="num">5</span> * <span class="num">1024</span> * <span class="num">1024</span>;
+
+<span class="comment">// Whitelist MIME types ที่อนุญาต</span>
+<span class="kw">const</span> ALLOWED_MIME_TYPES = <span class="kw">new</span> <span class="fn">Set</span>([
+  <span class="str">"application/pdf"</span>, <span class="str">"image/jpeg"</span>, <span class="str">"image/png"</span>
+]);
+
+<span class="comment">// Whitelist นามสกุลที่อนุญาต</span>
+<span class="kw">const</span> ALLOWED_EXTENSIONS = <span class="kw">new</span> <span class="fn">Set</span>([
+  <span class="str">".pdf"</span>, <span class="str">".jpg"</span>, <span class="str">".jpeg"</span>, <span class="str">".png"</span>
+]);</code></pre>
+
+    <h4>ฟังก์ชัน sanitizeFilename() — ป้องกัน Path Traversal</h4>
+    <pre><code><span class="kw">function</span> <span class="fn">sanitizeFilename</span>(originalName: <span class="fn">string</span>): <span class="fn">string</span> {
+  <span class="comment">// 1. ดึงแค่ basename → ตัด ../../ ออกทันที</span>
+  <span class="kw">const</span> basename = path.<span class="fn">basename</span>(originalName);
+
+  <span class="comment">// 2. ลบ null bytes และอักขระอันตราย</span>
+  <span class="kw">const</span> safe = basename
+    .<span class="fn">replace</span>(<span class="str">/\0/g</span>, <span class="str">""</span>)                           <span class="comment">// null bytes</span>
+    .<span class="fn">replace</span>(<span class="str">/[^a-zA-Z0-9.\-_\u0E00-\u0E7F]/g</span>, <span class="str">"_"</span>) <span class="comment">// อักขระพิเศษ</span>
+    .<span class="fn">substring</span>(<span class="num">0</span>, <span class="num">100</span>);                            <span class="comment">// จำกัดความยาว</span>
+
+  <span class="comment">// 3. ตรวจนามสกุลไฟล์</span>
+  <span class="kw">const</span> ext = path.<span class="fn">extname</span>(safe).<span class="fn">toLowerCase</span>();
+  <span class="kw">if</span> (!ALLOWED_EXTENSIONS.<span class="fn">has</span>(ext)) {
+    <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">`ประเภทไฟล์ไม่ได้รับอนุญาต: ${ext}`</span>);
+  }
+  <span class="kw">return</span> safe;
+}</code></pre>
+
+    <h4>Magic Bytes Verification — หัวใจของระบบ</h4>
+    <pre><code><span class="kw">const</span> magicBytes = fileBuffer.<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">8</span>);
+
+<span class="comment">// PDF ขึ้นต้นด้วย "%PDF"</span>
+<span class="kw">const</span> isPdf = magicBytes.<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">4</span>).<span class="fn">toString</span>(<span class="str">"ascii"</span>) === <span class="str">"%PDF"</span>;
+
+<span class="comment">// JPEG ขึ้นต้นด้วย 0xFF 0xD8</span>
+<span class="kw">const</span> isJpeg = magicBytes[<span class="num">0</span>] === <span class="num">0xff</span> &amp;&amp; magicBytes[<span class="num">1</span>] === <span class="num">0xd8</span>;
+
+<span class="comment">// PNG ขึ้นต้นด้วย 0x89 0x50 0x4E 0x47</span>
+<span class="kw">const</span> isPng = magicBytes[<span class="num">0</span>] === <span class="num">0x89</span> &amp;&amp; magicBytes[<span class="num">1</span>] === <span class="num">0x50</span>
+           &amp;&amp; magicBytes[<span class="num">2</span>] === <span class="num">0x4e</span> &amp;&amp; magicBytes[<span class="num">3</span>] === <span class="num">0x47</span>;
+
+<span class="comment">// ถ้า MIME บอกว่า PDF แต่ magic bytes ไม่ใช่ → Block ทันที!</span>
+<span class="kw">if</span> (!mimeMatchesMagic) {
+  <span class="kw">return</span> <span class="fn">NextResponse</span>.<span class="fn">json</span>({ error: <span class="str">"ตรวจพบไฟล์ที่อาจเป็นอันตราย"</span> }, { status: <span class="num">415</span> });
+}</code></pre>
+
+    <h4>ขั้นตอนทั้งหมดใน POST Handler (13 ขั้นตอน)</h4>
+    <div class="flow">
+<span class="step">Step  1:</span> ตรวจ Session          → <span class="num">401</span> ถ้าไม่ได้ login
+<span class="step">Step  2:</span> Parse FormData       → รับ file, name, issuer, issueDate
+<span class="step">Step  3:</span> Required check       → <span class="num">400</span> ถ้าข้อมูลไม่ครบ
+<span class="step">Step  4:</span> File size check      → <span class="num">413</span> ถ้าเกิน 5MB
+<span class="step">Step  5:</span> MIME type check      → <span class="num">415</span> ถ้าไม่ใช่ PDF/JPG/PNG
+<span class="step">Step  6:</span> Sanitize filename    → ป้องกัน Path Traversal
+<span class="step">Step  7:</span> Magic bytes verify   → ตรวจ binary signature จริง
+<span class="step">Step  8:</span> Compute SHA-256      → hash ไฟล์เพื่อ integrity
+<span class="step">Step  9:</span> Ownership check      → หา Portfolio ของ user นั้น
+<span class="step">Step 10:</span> Duplicate check      → ป้องกัน hash ซ้ำ (<span class="num">409</span>)
+<span class="step">Step 11:</span> Save to Database     → บันทึก cert + hash
+<span class="step">Step 12:</span> Audit Log            → บันทึก IP, hash, filename
+<span class="step">Step 13:</span> Return response      → ไม่ส่ง fileUrl กลับโดยตรง
+    </div>
+  </section>
+
+  <!-- ===== PART 3: TEST CASES ===== -->
+  <section class="page-break">
+    <div class="section-label">ส่วนที่ 3</div>
+    <h2>Test Cases — สิ่งที่ต้องทดสอบ</h2>
+
+    <table>
+      <tr>
+        <th>#</th>
+        <th>Test Case</th>
+        <th>วิธีทดสอบ</th>
+        <th>ผลที่คาดหวัง</th>
+        <th class="center">Status</th>
+      </tr>
+      <tr class="test-pass">
+        <td>1</td>
+        <td><b>อัปโหลดไฟล์ที่อนุญาต</b></td>
+        <td>เลือก <code>.pdf</code>, <code>.jpg</code>, <code>.png</code></td>
+        <td>บันทึกสำเร็จ พร้อม SHA-256 hash</td>
+        <td class="center"><span class="check">✅ 201</span></td>
+      </tr>
+      <tr class="test-fail">
+        <td>2</td>
+        <td><b>อัปโหลดไฟล์ <code>.exe</code></b></td>
+        <td>เลือกไฟล์ <code>.exe</code></td>
+        <td>"ประเภทไฟล์ไม่ได้รับอนุญาต"</td>
+        <td class="center"><span class="cross">❌ 415</span></td>
+      </tr>
+      <tr class="test-fail">
+        <td>3</td>
+        <td><b>อัปโหลดไฟล์เกิน 5MB</b></td>
+        <td>เลือกไฟล์ขนาด &gt; 5MB</td>
+        <td>"ไฟล์มีขนาดใหญ่เกินไป"</td>
+        <td class="center"><span class="cross">❌ 413</span></td>
+      </tr>
+      <tr class="test-fail">
+        <td>4</td>
+        <td><b>ผู้ใช้อื่นเปิด Certificate</b></td>
+        <td>Login เป็นคนอื่น แล้วเข้าถึงไฟล์</td>
+        <td>"Forbidden"</td>
+        <td class="center"><span class="cross">❌ 403</span></td>
+      </tr>
+      <tr class="test-pass">
+        <td>5</td>
+        <td><b>ชื่อไฟล์ <code>../../test.pdf</code></b></td>
+        <td>ส่ง filename <code>../../test.pdf</code></td>
+        <td>Sanitize → <code>__test.pdf</code> (ปลอดภัย)</td>
+        <td class="center"><span class="check">✅ Safe</span></td>
+      </tr>
+      <tr class="test-fail">
+        <td>6</td>
+        <td><b>MIME Spoofing</b></td>
+        <td>ส่ง <code>.php</code> แต่ set MIME = <code>image/jpeg</code></td>
+        <td>"Magic bytes ไม่ตรง"</td>
+        <td class="center"><span class="cross">❌ 415</span></td>
+      </tr>
+      <tr class="test-fail">
+        <td>7</td>
+        <td><b>อัปโหลดซ้ำ (ไฟล์เดิม)</b></td>
+        <td>อัปโหลดไฟล์เดิมอีกครั้ง</td>
+        <td>"ใบรับรองนี้มีอยู่ในระบบแล้ว"</td>
+        <td class="center"><span class="cross">❌ 409</span></td>
+      </tr>
+      <tr class="test-fail">
+        <td>8</td>
+        <td><b>อัปโหลดโดยไม่ Login</b></td>
+        <td>ไม่มี session</td>
+        <td>"Unauthorized"</td>
+        <td class="center"><span class="cross">❌ 401</span></td>
+      </tr>
+    </table>
+
+    <!-- OWASP Coverage -->
+    <h3>🛡️ Security Coverage (OWASP Top 10)</h3>
+    <div class="owasp-grid">
+      <div class="owasp-item">
+        <div><div class="owasp-badge">A01</div></div>
+        <div class="owasp-desc"><b>Broken Access Control</b><br/>RBAC + ownership check ทุก endpoint</div>
+      </div>
+      <div class="owasp-item">
+        <div><div class="owasp-badge">A02</div></div>
+        <div class="owasp-desc"><b>Cryptographic Failures</b><br/>bcrypt password + SHA-256 certificate hash</div>
+      </div>
+      <div class="owasp-item">
+        <div><div class="owasp-badge">A03</div></div>
+        <div class="owasp-desc"><b>Injection</b><br/>Sanitize filename, Prisma ORM (no raw SQL)</div>
+      </div>
+      <div class="owasp-item">
+        <div><div class="owasp-badge">A04</div></div>
+        <div class="owasp-desc"><b>Insecure Design</b><br/>Whitelist file types, magic bytes, size limit</div>
+      </div>
+      <div class="owasp-item">
+        <div><div class="owasp-badge">A07</div></div>
+        <div class="owasp-desc"><b>Authentication Failures</b><br/>bcrypt.compare(), session guard, audit log</div>
+      </div>
+      <div class="owasp-item">
+        <div><div class="owasp-badge">A09</div></div>
+        <div class="owasp-desc"><b>Security Logging</b><br/>AuditLog ทุก action พร้อม IP address</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    กลุ่ม 3 | Student Portfolio &amp; Skill Passport | มหาวิทยาลัยสวนดุสิต | 2569
+  </div>
+
+</div>
+</body>
+</html>
