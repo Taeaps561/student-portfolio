@@ -6,11 +6,12 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET || "7ed178c8ee4ec1b8b8081529156d2a6f129fb025b72fe6c2e0793bb3310a6e00",
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
+      clientId: process.env.GITHUB_ID || "github_oauth_client_id",
+      clientSecret: process.env.GITHUB_SECRET || "github_oauth_client_secret",
       authorization: {
         params: {
           scope: "read:user user:email repo",
@@ -143,7 +144,8 @@ export const authOptions: NextAuthOptions = {
     }
   },
   pages: {
-    // สามารถตั้งค่า path หน้า custom login ได้เช่น signIn: '/login'
+    signIn: "/login",
+    error: "/login",
   }
 };
 

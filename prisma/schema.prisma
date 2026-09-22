@@ -60,6 +60,14 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
 // 3. ข้อมูล Portfolio & Privacy Control
 model Portfolio {
   id          String   @id @default(cuid())
