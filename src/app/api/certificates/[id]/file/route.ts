@@ -15,9 +15,10 @@ import path from "path";
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  const certId = params?.id;
+  const resolvedParams = await context.params;
+  const certId = resolvedParams?.id;
 
   // 1. ตรวจสอบสิทธิ์การเข้าสู่ระบบ (Authentication)
   const session = await getServerSession(authOptions);
@@ -129,7 +130,7 @@ export async function GET(
     }
 
     // 5. ส่งไฟล์กลับพร้อม Security Headers
-    return new NextResponse(fileBuffer, {
+    return new NextResponse(new Uint8Array(fileBuffer), {
       status: 200,
       headers: {
         "Content-Type": contentType,
