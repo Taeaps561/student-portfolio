@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>รายงานสรุปผลการดำเนินงานรายบุคคล — DevSecOps กลุ่มที่ 3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 12mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      color: #1e293b;
+      font-family: 'Sarabun', 'Prompt', sans-serif;
+      font-size: 11px;
+      line-height: 1.5;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Screen Mode: Tab Navigator & Background */
+    @media screen {
+      body {
+        background-color: #334155;
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+
+      .top-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 52px;
+        background: #0f172a;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 30px;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      .tab-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+        padding: 6px 16px;
+        border-radius: 6px;
+        font-family: 'Prompt', sans-serif;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .tab-btn.active {
+        background: #0284c7;
+        border-color: #38bdf8;
+        font-weight: 600;
+      }
+
+      .print-btn {
+        background: #10b981;
+        border: none;
+        color: #fff;
+        font-family: 'Prompt', sans-serif;
+        font-weight: 600;
+        padding: 6px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .report-section {
+        display: none;
+      }
+
+      .report-section.active {
+        display: block;
+      }
+
+      .a4-page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto 20px auto;
+        padding: 16mm 18mm 16mm 18mm;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+        box-sizing: border-box;
+        position: relative;
+      }
+    }
+
+    /* Print Mode */
+    @media print {
+      .top-nav {
+        display: none !important;
+      }
+      body {
+        background: none !important;
+        padding: 0 !important;
+      }
+      .report-section {
+        display: none !important;
+      }
+      .report-section.active {
+        display: block !important;
+      }
+      .a4-page {
+        width: 100% !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        page-break-after: always;
+      }
+    }
+
+    /* Typography & Components */
+    h1.doc-title {
+      font-family: 'Prompt', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .doc-sub {
+      font-size: 10.5px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .section-head {
+      font-family: 'Prompt', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #0369a1;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      background: #f0f9ff;
+      padding: 3px 8px;
+      border-left: 3px solid #0284c7;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+      font-size: 10.5px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+    }
+
+    .info-item strong {
+      color: #334155;
+    }
+
+    ul.task-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin-bottom: 8px;
+    }
+
+    ul.task-list li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 3px;
+    }
+
+    ul.task-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #059669;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    pre.code-box {
+      background: #090d16;
+      color: #7dd3fc;
+      border: 1px solid #1e293b;
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-family: 'Fira Code', monospace;
+      font-size: 9.5px;
+      line-height: 1.35;
+      margin: 6px 0;
+      white-space: pre-wrap;
+    }
+
+    .eval-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-top: 6px;
+    }
+
+    .eval-score {
+      font-family: 'Prompt', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 4px;
+    }
+
+    .peer-box {
+      background: #faf5ff;
+      border: 1px solid #e9d5ff;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Mode Navigator -->
+  <div class="top-nav">
+    <div style="color: #fff; font-family: 'Prompt', sans-serif; font-size: 14px; font-weight: 600;">
+      📑 เลือกรายงานรายบุคคลที่จะพิมพ์:
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <button class="tab-btn active" onclick="switchReport('010')">010 นายอภิสิทธิ์ (Backend)</button>
+      <button class="tab-btn" onclick="switchReport('008')">008 นายปภังกร (DevSecOps)</button>
+      <button class="tab-btn" onclick="switchReport('009')">009 นายปวีณวัชร์ (Frontend)</button>
+    </div>
+    <button class="print-btn" onclick="window.print()">🖨️ พิมพ์เป็น PDF</button>
+  </div>
+
+  <!-- REPORT 010: นายอภิสิทธิ์ ศรีพัฒน์ -->
+  <div class="report-section active" id="report-010">
+    <div class="a4-page">
+      <h1 class="doc-title">
+        <span>รายงานสรุปผลการดำเนินงานรายบุคคล (Individual Report)</span>
+        <span style="font-size: 11px; color: #0284c7;">รหัส 010 — นายอภิสิทธิ์ ศรีพัฒน์</span>
+      </h1>
+      <div class="doc-sub">
+        <strong>วิชา:</strong> DevSecOps | <strong>โครงงาน:</strong> Student Portfolio & Skill Passport | <strong>กลุ่มที่:</strong> 3 | มหาวิทยาลัยสวนดุสิต
+      </div>
+
+      <div class="section-head">1. ข้อมูลส่วนบุคคล และ 2. บทบาทหน้าที่ในโครงการ</div>
+      <div class="info-grid">
+        <div class="info-item"><strong>ชื่อ-นามสกุล:</strong> นายอภิสิทธิ์ ศรีพัฒน์</div>
+        <div class="info-item"><strong>รหัสนักศึกษา:</strong> 6511011860010 (010)</div>
+        <div class="info-item"><strong>บทบาทหลัก:</strong> Backend, Database & Security Lead</div>
+        <div class="info-item"><strong>กลุ่มโครงงาน:</strong> กลุ่มที่ 3 (Student Portfolio & Skill Passport)</div>
+      </div>
+      <p style="font-size: 10.5px; margin-bottom: 6px;">
+        <strong>หน้าที่ความรับผิดชอบ:</strong> ออกแบบและจัดการฐานข้อมูลทั้งหมด 10 โมเดลใน Prisma ORM, จัดการสถาปัตยกรรม Dual-mode (SQLite Dev / PostgreSQL Cloud), พัฒนาระบบ Cryptographic Hashing (SHA-256) สำหรับใบรับรองดิจิทัล, พัฒนาระบบคุ้มครองข้อมูลส่วนบุคคล (PDPA Data Masking Engine) และการบันทึกประวัติความปลอดภัยใน AuditLog
+      </p>
+
+      <div class="section-head">3. รายการงานที่ดำเนินการด้วยตนเอง</div>
+      <ul class="task-list" style="font-size: 10.5px;">
+        <li>ออกแบบและเขียนโครงสร้างฐานข้อมูล 10 ตารางใน <code>prisma/schema.prisma</code> รองรับทั้ง SQLite และ PostgreSQL</li>
+        <li>พัฒนาระบบ Digital Certificate Integrity ใช้ Node.js Crypto สร้างรหัส SHA-256 Hash สำหรับตรวจพิสูจน์ใบรับรองที่ <code>/verify</code></li>
+        <li>พัฒนาฟังก์ชัน Server-side Data Masking ใน <code>src/app/api/portfolio/route.ts</code> ซ่อนเกรด GPA และแปลงเบอร์โทรเป็น <code>081-XXX-XXXX</code></li>
+        <li>พัฒนาตรรกะ Role-Based Access Control (RBAC) กรองสิทธิ์ในฝั่ง Server และ Endpoint <code>/api/employer/matching</code></li>
+        <li>พัฒนาระบบเพิกถอนและลบใบประกาศนียบัตร (Revoke Certificate) ใน Teacher Portal</li>
+        <li>ทดสอบเจาะช่องโหว่ SQL Injection บน Prisma ORM และวิเคราะห์ Database Least Privilege ตามหลักวิชา DBMS Security</li>
+      </ul>
+
+      <div class="section-head">4. หลักฐานการทำงาน (Commits & Artifacts)</div>
+      <div style="font-size: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 6px 10px; margin-bottom: 6px;">
+        • <strong>Git Commits:</strong> <code>b01856a</code> (feat security remediations & evidence), <code>fe9a97a</code> (feat revoke cert button), <code>ace7cad</code> (feat week 12 progress)<br>
+        • <strong>เอกสารหลักฐาน:</strong> <code>evidence/database/db-security-analysis.md</code>, <code>evidence/database/prisma-sqli-prevention.md</code>, <code>evidence/before-after/fix2-broken-access-control-and-pdpa.md</code>
+      </div>
+
+      <div class="section-head">5. ฟังก์ชันหรือโค้ดสำคัญที่ตนเองพัฒนา</div>
+      <pre class="code-box">// ตัดตอนจาก src/app/api/portfolio/route.ts (Data Masking Engine คุ้มครอง PDPA)
+const isPrivileged = session?.user?.email === targetUser.email || session?.user?.role === 'TEACHER';
+const sanitizedPortfolio = {
+  ...portfolio,
+  gpa: isPrivileged ? portfolio.gpa : null, // ซ่อน GPA หากไม่มีสิทธิ์
+  phoneNumber: isPrivileged 
+    ? portfolio.phoneNumber 
+    : portfolio.phoneNumber?.replace(/(\d{3})\d{3}(\d{4})/, '$1-XXX-$2') // Mask เบอร์โทร
+};</pre>
+
+      <div class="section-head">6. ช่องโหว่ที่ตรวจพบ และ 7. วิธีแก้ไขและผลหลังแก้ไข</div>
+      <div style="font-size: 10px; line-height: 1.45;">
+        • <strong>ช่องโหว่ที่ตรวจพบ:</strong> OWASP A01:2021 Broken Access Control & PDPA Leak (Critical: 20/25) — Burp Suite พบว่า API ส่งเบอร์โทรและ GPA หลุดสู่ผู้ใช้ภายนอกโดยไม่มีการตรวจสิทธิ์<br>
+        • <strong>วิธีแก้ไข:</strong> เพิ่ม Server Session Check, กรอง <code>where: { isPublic: true }</code>, ติดตั้ง Data Masking Engine และบังคับใช้ Prisma Prepared Statements 100% ป้องกัน SQLi<br>
+        • <strong>ผลหลังแก้ไข:</strong> ทดสอบส่งคำขอซ้ำผ่าน Burp Suite พบว่า Unauthenticated Request ถูกตัดสิทธิ์ด้วย HTTP 401 และข้อมูลสาธารณะแสดงเฉพาะเบอร์โทรที่ Mask แล้ว และ GPA เป็น <code>null</code>
+      </div>
+
+      <div class="section-head">8. ปัญหาที่พบและวิธีแก้ไข</div>
+      <p style="font-size: 10px;">
+        <strong>ปัญหา:</strong> SQLite ไม่รองรับการเขียนไฟล์บน Vercel Serverless เพราะ Filesystem เป็นแบบ Read-only/Ephemeral<br>
+        <strong>วิธีแก้:</strong> ออกแบบ Dual-Database Architecture โดยใน Local Dev ใช้ SQLite และเตรียม PostgreSQL Cloud (Supabase/Neon) สำหรับ Production ผ่าน Driver <code>@prisma/adapter-pg</code>
+      </p>
+
+      <div class="section-head">9. สิ่งที่ได้เรียนรู้ด้าน DevSecOps</div>
+      <p style="font-size: 10px;">
+        การรักษาความมั่นคงปลอดภัยต้องเริ่มต้นตั้งแต่การออกแบบ Database Schema และ Least Privilege (Security by Design) การมีระบบ Login ไม่เพียงพอ แต่ต้องมี Authorization และ Data Minimization ในทุก Endpoint
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+        <div class="eval-box">
+          <div class="eval-score">10. การประเมินตนเอง: 9.5 / 10 คะแนน</div>
+          <div style="font-size: 9.5px; color: #1e293b;">
+            รับผิดชอบโครงสร้างฐานข้อมูลทั้งระบบ, พัฒนาระบบ SHA-256 Hashing, และแก้ไขช่องโหว่ระดับ Critical (PDPA Leak) ได้สำเร็จตามเกณฑ์อย่างสมบูรณ์
+          </div>
+        </div>
+        <div class="peer-box">
+          <div style="font-family: 'Prompt', sans-serif; font-size: 11px; font-weight: 700; color: #6b21a8; margin-bottom: 2px;">
+            11. การประเมินเพื่อนร่วมกลุ่ม
+          </div>
+          <div style="font-size: 9px; color: #334155;">
+            • <strong>008 นายปภังกร (10/10):</strong> วางระบบ CI/CD, Semgrep SAST และแก้ช่องโหว่ API Proxy ได้ดีเยี่ยม<br>
+            • <strong>009 นายปวีณวัชร์ (10/10):</strong> ออกแบบ UI ได้สวยงาม ทันสมัย และคอนฟิก HTTP Security Headers บน Cloud ได้สำเร็จ
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- REPORT 008: นายปภังกร ทองเจริญ -->
+  <div class="report-section" id="report-008">
+    <div class="a4-page">
+      <h1 class="doc-title">
+        <span>รายงานสรุปผลการดำเนินงานรายบุคคล (Individual Report)</span>
+        <span style="font-size: 11px; color: #0284c7;">รหัส 008 — นายปภังกร ทองเจริญ</span>
+      </h1>
+      <div class="doc-sub">
+        <strong>วิชา:</strong> DevSecOps | <strong>โครงงาน:</strong> Student Portfolio & Skill Passport | <strong>กลุ่มที่:</strong> 3 | มหาวิทยาลัยสวนดุสิต
+      </div>
+
+      <div class="section-head">1. ข้อมูลส่วนบุคคล และ 2. บทบาทหน้าที่ในโครงการ</div>
+      <div class="info-grid">
+        <div class="info-item"><strong>ชื่อ-นามสกุล:</strong> นายปภังกร ทองเจริญ</div>
+        <div class="info-item"><strong>รหัสนักศึกษา:</strong> 6511011860008 (008)</div>
+        <div class="info-item"><strong>บทบาทหลัก:</strong> DevSecOps Pipeline & API Security Specialist</div>
+        <div class="info-item"><strong>กลุ่มโครงงาน:</strong> กลุ่มที่ 3 (Student Portfolio & Skill Passport)</div>
+      </div>
+      <p style="font-size: 10.5px; margin-bottom: 6px;">
+        <strong>หน้าที่ความรับผิดชอบ:</strong> วางระบบและบริหารจัดการ Automated CI/CD Security Pipeline ผ่าน GitHub Actions, ติดตั้งและคอนฟิก Semgrep SAST, ตรวจสอบช่องโหว่ Dependencies ผ่าน <code>npm audit</code>, และดูแลความปลอดภัยของ API Proxy เชื่อมต่อบริการภายนอก (GitHub REST API)
+      </p>
+
+      <div class="section-head">3. รายการงานที่ดำเนินการด้วยตนเอง</div>
+      <ul class="task-list" style="font-size: 10.5px;">
+        <li>สร้างและกำหนดค่าไฟล์ GitHub Actions Workflow <code>.github/workflows/sast-security.yml</code> ครอบคลุม 6 ขั้นตอน</li>
+        <li>ตั้งค่าเงื่อนไข Security Quality Gate ตรวจสอบความปลอดภัยโค้ดในทุก Pull Request และ Push สู่ <code>main</code></li>
+        <li>ติดตั้งและคอนฟิก Semgrep SAST Rulesets (<code>p/security-audit</code>, <code>p/secrets</code>, <code>p/owasp-top-ten</code>, <code>p/typescript</code>)</li>
+        <li>ดำเนินการตรวจสอบช่องโหว่ Third-party Dependencies ด้วย <code>npm audit</code> และรัน <code>npm audit fix</code></li>
+        <li>พัฒนา API Service ใน <code>src/app/api/github/route.ts</code> พร้อมใส่ Strict Regular Expression Whitelist ป้องกัน SSRF</li>
+        <li>ปรับปรุงตรรกะการตรวจสอบรหัสผ่านและการบันทึก AuditLog ใน <code>src/app/api/auth/[...nextauth]/route.ts</code></li>
+      </ul>
+
+      <div class="section-head">4. หลักฐานการทำงาน (Commits & Artifacts)</div>
+      <div style="font-size: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 6px 10px; margin-bottom: 6px;">
+        • <strong>Git Commits:</strong> <code>ace7cad</code> (feat SAST pipeline & week 12 report), <code>b01856a</code> (feat security remediations & evidence)<br>
+        • <strong>เอกสารหลักฐาน:</strong> <code>.github/workflows/sast-security.yml</code>, <code>evidence/sast/semgrep-sast-report.md</code>, <code>evidence/sast/npm-audit-report.txt</code>, <code>evidence/before-after/fix3-authentication-and-input-validation.md</code>
+      </div>
+
+      <div class="section-head">5. ฟังก์ชันหรือโค้ดสำคัญที่ตนเองพัฒนา</div>
+      <pre class="code-box">// ตัดตอนจาก src/app/api/github/route.ts (Strict Regex Whitelist ป้องกัน SSRF)
+const GITHUB_USERNAME_REGEX = /^[a-zA-Z0-9-]{1,39}$/;
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const username = searchParams.get('username');
+  // ตัดการทำงานทันทีหากพบอักขระพิเศษ ป้องกัน SSRF / Path Traversal
+  if (!username || !GITHUB_USERNAME_REGEX.test(username)) {
+    return NextResponse.json({ error: 'Invalid username format' }, { status: 400 });
+  }
+  const res = await fetch(`https://api.github.com/users/${username}/repos`, {
+    headers: { 'User-Agent': 'SDU-SkillPassport-App' }
+  }); ...
+}</pre>
+
+      <div class="section-head">6. ช่องโหว่ที่ตรวจพบ และ 7. วิธีแก้ไขและผลหลังแก้ไข</div>
+      <div style="font-size: 10px; line-height: 1.45;">
+        • <strong>ช่องโหว่ที่ตรวจพบ:</strong> OWASP A06: Vulnerable Components (10 ช่องโหว่ใน npm audit), OWASP A07: Weak Auth (ยอมรับรหัสผ่านว่าง), OWASP A10: Potential SSRF บน GitHub API Proxy<br>
+        • <strong>วิธีแก้ไข:</strong> รัน <code>npm audit fix</code>, เพิ่มตรรกะตรวจสอบความยาวรหัสผ่านใน NextAuth พร้อมบันทึก AuditLog, เพิ่ม Strict Regex Whitelist คัดกรองชื่อผู้ใช้ก่อนส่งต่อภายนอก<br>
+        • <strong>ผลหลังแก้ไข:</strong> Semgrep และ npm audit ผ่านการทดสอบระดับ High, ป้องกันการบายพาสรหัสผ่านสำเร็จ และการป้อนอักขระแปลกปลอมเข้า GitHub Proxy ถูกตัดทิ้งด้วย HTTP 400
+      </div>
+
+      <div class="section-head">8. ปัญหาที่พบและวิธีแก้ไข</div>
+      <p style="font-size: 10px;">
+        <strong>ปัญหา:</strong> Semgrep บน GitHub Actions แจ้งเตือน False Positive กับไฟล์ Build Output (`.next/`) และ `node_modules/` ส่งผลให้ Pipeline ช้าและไม่ผ่าน<br>
+        <strong>วิธีแก้:</strong> ปรับแต่งแคช <code>cache: 'npm'</code> และกำหนดขอบเขตการสแกนให้เจาะจงเฉพาะโฟลเดอร์ <code>src/</code> และเลือกใช้ Rulesets ที่ตรงกับเทคโนโลยี
+      </p>
+
+      <div class="section-head">9. สิ่งที่ได้เรียนรู้ด้าน DevSecOps</div>
+      <p style="font-size: 10px;">
+        หัวใจสำคัญคือการทำ <strong>Shift-Left Security</strong> ดึงการตรวจสอบความปลอดภัยมาไว้ในกระบวนการเขียนโค้ด ทำให้ตรวจพบช่องโหว่ได้ตั้งแต่เปิด Pull Request ก่อนที่จะส่งโค้ดขึ้นสู่ Production จริง
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+        <div class="eval-box">
+          <div class="eval-score">10. การประเมินตนเอง: 9.5 / 10 คะแนน</div>
+          <div style="font-size: 9.5px; color: #1e293b;">
+            วางระบบ CI/CD Security Pipeline ผ่าน GitHub Actions ได้จริง พร้อมติดตั้ง SAST, SCA และแก้ไขช่องโหว่ด้าน Authentication และ SSRF ได้อย่างมีประสิทธิภาพ
+          </div>
+        </div>
+        <div class="peer-box">
+          <div style="font-family: 'Prompt', sans-serif; font-size: 11px; font-weight: 700; color: #6b21a8; margin-bottom: 2px;">
+            11. การประเมินเพื่อนร่วมกลุ่ม
+          </div>
+          <div style="font-size: 9px; color: #334155;">
+            • <strong>010 นายอภิสิทธิ์ (10/10):</strong> ออกแบบฐานข้อมูลแข็งแกร่ง ป้องกัน SQLi และคุ้มครอง PDPA ได้อย่างรัดกุมมาก<br>
+            • <strong>009 นายปวีณวัชร์ (10/10):</strong> พัฒนา UI สวยงาม ทันสมัย และคอนฟิก HTTP Security Headers และ Deploy Vercel ได้สมบูรณ์
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- REPORT 009: นายปวีณวัชร์ เหลืองอุทัย -->
+  <div class="report-section" id="report-009">
+    <div class="a4-page">
+      <h1 class="doc-title">
+        <span>รายงานสรุปผลการดำเนินงานรายบุคคล (Individual Report)</span>
+        <span style="font-size: 11px; color: #0284c7;">รหัส 009 — นายปวีณวัชร์ เหลืองอุทัย</span>
+      </h1>
+      <div class="doc-sub">
+        <strong>วิชา:</strong> DevSecOps | <strong>โครงงาน:</strong> Student Portfolio & Skill Passport | <strong>กลุ่มที่:</strong> 3 | มหาวิทยาลัยสวนดุสิต
+      </div>
+
+      <div class="section-head">1. ข้อมูลส่วนบุคคล และ 2. บทบาทหน้าที่ในโครงการ</div>
+      <div class="info-grid">
+        <div class="info-item"><strong>ชื่อ-นามสกุล:</strong> นายปวีณวัชร์ เหลืองอุทัย</div>
+        <div class="info-item"><strong>รหัสนักศึกษา:</strong> 6511011860009 (009)</div>
+        <div class="info-item"><strong>บทบาทหลัก:</strong> Frontend, UX/UI & Cloud Deployment Specialist</div>
+        <div class="info-item"><strong>กลุ่มโครงงาน:</strong> กลุ่มที่ 3 (Student Portfolio & Skill Passport)</div>
+      </div>
+      <p style="font-size: 10.5px; margin-bottom: 6px;">
+        <strong>หน้าที่ความรับผิดชอบ:</strong> ออกแบบและพัฒนาประสบการณ์ผู้ใช้ (UX/UI) ทั้งหมดด้วย Next.js 16 และ Tailwind CSS, ติดตั้ง HTTP Security Headers ใน <code>next.config.ts</code>, จัดการการ Deploy ระบบขึ้น Cloud Vercel, และทำการทดสอบความปลอดภัยด้วย OWASP ZAP (DAST)
+      </p>
+
+      <div class="section-head">3. รายการงานที่ดำเนินการด้วยตนเอง</div>
+      <ul class="task-list" style="font-size: 10.5px;">
+        <li>พัฒนาหน้าจอ Responsive UI ครบทุกส่วน: Feed, Portfolio, Certificate Modal, Teacher Portal, และ Employer Matching</li>
+        <li>เขียนฟังก์ชันกำหนดค่า HTTP Security Headers ใน <code>next.config.ts</code> ครอบคลุม CSP, X-Frame-Options, nosniff, และ HSTS</li>
+        <li>ดำเนินการตั้งค่า Build & Deployment บน Vercel Cloud Platform พร้อมเชื่อมโยง Environment Variables</li>
+        <li>ใช้เครื่องมือ OWASP ZAP ทำการสแกนระบบ (DAST Baseline Scan) ทั้งบน Localhost และ Production URL</li>
+        <li>จัดเตรียมชุดข้อมูลจริงของนักศึกษา มสด. 7 บัญชี (Real Dataset) พร้อมผลงานและใบประกาศนียบัตร</li>
+        <li>พัฒนาระบบปุ่ม Quick Login 3 บทบาท เพื่ออำนวยความสะดวกในการทดสอบของผู้สอน</li>
+      </ul>
+
+      <div class="section-head">4. หลักฐานการทำงาน (Commits & Artifacts)</div>
+      <div style="font-size: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 6px 10px; margin-bottom: 6px;">
+        • <strong>Git Commits:</strong> <code>b567b1c</code> (fix build & prisma generate on Vercel), <code>e31e12f</code> (docs live url), <code>cbb5079</code> (docs security checklist & scripts)<br>
+        • <strong>เอกสารหลักฐาน:</strong> <code>next.config.ts</code>, <code>evidence/zap/zap-scan-report.md</code>, <code>evidence/zap/security-headers-comparison.txt</code>, <code>evidence/before-after/fix1-security-headers.md</code>
+      </div>
+
+      <div class="section-head">5. ฟังก์ชันหรือโค้ดสำคัญที่ตนเองพัฒนา</div>
+      <pre class="code-box">// ตัดตอนจาก next.config.ts (การกำหนด HTTP Security Headers 7 รายการ)
+const securityHeaders = [
+  { key: 'X-Frame-Options', value: 'SAMEORIGIN' }, // ป้องกัน Clickjacking
+  { key: 'X-Content-Type-Options', value: 'nosniff' }, // ป้องกัน MIME Sniffing
+  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+  { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
+  { 
+    key: 'Content-Security-Policy', 
+    value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: https://images.unsplash.com;" 
+  }
+];</pre>
+
+      <div class="section-head">6. ช่องโหว่ที่ตรวจพบ และ 7. วิธีแก้ไขและผลหลังแก้ไข</div>
+      <div style="font-size: 10px; line-height: 1.45;">
+        • <strong>ช่องโหว่ที่ตรวจพบ:</strong> OWASP A05:2021 Security Misconfiguration — ขาด HTTP Security Headers 5 รายการ ตรวจพบโดย OWASP ZAP ทำให้เสี่ยงต่อ Clickjacking และ MIME Sniffing<br>
+        • <strong>วิธีแก้ไข:</strong> เขียนฟังก์ชัน <code>headers()</code> ใน <code>next.config.ts</code> ฉีด Security Headers 7 รายการครอบคลุมทุก Route<br>
+        • <strong>ผลหลังแก้ไข:</strong> ทดสอบด้วย <code>curl -I</code> และ OWASP ZAP พบว่า Headers ครบถ้วน และ Alerts ด้าน Security Headers ลดลงเหลือ <strong>0 รายการ</strong> ป้องกัน Clickjacking ได้ 100%
+      </div>
+
+      <div class="section-head">8. ปัญหาที่พบและวิธีแก้ไข</div>
+      <p style="font-size: 10px;">
+        <strong>ปัญหา:</strong> ในช่วงแรกที่ตั้งค่า Content-Security-Policy (CSP) แบบเคร่งครัดเกินไป รูปโปรไฟล์จาก Unsplash และ Google Fonts ถูกบล็อก ไม่สามารถแสดงผลได้<br>
+        <strong>วิธีแก้:</strong> ใช้ Browser DevTools ตรวจสอบ CSP Violations แล้วปรับแต่ง Whitelist ให้เจาะจงเฉพาะโดเมนภายนอกที่จำเป็นและปลอดภัย
+      </p>
+
+      <div class="section-head">9. สิ่งที่ได้เรียนรู้ด้าน DevSecOps</div>
+      <p style="font-size: 10px;">
+        การรักษาความมั่นคงปลอดภัยไม่ได้จำกัดแค่หลังบ้าน แต่ Frontend และ Web Server Configuration (Security Headers) มีบทบาทอย่างยิ่งในการป้องกันการโจมตีฝั่งผู้ใช้ (Client-side Security)
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+        <div class="eval-box">
+          <div class="eval-score">10. การประเมินตนเอง: 9.5 / 10 คะแนน</div>
+          <div style="font-size: 9.5px; color: #1e293b;">
+            ออกแบบ UI/UX ครบทุกฟังก์ชันอย่างสวยงาม ทันสมัย จัดเตรียมชุดข้อมูลจริง 7 บัญชี และคอนฟิก Security Headers แก้ไขช่องโหว่ ZAP เหลือ 0 Alert และ Deploy ขึ้น Vercel สำเร็จ
+          </div>
+        </div>
+        <div class="peer-box">
+          <div style="font-family: 'Prompt', sans-serif; font-size: 11px; font-weight: 700; color: #6b21a8; margin-bottom: 2px;">
+            11. การประเมินเพื่อนร่วมกลุ่ม
+          </div>
+          <div style="font-size: 9px; color: #334155;">
+            • <strong>010 นายอภิสิทธิ์ (10/10):</strong> ดูแลงาน Database, จัดการเรื่อง Serverless และเขียน Logic Masking PDPA ได้อย่างสมบูรณ์แบบ<br>
+            • <strong>008 นายปภังกร (10/10):</strong> จัดการระบบ CI/CD Pipeline และ Semgrep SAST ได้อย่างเป็นมืออาชีพ ช่วยให้ทีมมั่นใจในคุณภาพโค้ด
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function switchReport(id) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.report-section').forEach(sec => sec.classList.remove('active'));
+
+      if (id === '010') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('report-010').classList.add('active');
+      } else if (id === '008') {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('report-008').classList.add('active');
+      } else if (id === '009') {
+        document.querySelectorAll('.tab-btn')[2].classList.add('active');
+        document.getElementById('report-009').classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

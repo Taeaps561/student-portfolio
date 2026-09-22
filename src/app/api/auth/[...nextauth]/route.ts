@@ -3,6 +3,7 @@ import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -78,25 +79,26 @@ export const authOptions: NextAuthOptions = {
             where: { email }
           });
 
-          if (user) {
-            // OWASP A07:2021 Identification and Authentication Failures Prevention
-            // ตรวจสอบรหัสผ่านเบื้องต้น และปฏิเสธหากรหัสผ่านว่างเปล่าหรือไม่ผ่านเงื่อนไขความปลอดภัย
-            if (!credentials.password || credentials.password.length < 6) {
-              console.warn(`[Security Warning] Rejected login attempt for ${email}: Invalid credentials.`);
+          if (user && user.password) {
+            // OWASP A07: ตรวจสอบ bcrypt hash เสมอ (ป้องกัน Timing Attack)
+            const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
+
+            if (!isPasswordValid) {
+              console.warn(`[Security] Failed login attempt for ${email}`);
               return null;
             }
 
-            // บันทึก Security Audit Log เพื่อการตรวจสอบย้อนกลับ (Traceability)
+            // บันทึก Audit Log
             try {
               await prisma.auditLog.create({
                 data: {
                   userId: user.id,
                   action: "AUTH_LOGIN_SUCCESS",
-                  details: `ผู้ใช้ ${email} เข้าสู่ระบบสำเร็จผ่าน Credentials Provider`,
+                  details: `ผู้ใช้ ${email} เข้าสู่ระบบสำเร็จ`,
                 },
               });
-            } catch (auditErr) {
-              // Silent fallback for audit log in isolated environment
+            } catch {
+              // silent fallback
             }
 
             return {
