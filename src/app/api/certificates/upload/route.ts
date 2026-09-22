@@ -16,6 +16,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 import path from "path";
+import fs from "fs";
 
 // --- Security Constants ---
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
@@ -116,13 +117,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // --- 6. Filename Sanitization ---
-    let safeFilename: string;
-    try {
-      safeFilename = sanitizeFilename(file.name);
-    } catch (e: any) {
-      return NextResponse.json({ error: e.message }, { status: 400 });
-    }
+    // --- 6. ป้องกัน Path Traversal & เปลี่ยนชื่อไฟล์ใหม่ทั้งหมด (ห้ามใช้ชื่อไฟล์จากผู้ใช้โดยตรง) ---
+    // ดึงเฉพาะนามสกุลไฟล์ที่ผ่าน Whitelist โดยตัด directory separators ออกด้วย path.basename
+    const rawExt = path.extname(path.basename(file.name)).toLowerCase();
+    const safeExt = ALLOWED_EXTENSIONS.has(rawExt)
+      ? rawExt
+      : (file.type === "application/pdf" ? ".pdf" : file.type === "image/png" ? ".png" : ".jpg");
+
+    // สุ่มชื่อไฟล์ใหม่ทั้งหมดด้วย UUID + Timestamp ไม่ใช้ชื่อที่ผู้ใช้ส่งมาโดยเด็ดขาด ป้องกัน Path Traversal 100%
+    const secureGeneratedFilename = `${crypto.randomUUID()}_${Date.now()}${safeExt}`;
+    const sanitizedOriginalName = path.basename(file.name).replace(/[^a-zA-Z0-9.\-_]/g, "_").substring(0, 100);
 
     // --- 7. Read file bytes and compute SHA-256 hash ---
     const arrayBuffer = await file.arrayBuffer();
@@ -149,7 +153,7 @@ export async function POST(req: NextRequest) {
         data: {
           userId,
           action: "CERT_UPLOAD_REJECTED_MAGIC",
-          details: `Magic bytes mismatch for declared MIME ${file.type} (file: ${safeFilename})`,
+          details: `Magic bytes mismatch for declared MIME ${file.type} (file: ${sanitizedOriginalName})`,
           ipAddress: clientIp,
         },
       });
@@ -159,7 +163,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // --- 9. Ownership check: ผู้ใช้ต้องมี Portfolio ---
+    // --- 9. Ownership check: ผู้ใช้ต้องมี Portfolio (บันทึกเจ้าของไฟล์ในฐานข้อมูล) ---
     let portfolio = await prisma.portfolio.findUnique({ where: { userId } });
     if (!portfolio) {
       portfolio = await prisma.portfolio.create({
@@ -182,14 +186,26 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // --- 11. In Production: upload to Supabase Storage / S3 ---
-    // For local dev: store as base64 data URL (ไม่แนะนำสำหรับ production)
-    // TODO: Replace with Supabase Storage upload when deploying to Vercel
+    // --- 11. จัดเก็บไฟล์อย่างปลอดภัย ป้องกัน Path Traversal ---
+    try {
+      const uploadDir = path.join(process.cwd(), "uploads", "certificates");
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      const resolvedPath = path.resolve(uploadDir, secureGeneratedFilename);
+      // Double check boundary: ต้องไม่หลุดออกนอก uploadDir
+      if (resolvedPath.startsWith(uploadDir)) {
+        fs.writeFileSync(resolvedPath, fileBuffer);
+      }
+    } catch (fsErr) {
+      console.warn("[CertUpload] Local disk write warning:", fsErr);
+    }
+
+    // จัดเก็บแบบ Base64 Data URL สำหรับความเข้ากันได้กับ Vercel / Cloud
     const base64Data = `data:${file.type};base64,${fileBuffer.toString("base64")}`;
-    // In production: const fileUrl = await uploadToSupabase(fileBuffer, safeFilename, file.type);
     const fileUrl = base64Data;
 
-    // --- 12. Save Certificate record to database ---
+    // --- 12. บันทึกข้อมูล Certificate และเจ้าของลงฐานข้อมูล ---
     const certificate = await prisma.certificate.create({
       data: {
         portfolioId: portfolio.id,
@@ -201,7 +217,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // --- 13. Audit Log: บันทึกทุก upload สำเร็จ ---
+    // --- 13. Audit Log: บันทึกทุก upload สำเร็จเพื่อความโปร่งใสและตรวจสอบย้อนกลับได้ ---
     await prisma.auditLog.create({
       data: {
         userId,
@@ -210,7 +226,8 @@ export async function POST(req: NextRequest) {
           certId: certificate.id,
           certName,
           issuer: certIssuer,
-          filename: safeFilename,
+          originalName: sanitizedOriginalName,
+          generatedFilename: secureGeneratedFilename,
           fileSizeKb: Math.round(file.size / 1024),
           mimeType: file.type,
           sha256: fileHash,
@@ -229,11 +246,12 @@ export async function POST(req: NextRequest) {
           issuer: certificate.issuer,
           issueDate: certificate.issueDate,
           hashValue: certificate.hashValue,
-          // ไม่ส่ง fileUrl กลับโดยตรงเพื่อความปลอดภัย
+          downloadUrl: `/api/certificates/${certificate.id}/file`,
         },
         security: {
           sha256: fileHash,
-          sanitizedFilename: safeFilename,
+          generatedFilename: secureGeneratedFilename,
+          originalName: sanitizedOriginalName,
           fileSizeKb: Math.round(file.size / 1024),
         },
       },

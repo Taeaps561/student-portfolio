@@ -24,8 +24,11 @@ export default function CertificatesPage() {
   const [formIssuer, setFormIssuer] = useState("");
   const [formDate, setFormDate] = useState("");
   const [formUrl, setFormUrl] = useState("");
+  const [uploadMode, setUploadMode] = useState<"file" | "url">("file");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [uploadSuccess, setUploadSuccess] = useState("");
 
   // Preview Modal state
   const [previewCert, setPreviewCert] = useState<Certificate | null>(null);
@@ -62,26 +65,55 @@ export default function CertificatesPage() {
     e.preventDefault();
     if (!formName.trim() || !formIssuer.trim() || !formDate) return;
 
+    if (uploadMode === "file" && !selectedFile) {
+      setError("กรุณาเลือกไฟล์ใบรับรอง (PDF, JPG, PNG ขนาดไม่เกิน 5MB)");
+      return;
+    }
+
     setSubmitting(true);
     setError("");
+    setUploadSuccess("");
 
     try {
-      const res = await fetch("/api/certificates", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formName.trim(),
-          issuer: formIssuer.trim(),
-          issueDate: formDate,
-          fileUrl: formUrl.trim() || "#",
-        }),
-      });
+      let res: Response;
+
+      if (uploadMode === "file" && selectedFile) {
+        // --- OWASP DevSecOps File Upload ---
+        const formData = new FormData();
+        formData.append("name", formName.trim());
+        formData.append("issuer", formIssuer.trim());
+        formData.append("issueDate", formDate);
+        formData.append("file", selectedFile);
+
+        res = await fetch("/api/certificates/upload", {
+          method: "POST",
+          body: formData,
+        });
+      } else {
+        res = await fetch("/api/certificates", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formName.trim(),
+            issuer: formIssuer.trim(),
+            issueDate: formDate,
+            fileUrl: formUrl.trim() || "#",
+          }),
+        });
+      }
 
       if (res.ok) {
+        const data = await res.json();
         setFormName("");
         setFormIssuer("");
         setFormDate("");
         setFormUrl("");
+        setSelectedFile(null);
+        setUploadSuccess(
+          data.security?.sha256
+            ? `อัปโหลดสำเร็จ! รหัสความสมบูรณ์ SHA-256: ${data.security.sha256.substring(0, 16)}...`
+            : "บันทึกใบรับรองสำเร็จ"
+        );
         await fetchCertificates();
       } else {
         const data = await res.json();
@@ -223,22 +255,83 @@ export default function CertificatesPage() {
                   />
                 </div>
 
+                {/* Upload Mode Selector */}
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">
-                    ลิงก์เอกสารอ้างอิง (URL)
+                  <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                    รูปแบบเอกสาร <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="url"
-                    value={formUrl}
-                    onChange={(e) => setFormUrl(e.target.value)}
-                    placeholder="https://example.com/certificate.pdf"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0a66c2]"
-                  />
+                  <div className="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-xl">
+                    <button
+                      type="button"
+                      onClick={() => setUploadMode("file")}
+                      className={`py-1.5 px-3 rounded-lg text-xs font-bold transition ${
+                        uploadMode === "file"
+                          ? "bg-white text-[#0a66c2] shadow-sm"
+                          : "text-slate-600 hover:text-slate-900"
+                      }`}
+                    >
+                      📁 อัปโหลดไฟล์
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setUploadMode("url")}
+                      className={`py-1.5 px-3 rounded-lg text-xs font-bold transition ${
+                        uploadMode === "url"
+                          ? "bg-white text-[#0a66c2] shadow-sm"
+                          : "text-slate-600 hover:text-slate-900"
+                      }`}
+                    >
+                      🔗 ระบุ URL
+                    </button>
+                  </div>
                 </div>
+
+                {uploadMode === "file" ? (
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      เลือกไฟล์ใบรับรอง <span className="text-red-500">*</span>
+                    </label>
+                    <div className="border-2 border-dashed border-slate-300 hover:border-[#0a66c2] rounded-xl p-3 bg-slate-50 transition text-center">
+                      <input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0] || null;
+                          setSelectedFile(file);
+                        }}
+                        className="block w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#0a66c2] file:text-white hover:file:bg-[#004182] cursor-pointer"
+                        required={uploadMode === "file"}
+                      />
+                      <div className="mt-2 text-[10px] text-slate-500 space-y-0.5">
+                        <p>🛡️ รองรับเฉพาะ: <strong>PDF, JPG, PNG</strong> (สูงสุด 5MB)</p>
+                        <p className="text-emerald-600">✓ ป้องกัน Path Traversal • เปลี่ยนชื่ออัตโนมัติด้วย UUID</p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      ลิงก์เอกสารอ้างอิง (URL)
+                    </label>
+                    <input
+                      type="url"
+                      value={formUrl}
+                      onChange={(e) => setFormUrl(e.target.value)}
+                      placeholder="https://example.com/certificate.pdf"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0a66c2]"
+                    />
+                  </div>
+                )}
 
                 {error && (
                   <p className="text-xs font-bold text-red-600 bg-red-50 p-2.5 rounded-lg border border-red-200">
-                    {error}
+                    ❌ {error}
+                  </p>
+                )}
+
+                {uploadSuccess && (
+                  <p className="text-xs font-bold text-emerald-700 bg-emerald-50 p-2.5 rounded-lg border border-emerald-200">
+                    ✅ {uploadSuccess}
                   </p>
                 )}
 
@@ -247,7 +340,7 @@ export default function CertificatesPage() {
                   disabled={submitting}
                   className="w-full py-2.5 px-4 rounded-xl bg-[#0a66c2] hover:bg-[#004182] text-white font-bold text-xs transition shadow-sm disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  {submitting ? "กำลังบันทึก..." : "💾 บันทึกใบรับรองลงพอร์ต"}
+                  {submitting ? "กำลังตรวจสอบและอัปโหลด..." : "💾 บันทึกใบรับรองลงพอร์ต"}
                 </button>
               </form>
             </div>
@@ -349,6 +442,15 @@ export default function CertificatesPage() {
                         >
                           <span>👁️</span> ดูใบรับรอง
                         </button>
+                        <a
+                          href={`/api/certificates/${cert.id}/file`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 text-xs font-bold transition flex items-center gap-1"
+                          title="เปิดไฟล์ต้นฉบับอย่างปลอดภัย (ตรวจสิทธิ์)"
+                        >
+                          <span>📥</span> ดาวน์โหลด
+                        </a>
                         <button
                           onClick={() => handleDelete(cert.id)}
                           className="px-2.5 py-1.5 rounded-lg text-red-600 hover:bg-red-50 border border-red-200 text-xs font-bold transition"
